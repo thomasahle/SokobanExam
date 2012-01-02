@@ -1,6 +1,6 @@
 package uk.ac.ox.cs.sokobanexam.model;
 
-import uk.ax.ox.cs.sokobanexam.util.Dir;
+import uk.ac.ox.cs.sokobanexam.util.Dir;
 
 public class Model {
 	private Board mBoard;

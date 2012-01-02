@@ -1,6 +1,6 @@
 package uk.ac.ox.cs.sokobanexam.model.sprites;
 
-import uk.ax.ox.cs.sokobanexam.util.Color;
+import uk.ac.ox.cs.sokobanexam.util.Color;
 
 public class Crate implements SolidSprite {
 	private Color mColor;

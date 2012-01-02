@@ -9,7 +9,7 @@ import uk.ac.ox.cs.sokobanexam.model.sprites.Human;
 import uk.ac.ox.cs.sokobanexam.model.sprites.SpriteVisitor;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Target;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Wall;
-import uk.ax.ox.cs.sokobanexam.util.Dir;
+import uk.ac.ox.cs.sokobanexam.util.Dir;
 
 public class SimpleBoardPrinter {
 	public static void printBoard(Board board) {

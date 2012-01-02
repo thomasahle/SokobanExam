@@ -7,8 +7,8 @@ import uk.ac.ox.cs.sokobanexam.model.sprites.Human;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Target;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Wall;
-import uk.ax.ox.cs.sokobanexam.util.Color;
-import uk.ax.ox.cs.sokobanexam.util.Dir;
+import uk.ac.ox.cs.sokobanexam.util.Color;
+import uk.ac.ox.cs.sokobanexam.util.Dir;
 
 public class DefaultBoards {
 	public static Board board1() {
