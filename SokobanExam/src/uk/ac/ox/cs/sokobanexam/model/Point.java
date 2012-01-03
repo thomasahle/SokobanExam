@@ -4,15 +4,17 @@ import uk.ac.ox.cs.sokobanexam.util.Dir;
 
 
 public class Point {
-	private final static Point[][] cache = new Point[Board.MAX_HEIGHT][Board.MAX_WIDTH];
+	private final static int MAX_X = 50;
+	private final static int MAX_Y = 50;
+	private final static Point[][] cache = new Point[MAX_Y][MAX_X];
 	static {
-		for (int y = 0; y < Board.MAX_HEIGHT; y++)
-			for (int x = 0; x < Board.MAX_WIDTH; x++)
+		for (int y = 0; y < MAX_Y; y++)
+			for (int x = 0; x < MAX_X; x++)
 				cache[y][x] = new Point(x, y);
 	}
 	public static Point at(int x, int y) {
 		assert 0 < x && 0 < y;
-		if (x >= Board.MAX_WIDTH || y >= Board.MAX_HEIGHT)
+		if (x >= MAX_X || y >= MAX_Y)
 			return new Point(x, y);
 		return cache[y][x];
 	}

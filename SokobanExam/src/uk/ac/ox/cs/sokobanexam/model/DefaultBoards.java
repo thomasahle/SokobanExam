@@ -11,8 +11,8 @@ import uk.ac.ox.cs.sokobanexam.util.Color;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 
 public class DefaultBoards {
-	public static Board board1() {
-		Board board = new Board(20, 10);
+	public static IBoard board1() {
+		IBoard board = new Board(20, 10);
 		board.insertSpriteAt(Point.at(0,0), new Wall())
 			 .insertSpriteAt(Point.at(1,0), new Wall())
 			 .insertSpriteAt(Point.at(2,0), new Wall())
@@ -34,8 +34,8 @@ public class DefaultBoards {
 		return board;
 	}
 	
-	private static Board fromStrings(String... rows) {
-		Board board = new Board(rows[0].length(), rows.length);
+	private static IBoard fromStrings(String... rows) {
+		IBoard board = new Board(rows[0].length(), rows.length);
 		for (int y = 0; y < rows.length; y++)
 			for (int x = 0; x < rows[0].length(); x++) {
 				Sprite sprite;
@@ -72,7 +72,7 @@ public class DefaultBoards {
 		return board;
 	}
 	
-	public static Board board2() {
+	public static IBoard board2() {
 		return fromStrings(
 				"WWW xC ",
 				"WWWxCxH",

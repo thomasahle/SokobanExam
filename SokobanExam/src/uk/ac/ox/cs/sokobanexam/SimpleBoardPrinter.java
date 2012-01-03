@@ -1,6 +1,6 @@
 package uk.ac.ox.cs.sokobanexam;
 
-import uk.ac.ox.cs.sokobanexam.model.Board;
+import uk.ac.ox.cs.sokobanexam.model.IBoard;
 import uk.ac.ox.cs.sokobanexam.model.Point;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Arrow;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Crate;
@@ -12,7 +12,7 @@ import uk.ac.ox.cs.sokobanexam.model.sprites.Wall;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 
 public class SimpleBoardPrinter {
-	public static void printBoard(Board board) {
+	public static void printBoard(IBoard board) {
 		SpritePrinter printer = new SpritePrinter();
 		for (int y = 0; y < board.getHeight(); y++) {
 			for (int x = 0; x < board.getWidth(); x++) {
