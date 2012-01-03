@@ -2,6 +2,7 @@ package uk.ac.ox.cs.sokobanexam.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ public class Board implements IBoard {
 		if (width <= 0 || height <= 0)
 			throw new IllegalArgumentException("Board size: "+width+"x"+height);
 		mMap = new List[height][width];
+		mOccupiedPoints = new HashMap<SemanticType,Set<Point>>();
 		
 		// Initialize class invariant:
 		for (SemanticType type : SemanticType.values())
@@ -48,11 +50,11 @@ public class Board implements IBoard {
 		return mMap[0].length;
 	}
 	
-	public List<Sprite> getSpritesAt(Point point) {
+	protected List<Sprite> getSpritesAt(Point point) {
 		if (!(0 <= point.x && point.x < getWidth())
 				|| !(0 <= point.y && point.y < getHeight()))
 			throw new IndexOutOfBoundsException();
-		return Collections.unmodifiableList(mMap[point.y][point.x]);
+		return mMap[point.y][point.x];
 	}
 	
 	@Override
