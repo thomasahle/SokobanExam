@@ -1,5 +1,6 @@
 package uk.ac.ox.cs.sokobanexam.model;
 
+import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite.SemanticType;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 
 public class Model {
@@ -25,9 +26,8 @@ public class Model {
 	////////// Logic
 	
 	public boolean move(Dir direction) {
-		if (mBoard.getHumanPoint() == null)
-			return false;
-		Point from = mBoard.getHumanPoint();
+		assert mRules.validateBoard(mBoard);
+		Point from = mBoard.getOccupiedPoints(SemanticType.HUMAN).iterator().next();
 		Point to = from.plus(direction);
 		if (!mRules.validateMove(mBoard,from,to))
 			return false;

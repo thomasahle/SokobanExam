@@ -17,4 +17,14 @@ public class Arrow implements SolidSprite {
 	public void accept(SpriteVisitor visitor) {
 		visitor.visit(this);
 	}
+	@Override
+	public SemanticType type() {
+		switch (mDirection) {
+		case NORTH: return SemanticType.ARROW_N;
+		case EAST: return SemanticType.ARROW_E;
+		case SOUTH: return SemanticType.ARROW_S;
+		case WEST: return SemanticType.ARROW_W;
+		}
+		return null;
+	}
 }

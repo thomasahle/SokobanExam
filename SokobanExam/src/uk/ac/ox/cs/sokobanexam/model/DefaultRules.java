@@ -1,7 +1,7 @@
 package uk.ac.ox.cs.sokobanexam.model;
 
-import uk.ac.ox.cs.sokobanexam.model.sprites.Crate;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite.SemanticType;
 
 public class DefaultRules implements Rules {
 
@@ -38,7 +38,7 @@ public class DefaultRules implements Rules {
 	@Override
 	public void applyMove(IBoard board, Point from, Point to) {
 		assert validateMove(board, from, to);
-		if (board.getTopSpriteAt(to) instanceof Crate) {
+		if (board.getTopSpriteAt(to).type() == SemanticType.CRATE) {
 			Point next = Point.at(to.x+(to.x-from.x), to.y+(to.y-from.y));
 			board.insertSpriteAt(next, board.deleteTopSpriteAt(to));
 		}
@@ -47,9 +47,7 @@ public class DefaultRules implements Rules {
 
 	@Override
 	public boolean isGameWon(IBoard board) {
-	    for (Point point : board.getTargetPoints())
-	        if(!(board.getTopSpriteAt(point) instanceof Crate))
-	            return false;
-	    return true;
+		return board.getOccupiedPoints(SemanticType.CRATE).containsAll(
+				board.getOccupiedPoints(SemanticType.TARGET));
 	}
 }

@@ -3,6 +3,7 @@ package uk.ac.ox.cs.sokobanexam.model;
 import java.util.Set;
 
 import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite.SemanticType;
 
 public interface IBoard {
 	
@@ -18,7 +19,5 @@ public interface IBoard {
 	public Board insertSpriteAt(Point point, Sprite sprite);
 	
 	
-	public Point getHumanPoint();
-	
-	public Set<Point> getTargetPoints();
+	public Set<Point> getOccupiedPoints(SemanticType type);
 }

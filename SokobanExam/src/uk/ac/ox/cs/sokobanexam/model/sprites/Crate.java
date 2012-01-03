@@ -17,4 +17,8 @@ public class Crate implements SolidSprite {
 	public void accept(SpriteVisitor visitor) {
 		visitor.visit(this);
 	}
+	@Override
+	public SemanticType type() {
+		return SemanticType.CRATE;
+	}
 }
