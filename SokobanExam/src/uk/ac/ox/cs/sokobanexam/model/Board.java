@@ -19,5 +19,7 @@ public interface Board {
 	public DefaultBoard insertSpriteAt(Point point, Sprite sprite);
 	
 	
+	public Set<Point> getContainedPoints();
+	
 	public Set<Point> getOccupiedPoints(SemanticType type);
 }

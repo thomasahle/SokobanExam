@@ -1,9 +1,11 @@
 package uk.ac.ox.cs.sokobanexam.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -48,6 +50,11 @@ public class DefaultBoard implements Board {
 	@Override
 	public int getWidth() {
 		return mMap[0].length;
+	}
+	
+	@Override
+	public Set<Point> getContainedPoints() {
+		return new PointRangeSet(getWidth(), getHeight());
 	}
 	
 	protected List<Sprite> getSpritesAt(Point point) {
