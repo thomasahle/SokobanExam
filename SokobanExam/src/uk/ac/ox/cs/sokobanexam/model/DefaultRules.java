@@ -6,7 +6,7 @@ import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite.SemanticType;
 public class DefaultRules implements Rules {
 
 	@Override
-	public boolean validateBoard(IBoard board) {
+	public boolean validateBoard(Board board) {
 		
 		// Check 1 Human (This might not hold during edit)
 		
@@ -20,7 +20,7 @@ public class DefaultRules implements Rules {
 	}
 
 	@Override
-	public boolean validateMove(IBoard board, Point from, Point to) {
+	public boolean validateMove(Board board, Point from, Point to) {
 		// Check if from is a human
 		// Check if board boundaries object
 		// Check if a wall objects
@@ -30,13 +30,13 @@ public class DefaultRules implements Rules {
 	}
 
 	@Override
-	public boolean validateInsertion(IBoard board, Point at, Sprite sprite) {
+	public boolean validateInsertion(Board board, Point at, Sprite sprite) {
 		// May not be necessary, just run validateBoard
 		return false;
 	}
 
 	@Override
-	public void applyMove(IBoard board, Point from, Point to) {
+	public void applyMove(Board board, Point from, Point to) {
 		assert validateMove(board, from, to);
 		if (board.getTopSpriteAt(to).type() == SemanticType.CRATE) {
 			Point next = Point.at(to.x+(to.x-from.x), to.y+(to.y-from.y));
@@ -46,7 +46,7 @@ public class DefaultRules implements Rules {
 	}
 
 	@Override
-	public boolean isGameWon(IBoard board) {
+	public boolean isGameWon(Board board) {
 		return board.getOccupiedPoints(SemanticType.CRATE).containsAll(
 				board.getOccupiedPoints(SemanticType.TARGET));
 	}

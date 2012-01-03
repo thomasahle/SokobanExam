@@ -4,22 +4,22 @@ import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite.SemanticType;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 
 public class Model {
-	private IBoard mBoard;
+	private Board mBoard;
 	private Rules mRules;
-	public Model(IBoard board, Rules rules) {
+	public Model(Board board, Rules rules) {
 		mBoard = board;
 		mRules = rules;
 	}
 	public void setmRules(Rules mRules) {
 		this.mRules = mRules;
 	}
-	public void setmBoard(IBoard mBoard) {
+	public void setmBoard(Board mBoard) {
 		this.mBoard = mBoard;
 	}
 	public Rules getmRules() {
 		return mRules;
 	}
-	public IBoard getmBoard() {
+	public Board getmBoard() {
 		return mBoard;
 	}
 	
