@@ -1,6 +1,7 @@
 package uk.ac.ox.cs.sokobanexam.domainmodel.sprites;
 
 public interface Sprite {
+	// Det her dør nok
 	public enum SemanticType {
 		NONE (false),
 		CRATE (true),
@@ -17,6 +18,9 @@ public interface Sprite {
 	    }
 	}
 	SemanticType type();
+	
+	// Her kommer nok noget positions noget
+	// ...
 	
 	void accept(SpriteVisitor visitor);
 }

@@ -2,7 +2,11 @@ package uk.ac.ox.cs.sokobanexam.domainmodel;
 
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite.SemanticType;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
+import uk.ac.ox.cs.sokobanexam.util.Point;
 
+// Not needed
+
+@Deprecated
 public class Model {
 	private Board mBoard;
 	private Rules mRules;

@@ -13,6 +13,8 @@ import java.util.Set;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Floor;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite.SemanticType;
+import uk.ac.ox.cs.sokobanexam.util.Point;
+import uk.ac.ox.cs.sokobanexam.util.PointRangeSet;
 
 // Alternative representation:
 //     A set of sprites all containing their own coordinates (passer bedre med beskrivelsen), z-index?

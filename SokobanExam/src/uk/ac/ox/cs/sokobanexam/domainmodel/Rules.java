@@ -1,5 +1,7 @@
 package uk.ac.ox.cs.sokobanexam.domainmodel;
 
+import uk.ac.ox.cs.sokobanexam.util.Point;
+
 
 public interface Rules {
 	boolean validateBoard(Board board);

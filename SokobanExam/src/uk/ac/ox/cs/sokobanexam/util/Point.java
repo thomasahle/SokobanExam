@@ -1,6 +1,5 @@
-package uk.ac.ox.cs.sokobanexam.domainmodel;
+package uk.ac.ox.cs.sokobanexam.util;
 
-import uk.ac.ox.cs.sokobanexam.util.Dir;
 
 
 public class Point {

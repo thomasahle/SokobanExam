@@ -1,7 +1,6 @@
 package uk.ac.ox.cs.sokobanexam;
 
 import uk.ac.ox.cs.sokobanexam.domainmodel.Board;
-import uk.ac.ox.cs.sokobanexam.domainmodel.Point;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Arrow;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Crate;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Floor;
@@ -10,6 +9,7 @@ import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.SpriteVisitor;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Target;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Wall;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
+import uk.ac.ox.cs.sokobanexam.util.Point;
 
 public class SimpleBoardPrinter {
 	public static void printBoard(Board board) {

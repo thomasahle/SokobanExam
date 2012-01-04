@@ -1,4 +1,4 @@
-package uk.ac.ox.cs.sokobanexam.domainmodel;
+package uk.ac.ox.cs.sokobanexam.util;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -52,8 +52,10 @@ public class PointRangeSet implements Set<Point> {
 	}
 	@Override
 	public boolean containsAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
+		for (Object o : c)
+			if (!contains(o))
+				return false;
+		return true;
 	}
 	@Override
 	public boolean addAll(Collection<? extends Point> c) {

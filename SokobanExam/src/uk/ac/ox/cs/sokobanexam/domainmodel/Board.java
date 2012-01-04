@@ -5,6 +5,9 @@ import java.util.Set;
 
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite.SemanticType;
+import uk.ac.ox.cs.sokobanexam.util.Point;
+
+//TODO: Change name to Maze?
 
 public interface Board {
 	

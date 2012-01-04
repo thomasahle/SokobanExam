@@ -9,6 +9,7 @@ import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Target;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Wall;
 import uk.ac.ox.cs.sokobanexam.util.Color;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
+import uk.ac.ox.cs.sokobanexam.util.Point;
 
 public class DefaultBoards {
 	public static Board board1() {

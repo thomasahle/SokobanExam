@@ -3,6 +3,7 @@ package uk.ac.ox.cs.sokobanexam.domainmodel;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite.SemanticType;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
+import uk.ac.ox.cs.sokobanexam.util.Point;
 
 public class DefaultRules implements Rules {
 
