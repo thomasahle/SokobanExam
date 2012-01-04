@@ -3,21 +3,16 @@ package uk.ac.ox.cs.sokobanexam.domainmodel.sprites;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
 
-public class Target extends AbstractSprite implements FlatSprite {
-	public Target(Point point) {
-		mPoint = point;
+public class Target extends AbstractRoom {
+	public Target(Point point, Sprite inner) {
+		super(point, inner);
 	}
 	@Override
 	public void accept(SpriteVisitor visitor) {
 		visitor.visit(this);
 	}
 	@Override
-	public SemanticType type() {
-		return SemanticType.TARGET;
+	public Room setInner(Sprite inner) {
+		return new Target(point(), inner);
 	}
-	@Override
-	public boolean equals(Object obj) {
-        return super.equals(obj)
-        		&& obj instanceof Target;
-    }
 }

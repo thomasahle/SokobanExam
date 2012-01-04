@@ -2,6 +2,7 @@ package uk.ac.ox.cs.sokobanexam.domainmodel;
 
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
+// TODO: Build in cheating
 
 public interface Rules {
 	boolean validateBoard(Board board);

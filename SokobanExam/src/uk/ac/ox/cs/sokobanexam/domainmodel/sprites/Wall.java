@@ -4,37 +4,27 @@ import uk.ac.ox.cs.sokobanexam.util.Point;
 
 
 
-public class Wall extends AbstractSprite implements SolidSprite {
+public class Wall extends AbstractRoom {
 	private String mWriting;
-	public Wall(Point point, String writing) {
-		mPoint = point;
+	public Wall(Point point, Sprite inner, String writing) {
+		super(point, inner);
 		mWriting = writing;
 	}
-	public Wall(Point point) {
-		this(point, "");
+	public Wall(Point point, Sprite inner) {
+		this(point, inner, "");
 	}
 	@Override
 	public void accept(SpriteVisitor visitor) {
 		visitor.visit(this);
 	}
-	@Override
-	public SemanticType type() {
-		return SemanticType.WALL;
-	}
 	public String getWriting() {
 		return mWriting;
 	}
 	public Sprite setWriting(String writing) {
-		return new Wall(mPoint, writing);
+		return new Wall(point(), inner(), writing);
 	}
 	@Override
-	public int hashCode() {
-		return super.hashCode() ^ mWriting.hashCode();
+	public Room setInner(Sprite inner) {
+		return new Wall(point(), inner, getWriting());
 	}
-	@Override
-	public boolean equals(Object obj) {
-        return super.equals(obj)
-        		&& obj instanceof Wall
-        		&& mWriting.equals(((Wall)obj).getWriting());
-    }
 }

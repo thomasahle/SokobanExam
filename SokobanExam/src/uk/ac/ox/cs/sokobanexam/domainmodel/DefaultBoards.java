@@ -4,6 +4,8 @@ import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Arrow;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Crate;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Floor;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Human;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Nothing;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Room;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Target;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Wall;
@@ -11,49 +13,47 @@ import uk.ac.ox.cs.sokobanexam.util.Color;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
-public class DefaultBoards {
-	public static Board board1() {
-		Board board = new DefaultBoard(20, 10);
-		board.insertSpriteAt(Point.at(0,0), new Wall(Point.at(0,0)))
-			 .insertSpriteAt(Point.at(1,0), new Wall(Point.at(1,0)));
+// Tag flere fra https://github.com/scrooloose/sokoban/tree/master/data
 
-		return board;
-	}
-	
+public class DefaultBoards {
 	private static Board fromStrings(String... rows) {
 		Board board = new DefaultBoard(rows[0].length(), rows.length);
 		for (int y = 0; y < rows.length; y++)
 			for (int x = 0; x < rows[0].length(); x++) {
-				Sprite sprite;
+				Room room;
 				switch (rows[y].charAt(x)) {
+				case '#':
 				case 'W':
-					sprite = new Wall(Point.at(x,y));
+					room = new Wall(Point.at(x,y), new Nothing(Point.at(x,y)));
 					break;
+				case '.':
 				case 'x':
-					sprite = new Target(Point.at(x,y));
+					room = new Target(Point.at(x,y), new Nothing(Point.at(x,y)));
 					break;
+				case 'o':
 				case 'C':
-					sprite = new Crate(Point.at(x,y), Color.BLUE);
+					room = new Floor(Point.at(x,y), new Crate(Point.at(x,y), Color.BLUE));
 					break;
 				case '↑':
-					sprite = new Arrow(Point.at(x,y), Dir.NORTH);
+					room = new Arrow(Point.at(x,y), new Nothing(Point.at(x,y)), Dir.NORTH);
 					break;
 				case '→':
-					sprite = new Arrow(Point.at(x,y), Dir.EAST);
+					room = new Arrow(Point.at(x,y), new Nothing(Point.at(x,y)), Dir.EAST);
 					break;
 				case '↓':
-					sprite = new Arrow(Point.at(x,y), Dir.SOUTH);
+					room = new Arrow(Point.at(x,y), new Nothing(Point.at(x,y)), Dir.SOUTH);
 					break;
 				case '←':
-					sprite = new Arrow(Point.at(x,y), Dir.WEST);
+					room = new Arrow(Point.at(x,y), new Nothing(Point.at(x,y)), Dir.WEST);
 					break;
+				case '@':
 				case 'H':
-					sprite = new Human(Point.at(x,y), Dir.WEST);
+					room = new Floor(Point.at(x,y), new Human(Point.at(x,y), Dir.WEST));
 					break;
 				default:
-					sprite = new Floor(Point.at(x,y));
+					room = new Floor(Point.at(x,y), new Nothing(Point.at(x,y)));
 				}
-				board.insertSpriteAt(Point.at(x,y), sprite);
+				board.setRoom(Point.at(x,y), room);
 			}
 		return board;
 	}
@@ -67,6 +67,13 @@ public class DefaultBoards {
 				"   CWCW",
 				"   C  x",
 				"WW    W"
+			);
+	}
+	public static Board board3() {
+		return fromStrings(
+				"#########",
+				"# @ o . #",
+				"#########"
 			);
 	}
 }

@@ -7,6 +7,7 @@ import java.awt.RenderingHints;
 
 import javax.swing.JComponent;
 
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Room;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
 public class MazeView extends JComponent {
@@ -36,13 +37,13 @@ public class MazeView extends JComponent {
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 		        RenderingHints.VALUE_ANTIALIAS_ON);
 		SpritePainter painter = new SpritePainter(g2, GRID_SIZE);
-		for (Point point : mModel.getBoard().getContainedPoints())
-			mModel.getBoard().getTopSpriteAt(point).accept(painter);
+		for (Room room : mModel.getBoard().getRooms())
+			room.accept(painter);
 		// Would be nice to have points in the sprites
     }
 	public Point pos2Point(int x, int y) {
 		Point point = Point.at(x/GRID_SIZE, y/GRID_SIZE);
-		if (mModel.getBoard().getContainedPoints().contains(point))
+		if (mModel.getBoard().getPoints().contains(point))
 			return point;
 		return null;
 	}

@@ -5,6 +5,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
@@ -14,8 +16,14 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Arrow;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Crate;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Human;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Nothing;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Room;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite;
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite.SemanticType;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Target;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Wall;
 
 public class Toolbar extends JToolBar implements SelectionChangeListener {
 	private static final long serialVersionUID = -3632217082483213540L;
@@ -23,10 +31,15 @@ public class Toolbar extends JToolBar implements SelectionChangeListener {
 	private ASModel mModel;
 	private JComponent mConfigurationPanel;
 	
-	private static SemanticType[] creatables = new SemanticType[] {
-		SemanticType.WALL, SemanticType.CRATE, SemanticType.ARROW_N,
-		SemanticType.TARGET, SemanticType.HUMAN
-	};
+	@SuppressWarnings("serial")
+	private static final Map<Class<? extends Sprite>, String> creatables
+			= new HashMap<Class<? extends Sprite>, String>() {{
+		put(Wall.class, "Wall");
+		put(Crate.class, "Crate");
+		put(Arrow.class, "Arrow");
+		put(Target.class, "Target");
+		put(Human.class, "Player");
+	}};
 	
 	public Toolbar(ASModel model) {
 		setModel(model);
@@ -35,8 +48,8 @@ public class Toolbar extends JToolBar implements SelectionChangeListener {
 		ButtonGroup group = new ButtonGroup();
 		JToggleButton editButton = new JToggleButton("Edit");
 		group.add(editButton);
-		for (SemanticType type : creatables) {
-			JToggleButton createButton = new JToggleButton("Create " + type);
+		for (Map.Entry<Class<? extends Sprite>, String> entry : creatables.entrySet()) {
+			JToggleButton createButton = new JToggleButton("Create " + entry.getValue());
 			group.add(createButton);
 		}
 		JToggleButton playButton = new JToggleButton("Play");
@@ -81,7 +94,8 @@ public class Toolbar extends JToolBar implements SelectionChangeListener {
 		}
 		// Otherwise we generate a new component with the selected sprite
 		else {
-			Sprite sprite = model.getBoard().getTopSpriteAt(model.getSelected());
+			Room room = model.getBoard().getRoom(model.getSelected());
+			Sprite sprite = room.inner() instanceof Nothing ? room : room.inner();
 			SpriteConfigurationCreator confCreator = new SpriteConfigurationCreator();
 			sprite.accept(confCreator);
 			mConfigurationPanel.add(confCreator.getResult());

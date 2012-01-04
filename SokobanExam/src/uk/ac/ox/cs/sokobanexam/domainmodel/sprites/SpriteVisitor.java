@@ -7,4 +7,5 @@ public interface SpriteVisitor {
 	public void visit(Human sprite);
 	public void visit(Target sprite);
 	public void visit(Wall sprite);
+	public void visit(Nothing nothing);
 }

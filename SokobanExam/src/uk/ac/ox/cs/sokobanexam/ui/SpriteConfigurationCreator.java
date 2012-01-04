@@ -13,6 +13,7 @@ import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Arrow;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Crate;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Floor;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Human;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Nothing;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.SpriteVisitor;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Target;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Wall;
@@ -100,5 +101,10 @@ public class SpriteConfigurationCreator implements SpriteVisitor {
 
 	public JComponent getResult() {
 		return mResult;
+	}
+
+	@Override
+	public void visit(Nothing nothing) {
+		mResult = new JPanel();
 	}
 }

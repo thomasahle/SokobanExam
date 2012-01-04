@@ -1,9 +1,9 @@
 package uk.ac.ox.cs.sokobanexam.ui;
 
 import uk.ac.ox.cs.sokobanexam.domainmodel.Board;
-import uk.ac.ox.cs.sokobanexam.domainmodel.Model;
 import uk.ac.ox.cs.sokobanexam.domainmodel.Rules;
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite.SemanticType;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Human;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
@@ -15,7 +15,7 @@ public class ASModel {
 	private Board mBoard;
 	private Rules mRules;
 	private Point mSelected;
-	private SemanticType mTypeForInsertion;
+	private Class<? extends Sprite> mTypeForInsertion;
 	
 	public ASModel(Board board, Rules rules) {
 		mBoard = board;
@@ -34,7 +34,7 @@ public class ASModel {
 	
 	public boolean move(Dir direction) {
 		assert mRules.validateBoard(mBoard);
-		Point from = mBoard.getOccupiedPoints(SemanticType.HUMAN).iterator().next();
+		Point from = mBoard.getRoomsContaining(Human.class).iterator().next().point();
 		Point to = from.plus(direction);
 		if (!mRules.validateMove(mBoard,from,to))
 			return false;
@@ -56,10 +56,10 @@ public class ASModel {
 		return mBoard;
 	}
 	
-	public void setTypeForInsertion(SemanticType typeForInsertion) {
+	public void setTypeForInsertion(Class<? extends Sprite> typeForInsertion) {
 		this.mTypeForInsertion = typeForInsertion;
 	}
-	public SemanticType getTypeForInsertion() {
+	public Class<? extends Sprite> getTypeForInsertion() {
 		return mTypeForInsertion;
 	}
 

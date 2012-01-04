@@ -11,6 +11,7 @@ import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Arrow;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Crate;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Floor;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Human;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Nothing;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.SpriteVisitor;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Target;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Wall;
@@ -50,6 +51,8 @@ public class SpritePainter implements SpriteVisitor {
 	public void visit(Arrow sprite) {
 		Graphics2D g2 = (Graphics2D)g.create();
 		g2.translate(size*sprite.point().x, size*sprite.point().y);
+		g2.setColor(Color.WHITE);
+		g2.fillRect(0, 0, size, size);
 		g2.setColor(Color.BLACK);
 		g2.setStroke(new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		double pad = ARROW_PADDING*size;
@@ -60,12 +63,14 @@ public class SpritePainter implements SpriteVisitor {
 		g2.draw(new Line2D.Double(size-pad-side, cen-side, size-pad, cen));
 		g2.draw(new Line2D.Double(size-pad-side, cen+side, size-pad, cen));
 		g2.dispose();
+		sprite.inner().accept(this);
 	}
 	
 	@Override
 	public void visit(Floor sprite) {
 		g.setColor(Color.WHITE);
 		g.fillRect(size*sprite.point().x, size*sprite.point().y, size, size);
+		sprite.inner().accept(this);
 	}
 	
 	@Override
@@ -83,19 +88,26 @@ public class SpritePainter implements SpriteVisitor {
 	
 	@Override
 	public void visit(Target sprite) {
+		g.setColor(Color.WHITE);
+		g.fillRect(size*sprite.point().x, size*sprite.point().y, size, size);
 		g.setColor(new Color(0xff00ff));
 		double pad = TARGET_PADDING*size;
 		g.fill(new java.awt.geom.Ellipse2D.Double(
 				size*sprite.point().x + pad,
 				size*sprite.point().y + pad,
 				size - 2*pad, size - 2*pad));
+		sprite.inner().accept(this);
 	}
 
 	@Override
 	public void visit(Wall sprite) {
-		System.out.println("Wall at: "+sprite.point().x+" "+sprite.point().y);
 		g.setColor(Color.BLACK);
 		g.fillRect(size*sprite.point().x, size*sprite.point().y, size, size);
+		sprite.inner().accept(this);
 	}
 
+	@Override
+	public void visit(Nothing nothing) {
+		// pass
+	}
 }

@@ -1,10 +1,9 @@
 package uk.ac.ox.cs.sokobanexam.domainmodel;
 
-import java.util.List;
 import java.util.Set;
 
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Room;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite;
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite.SemanticType;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
 //TODO: Change name to Maze?
@@ -16,16 +15,16 @@ public interface Board {
 	public int getWidth();
 	
 	
-	public List<Sprite> getSpritesAt(Point point);
+	public Iterable<Room> getRooms();
 	
-	public Sprite getTopSpriteAt(Point point);
-
-	public Sprite deleteTopSpriteAt(Point point);
-
-	public DefaultBoard insertSpriteAt(Point point, Sprite sprite);
+	public Room getRoom(Point point);
+	
+	public void setRoom(Point point, Room room);
+	
+	public Iterable<Room> getRoomsContaining(Class<? extends Sprite> type);
+	
+	public Iterable<Room> getRoomsOfType(Class<? extends Sprite> type);
 	
 	
-	public Set<Point> getContainedPoints();
-	
-	public Set<Point> getOccupiedPoints(SemanticType type);
+	public Set<Point> getPoints();
 }

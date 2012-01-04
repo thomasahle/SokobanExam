@@ -3,12 +3,13 @@ package uk.ac.ox.cs.sokobanexam.domainmodel.sprites;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
+// Skift navn til Robot?
 
-public class Human extends AbstractSprite implements Sprite {
+public class Human extends AbstractSprite {
 	private Dir mDirection;
 	public Human(Point point, Dir direction) {
+		super(point);
 		mDirection = direction;
-		mPoint = point;
 	}
 	/** The direction in which the human as just walked, and is now looking. */
 	public Dir getDirection() {
@@ -18,13 +19,4 @@ public class Human extends AbstractSprite implements Sprite {
 	public void accept(SpriteVisitor visitor) {
 		visitor.visit(this);
 	}
-	@Override
-	public SemanticType type() {
-		return SemanticType.HUMAN;
-	}
-	@Override
-	public boolean equals(Object obj) {
-        return super.equals(obj)
-        		&& obj instanceof Human;
-    }
 }

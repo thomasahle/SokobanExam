@@ -5,20 +5,22 @@ import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Arrow;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Crate;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Floor;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Human;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Nothing;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Room;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.SpriteVisitor;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Target;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Wall;
-import uk.ac.ox.cs.sokobanexam.util.Dir;
-import uk.ac.ox.cs.sokobanexam.util.Point;
 
 public class SimpleBoardPrinter {
 	public static void printBoard(Board board) {
 		SpritePrinter printer = new SpritePrinter();
-		for (int y = 0; y < board.getHeight(); y++) {
-			for (int x = 0; x < board.getWidth(); x++) {
-				board.getTopSpriteAt(Point.at(x,y)).accept(printer);
+		int lastRow = 0;
+		for (Room room : board.getRooms()) {
+			if (room.point().y != lastRow) {
+				System.out.println();
+				lastRow = room.point().y;
 			}
-			System.out.println();
+			room.accept(printer);
 		}
 	}
 	static class SpritePrinter implements SpriteVisitor {
@@ -42,6 +44,7 @@ public class SimpleBoardPrinter {
 				System.out.print("←");
 				break;
 			}
+			sprite.inner().accept(this);
 		}
 		@Override
 		public void visit(Crate sprite) {
@@ -49,7 +52,8 @@ public class SimpleBoardPrinter {
 		}
 		@Override
 		public void visit(Floor sprite) {
-			System.out.print(".");	
+			System.out.print(".");
+			sprite.inner().accept(this);
 		}
 		@Override
 		public void visit(Target sprite) {
@@ -58,6 +62,11 @@ public class SimpleBoardPrinter {
 		@Override
 		public void visit(Wall sprite) {
 			System.out.print("#");
+			sprite.inner().accept(this);
+		}
+		@Override
+		public void visit(Nothing nothing) {
+			// pass
 		}
 	}
 }
