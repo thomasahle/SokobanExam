@@ -1,14 +1,17 @@
 package uk.ac.ox.cs.sokobanexam.domainmodel.sprites;
 
+import uk.ac.ox.cs.sokobanexam.util.Point;
 
 
-public class Wall implements SolidSprite {
+
+public class Wall extends AbstractSprite implements SolidSprite {
 	private String mWriting;
-	public Wall(String writing) {
+	public Wall(Point point, String writing) {
+		mPoint = point;
 		mWriting = writing;
 	}
-	public Wall() {
-		this("");
+	public Wall(Point point) {
+		this(point, "");
 	}
 	@Override
 	public void accept(SpriteVisitor visitor) {
@@ -22,6 +25,16 @@ public class Wall implements SolidSprite {
 		return mWriting;
 	}
 	public Sprite setWriting(String writing) {
-		return new Wall(writing);
+		return new Wall(mPoint, writing);
 	}
+	@Override
+	public int hashCode() {
+		return super.hashCode() ^ mWriting.hashCode();
+	}
+	@Override
+	public boolean equals(Object obj) {
+        return super.equals(obj)
+        		&& obj instanceof Wall
+        		&& mWriting.equals(((Wall)obj).getWriting());
+    }
 }

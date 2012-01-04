@@ -2,6 +2,7 @@ package uk.ac.ox.cs.sokobanexam.util;
 
 
 
+
 public class Point {
 	private final static int MAX_X = 50;
 	private final static int MAX_Y = 50;
@@ -40,4 +41,20 @@ public class Point {
 	public Point follow(Point next) {
 		return Point.at(next.x+(next.x-x), next.y+(next.y-y));
 	}
+	@Override
+	public int hashCode() {
+		return x+y*MAX_X;
+	}
+	@Override
+	public boolean equals(Object obj) {
+        if (obj instanceof Point) {
+            Point point = (Point)obj;
+            return (x == point.x) && (y == point.y);
+        }
+        return super.equals(obj);
+    }
+	@Override
+    public String toString() {
+        return getClass().getName() + "[x=" + x + ",y=" + y + "]";
+    }
 }

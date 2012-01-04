@@ -14,24 +14,9 @@ import uk.ac.ox.cs.sokobanexam.util.Point;
 public class DefaultBoards {
 	public static Board board1() {
 		Board board = new DefaultBoard(20, 10);
-		board.insertSpriteAt(Point.at(0,0), new Wall())
-			 .insertSpriteAt(Point.at(1,0), new Wall())
-			 .insertSpriteAt(Point.at(2,0), new Wall())
-			 .insertSpriteAt(Point.at(3,0), new Wall())
-			 .insertSpriteAt(Point.at(0,1), new Wall())
-			 .insertSpriteAt(Point.at(1,1), new Wall())
-			 .insertSpriteAt(Point.at(2,1), new Wall())
-			 .insertSpriteAt(Point.at(3,1), new Wall());
-		
-		board.insertSpriteAt(Point.at(0,0), new Wall())
-		 	 .insertSpriteAt(Point.at(1,0), new Wall())
-		 	 .insertSpriteAt(Point.at(2,0), new Wall())
-		 	 .insertSpriteAt(Point.at(3,0), new Wall())
-		 	 .insertSpriteAt(Point.at(0,1), new Wall())
-		 	 .insertSpriteAt(Point.at(1,1), new Wall())
-		 	 .insertSpriteAt(Point.at(2,1), new Wall())
-		 	 .insertSpriteAt(Point.at(3,1), new Wall());
-		
+		board.insertSpriteAt(Point.at(0,0), new Wall(Point.at(0,0)))
+			 .insertSpriteAt(Point.at(1,0), new Wall(Point.at(1,0)));
+
 		return board;
 	}
 	
@@ -42,31 +27,31 @@ public class DefaultBoards {
 				Sprite sprite;
 				switch (rows[y].charAt(x)) {
 				case 'W':
-					sprite = new Wall();
+					sprite = new Wall(Point.at(x,y));
 					break;
 				case 'x':
-					sprite = new Target();
+					sprite = new Target(Point.at(x,y));
 					break;
 				case 'C':
-					sprite = new Crate(Color.BLUE);
+					sprite = new Crate(Point.at(x,y), Color.BLUE);
 					break;
 				case '↑':
-					sprite = new Arrow(Dir.NORTH);
+					sprite = new Arrow(Point.at(x,y), Dir.NORTH);
 					break;
 				case '→':
-					sprite = new Arrow(Dir.EAST);
+					sprite = new Arrow(Point.at(x,y), Dir.EAST);
 					break;
 				case '↓':
-					sprite = new Arrow(Dir.SOUTH);
+					sprite = new Arrow(Point.at(x,y), Dir.SOUTH);
 					break;
 				case '←':
-					sprite = new Arrow(Dir.WEST);
+					sprite = new Arrow(Point.at(x,y), Dir.WEST);
 					break;
 				case 'H':
-					sprite = new Human();
+					sprite = new Human(Point.at(x,y));
 					break;
 				default:
-					sprite = new Floor();
+					sprite = new Floor(Point.at(x,y));
 				}
 				board.insertSpriteAt(Point.at(x,y), sprite);
 			}

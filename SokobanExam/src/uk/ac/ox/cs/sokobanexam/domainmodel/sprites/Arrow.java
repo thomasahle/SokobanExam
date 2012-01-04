@@ -1,14 +1,16 @@
 package uk.ac.ox.cs.sokobanexam.domainmodel.sprites;
 
 import uk.ac.ox.cs.sokobanexam.util.Dir;
+import uk.ac.ox.cs.sokobanexam.util.Point;
 
-public class Arrow implements SolidSprite {
+public class Arrow extends AbstractSprite implements SolidSprite {
 	private Dir mDirection;
-	public Arrow(Dir direction) {
+	public Arrow(Point point, Dir direction) {
 		mDirection = direction;
+		mPoint = point;
 	}
 	public Arrow setDirection(Dir direction) {
-		return new Arrow(direction);
+		return new Arrow(mPoint, direction);
 	}
 	public Dir getDirection() {
 		return mDirection;
@@ -27,4 +29,15 @@ public class Arrow implements SolidSprite {
 		}
 		return null;
 	}
+	@Override
+	public int hashCode() {
+		return super.hashCode() ^ mDirection.hashCode();
+	}
+	@Override
+	public boolean equals(Object obj) {
+		// TODO: That we don't test for semantic type here, shows that we have really discarded it.
+        return super.equals(obj)
+        		&& obj instanceof Arrow
+        		&& mDirection == ((Arrow)obj).getDirection();
+    }
 }

@@ -1,5 +1,7 @@
 package uk.ac.ox.cs.sokobanexam.domainmodel.sprites;
 
+import uk.ac.ox.cs.sokobanexam.util.Point;
+
 public interface Sprite {
 	// Det her dør nok
 	public enum SemanticType {
@@ -19,8 +21,7 @@ public interface Sprite {
 	}
 	SemanticType type();
 	
-	// Her kommer nok noget positions noget
-	// ...
+	public Point point();
 	
-	void accept(SpriteVisitor visitor);
+	public void accept(SpriteVisitor visitor);
 }

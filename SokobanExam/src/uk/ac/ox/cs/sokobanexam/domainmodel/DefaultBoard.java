@@ -43,7 +43,7 @@ public class DefaultBoard implements Board {
 		for (int y = 0; y < height; y++)
 			for (int x = 0; x < width; x++) {
 				mMap[y][x] = new ArrayList<Sprite>();
-				insertSpriteAt(Point.at(x,y), new Floor());
+				insertSpriteAt(Point.at(x,y), new Floor(Point.at(x,y)));
 			}
 	}
 	
