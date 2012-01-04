@@ -1,4 +1,4 @@
-package uk.ac.ox.cs.sokobanexam.model;
+package uk.ac.ox.cs.sokobanexam.domainmodel;
 
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 
@@ -32,5 +32,13 @@ public class Point {
 		case WEST: return Point.at(x-1, y);
 		}
 		return null;
+	}
+	/**
+	 * Interpolates
+	 * @param next
+	 * @return
+	 */
+	public Point follow(Point next) {
+		return Point.at(next.x+(next.x-x), next.y+(next.y-y));
 	}
 }

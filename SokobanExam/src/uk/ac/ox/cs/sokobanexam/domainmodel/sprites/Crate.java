@@ -1,4 +1,4 @@
-package uk.ac.ox.cs.sokobanexam.model.sprites;
+package uk.ac.ox.cs.sokobanexam.domainmodel.sprites;
 
 import uk.ac.ox.cs.sokobanexam.util.Color;
 

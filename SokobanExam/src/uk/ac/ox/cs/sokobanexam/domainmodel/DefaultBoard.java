@@ -1,4 +1,4 @@
-package uk.ac.ox.cs.sokobanexam.model;
+package uk.ac.ox.cs.sokobanexam.domainmodel;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,9 +10,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import uk.ac.ox.cs.sokobanexam.model.sprites.Floor;
-import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite;
-import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite.SemanticType;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Floor;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite.SemanticType;
+
+// Alternative representation:
+//     A set of sprites all containing their own coordinates (passer bedre med beskrivelsen), z-index?
 
 public class DefaultBoard implements Board {
 	
@@ -57,22 +60,22 @@ public class DefaultBoard implements Board {
 		return new PointRangeSet(getWidth(), getHeight());
 	}
 	
-	protected List<Sprite> getSpritesAt(Point point) {
-		if (!(0 <= point.x && point.x < getWidth())
-				|| !(0 <= point.y && point.y < getHeight()))
+	@Override
+	public List<Sprite> getSpritesAt(Point point) {
+		if (!getContainedPoints().contains(point))
 			throw new IndexOutOfBoundsException();
-		return mMap[point.y][point.x];
+		return Collections.unmodifiableList(mMap[point.y][point.x]);
 	}
 	
 	@Override
 	public Sprite getTopSpriteAt(Point point) {
-		List<Sprite> sprites = getSpritesAt(point);
+		List<Sprite> sprites = mMap[point.y][point.x];
 		return sprites.get(sprites.size()-1);
 	}
 
 	@Override
 	public Sprite deleteTopSpriteAt(Point point) {
-		List<Sprite> sprites = getSpritesAt(point);
+		List<Sprite> sprites = mMap[point.y][point.x];
 		if (sprites.size() == 0)
 			return sprites.get(0);
 		Sprite sprite = sprites.get(sprites.size()-1);
@@ -82,7 +85,7 @@ public class DefaultBoard implements Board {
 
 	@Override
 	public DefaultBoard insertSpriteAt(Point point, Sprite sprite) {
-		getSpritesAt(point).add(sprite);
+		mMap[point.y][point.x].add(sprite);
 		mOccupiedPoints.get(sprite.type()).add(point);
 		return this;
 	}

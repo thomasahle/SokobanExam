@@ -1,14 +1,14 @@
 package uk.ac.ox.cs.sokobanexam;
 
-import uk.ac.ox.cs.sokobanexam.model.Board;
-import uk.ac.ox.cs.sokobanexam.model.Point;
-import uk.ac.ox.cs.sokobanexam.model.sprites.Arrow;
-import uk.ac.ox.cs.sokobanexam.model.sprites.Crate;
-import uk.ac.ox.cs.sokobanexam.model.sprites.Floor;
-import uk.ac.ox.cs.sokobanexam.model.sprites.Human;
-import uk.ac.ox.cs.sokobanexam.model.sprites.SpriteVisitor;
-import uk.ac.ox.cs.sokobanexam.model.sprites.Target;
-import uk.ac.ox.cs.sokobanexam.model.sprites.Wall;
+import uk.ac.ox.cs.sokobanexam.domainmodel.Board;
+import uk.ac.ox.cs.sokobanexam.domainmodel.Point;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Arrow;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Crate;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Floor;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Human;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.SpriteVisitor;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Target;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Wall;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 
 public class SimpleBoardPrinter {

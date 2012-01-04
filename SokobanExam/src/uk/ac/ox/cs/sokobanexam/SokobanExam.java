@@ -1,9 +1,9 @@
 package uk.ac.ox.cs.sokobanexam;
 
-import uk.ac.ox.cs.sokobanexam.model.DefaultBoards;
-import uk.ac.ox.cs.sokobanexam.model.DefaultRules;
-import uk.ac.ox.cs.sokobanexam.model.Board;
-import uk.ac.ox.cs.sokobanexam.model.Model;
+import uk.ac.ox.cs.sokobanexam.domainmodel.Board;
+import uk.ac.ox.cs.sokobanexam.domainmodel.DefaultBoards;
+import uk.ac.ox.cs.sokobanexam.domainmodel.DefaultRules;
+import uk.ac.ox.cs.sokobanexam.domainmodel.Model;
 
 public class SokobanExam {
 	public static void main(String[] args) {

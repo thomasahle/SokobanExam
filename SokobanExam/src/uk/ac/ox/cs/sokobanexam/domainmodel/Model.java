@@ -1,6 +1,6 @@
-package uk.ac.ox.cs.sokobanexam.model;
+package uk.ac.ox.cs.sokobanexam.domainmodel;
 
-import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite.SemanticType;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite.SemanticType;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 
 public class Model {

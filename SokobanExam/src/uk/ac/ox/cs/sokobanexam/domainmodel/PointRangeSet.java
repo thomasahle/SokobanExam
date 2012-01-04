@@ -1,4 +1,4 @@
-package uk.ac.ox.cs.sokobanexam.model;
+package uk.ac.ox.cs.sokobanexam.domainmodel;
 
 import java.util.Collection;
 import java.util.Iterator;
