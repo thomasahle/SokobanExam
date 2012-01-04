@@ -3,6 +3,7 @@ package uk.ac.ox.cs.sokobanexam.ui;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.JComponent;
 
@@ -11,13 +12,12 @@ import uk.ac.ox.cs.sokobanexam.util.Point;
 public class MazeView extends JComponent {
 	private static final long serialVersionUID = 7808955267765088933L;
 	
-	private static final int GRID_WIDTH = 50;
-	private static final int GRID_HEIGHT = 50;
+	private static final int GRID_SIZE = 50;
 	
 	private ASModel mModel;
 	
 	public MazeView(ASModel model) {
-		mModel = model;
+		setModel(model);
 		setFocusable(true);
 	}
 	public ASModel getModel() {
@@ -25,17 +25,23 @@ public class MazeView extends JComponent {
 	}
 	public void setModel(ASModel model) {
 		this.mModel = model;
-		setPreferredSize(new Dimension(GRID_WIDTH,GRID_HEIGHT));
+		setPreferredSize(new Dimension(
+				model.getBoard().getWidth()*GRID_SIZE,
+				model.getBoard().getHeight()*GRID_SIZE));
 	}
 	
 	@Override
     public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		SpritePainter painter = new SpritePainter(g2);
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+		        RenderingHints.VALUE_ANTIALIAS_ON);
+		SpritePainter painter = new SpritePainter(g2, GRID_SIZE);
+		for (Point point : mModel.getBoard().getContainedPoints())
+			mModel.getBoard().getTopSpriteAt(point).accept(painter);
 		// Would be nice to have points in the sprites
     }
 	public Point pos2Point(int x, int y) {
-		Point point = Point.at(x/GRID_WIDTH, y/GRID_HEIGHT);
+		Point point = Point.at(x/GRID_SIZE, y/GRID_SIZE);
 		if (mModel.getBoard().getContainedPoints().contains(point))
 			return point;
 		return null;

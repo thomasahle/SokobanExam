@@ -48,7 +48,7 @@ public class DefaultBoards {
 					sprite = new Arrow(Point.at(x,y), Dir.WEST);
 					break;
 				case 'H':
-					sprite = new Human(Point.at(x,y));
+					sprite = new Human(Point.at(x,y), Dir.WEST);
 					break;
 				default:
 					sprite = new Floor(Point.at(x,y));

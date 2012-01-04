@@ -12,6 +12,7 @@ public class Arrow extends AbstractSprite implements SolidSprite {
 	public Arrow setDirection(Dir direction) {
 		return new Arrow(mPoint, direction);
 	}
+	/** The direction in which the arrow is pointing */
 	public Dir getDirection() {
 		return mDirection;
 	}

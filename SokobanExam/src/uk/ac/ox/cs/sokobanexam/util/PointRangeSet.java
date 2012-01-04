@@ -80,19 +80,20 @@ public class PointRangeSet implements Set<Point> {
 		
 		@Override
 		public boolean hasNext() {
-			return curX + 1 + mWidth*curY < mWidth*mHeight;
+			return curY < mHeight;
 		}
 
 		@Override
 		public Point next() {
+			if (!hasNext())
+				throw new NoSuchElementException();
+			Point res = Point.at(curX, curY);
 			curX++;
 			if (curX == mWidth) {
 				curX = 0;
 				curY++;
-				if (curY == mHeight)
-					throw new NoSuchElementException();
 			}
-			return Point.at(curX, curY);
+			return res;
 		}
 
 		@Override
