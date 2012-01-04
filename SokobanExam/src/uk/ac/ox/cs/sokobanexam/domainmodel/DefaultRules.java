@@ -87,18 +87,15 @@ public class DefaultRules implements Rules {
 		// Move crate
 		if (board.getRoom(to).inner() instanceof Crate) {
 			Point next = to.plus(dir);
-			System.out.println("Moving crate to "+next);
 			Sprite newCrate = board.getRoom(to).inner().move(next);
 			Room newRoom = board.getRoom(next).withInner(newCrate);
 			board.putRoom(newRoom);
 		}
 		
 		// Move Person
-		System.out.println("Moving to "+to);
 		board.putRoom(board.getRoom(to).withInner(new Human(to, dir)));
 		
 		// Clear space behind person
-		System.out.println("Moving from "+from);
 		board.putRoom(board.getRoom(from).withInner(new Nothing(from)));
 	}
 	

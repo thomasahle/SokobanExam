@@ -1,5 +1,8 @@
 package uk.ac.ox.cs.sokobanexam.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import uk.ac.ox.cs.sokobanexam.domainmodel.Board;
 import uk.ac.ox.cs.sokobanexam.domainmodel.Rules;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Human;
@@ -33,14 +36,24 @@ public class ASModel {
 		mMazeChangeListener = listener;
 	}
 	
-	private SelectionChangeListener mSelectionChangeListener;
-	public void setSelectionChangeListener(SelectionChangeListener listener) {
-		mSelectionChangeListener = listener;
+	private List<SelectionChangeListener> mSelectionChangeListener 
+			= new ArrayList<SelectionChangeListener>();
+	public void addSelectionChangeListener(SelectionChangeListener listener) {
+		mSelectionChangeListener.add(listener);
+	}
+	private void fireSelectionChangeEvent() {
+		for (SelectionChangeListener listener : mSelectionChangeListener)
+			listener.onSelectionChanged(this);
 	}
 	
-	private StateChangeListener mStateChangeListener;
-	public void setStateChangeListener(StateChangeListener listener) {
-		mStateChangeListener = listener;
+	private List<StateChangeListener> mStateChangeListener
+			= new ArrayList<StateChangeListener>();
+	public void addStateChangeListener(StateChangeListener listener) {
+		mStateChangeListener.add(listener);
+	}
+	private void fireStateChangeEvent() {
+		for (StateChangeListener listener : mStateChangeListener)
+			listener.onStateChanged(this);
 	}
 	
 	public boolean move(Dir direction) {
@@ -75,8 +88,7 @@ public class ASModel {
 			return false;
 		if (state != mState) {
 			mState = state;
-			if (mStateChangeListener != null)
-				mStateChangeListener.onStateChanged(this);
+			fireStateChangeEvent();
 		}
 		return true;
 	}
@@ -87,8 +99,7 @@ public class ASModel {
 	public void setTypeForInsertion(Class<? extends Sprite> typeForInsertion) {
 		mTypeForInsertion = typeForInsertion;
 		mSelected = null;
-		if (mSelectionChangeListener != null)
-			mSelectionChangeListener.onSelectionChange(this);
+		fireSelectionChangeEvent();
 	}
 	public Class<? extends Sprite> getTypeForInsertion() {
 		return mTypeForInsertion;
@@ -96,8 +107,7 @@ public class ASModel {
 
 	public void setSelected(Point selected) {
 		this.mSelected = selected;
-		if (mSelectionChangeListener != null)
-			mSelectionChangeListener.onSelectionChange(this);
+		fireSelectionChangeEvent();
 	}
 	public Point getSelected() {
 		return mSelected;

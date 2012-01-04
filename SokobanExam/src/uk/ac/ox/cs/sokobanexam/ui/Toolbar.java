@@ -101,6 +101,8 @@ public class Toolbar extends JToolBar implements SelectionChangeListener {
 	
 	private Board savedBoard = null;
 	
+	// TODO: Warning message when resetting game state, when changing state
+	
 	void onEditClicked() {
 		if (!mModel.setState(State.EDITING)) {
 			JOptionPane.showMessageDialog(this, "Can't do editing in the current state.");
@@ -139,7 +141,7 @@ public class Toolbar extends JToolBar implements SelectionChangeListener {
 	}
 	public void setModel(ASModel model) {
 		this.mModel = model;
-		model.setSelectionChangeListener(this);
+		model.addSelectionChangeListener(this);
 	}
 	public void setMazeView(MazeView view) {
 		mView = view;
@@ -150,7 +152,7 @@ public class Toolbar extends JToolBar implements SelectionChangeListener {
 
 
 	@Override
-	public void onSelectionChange(ASModel model) {
+	public void onSelectionChanged(ASModel model) {
 		// Clear any old, custom configuration
 		while (mConfigurationPanel.getComponentCount() > 1)
 			mConfigurationPanel.remove(1);

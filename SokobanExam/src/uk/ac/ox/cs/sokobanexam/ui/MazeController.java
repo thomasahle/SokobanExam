@@ -29,7 +29,7 @@ public class MazeController implements KeyListener, MouseListener, StateChangeLi
 	}
 	public void setModel(ASModel model) {
 		this.mModel = model;
-		model.setStateChangeListener(this);
+		model.addStateChangeListener(this);
 	}
 	
 	@Override
@@ -41,9 +41,7 @@ public class MazeController implements KeyListener, MouseListener, StateChangeLi
 	@Override
 	public void keyTyped(KeyEvent e) {}
 	@Override
-	public void keyPressed(KeyEvent e) {}
-	@Override
-	public void keyReleased(KeyEvent e) {
+	public void keyPressed(KeyEvent e) {
 		if (mModel.getState() != State.PLAYING)
 			return;
 		switch(e.getKeyCode()) {
@@ -63,6 +61,8 @@ public class MazeController implements KeyListener, MouseListener, StateChangeLi
 			return;
 		}
 	}
+	@Override
+	public void keyReleased(KeyEvent e) {}
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
