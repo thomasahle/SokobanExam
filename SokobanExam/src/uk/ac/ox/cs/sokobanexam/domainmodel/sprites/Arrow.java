@@ -1,16 +1,15 @@
 package uk.ac.ox.cs.sokobanexam.domainmodel.sprites;
 
 import uk.ac.ox.cs.sokobanexam.util.Dir;
-import uk.ac.ox.cs.sokobanexam.util.Point;
 
 public class Arrow extends AbstractRoom {
 	private Dir mDirection;
-	public Arrow(Point point, Sprite inner, Dir direction) {
-		super(point, inner);
+	public Arrow(Sprite inner, Dir direction) {
+		super(inner);
 		mDirection = direction;
 	}
 	public Arrow setDirection(Dir direction) {
-		return new Arrow(point(), inner(), direction);
+		return new Arrow(inner(), direction);
 	}
 	/** The direction in which the arrow is pointing */
 	public Dir getDirection() {
@@ -21,7 +20,7 @@ public class Arrow extends AbstractRoom {
 		visitor.visit(this);
 	}
 	@Override
-	public Room setInner(Sprite inner) {
-		return new Arrow(point(), inner, getDirection());
+	public Room withInner(Sprite inner) {
+		return new Arrow(inner, getDirection());
 	}
 }

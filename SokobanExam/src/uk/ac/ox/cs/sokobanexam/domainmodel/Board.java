@@ -19,7 +19,7 @@ public interface Board {
 	
 	public Room getRoom(Point point);
 	
-	public void setRoom(Point point, Room room);
+	public void putRoom(Room room);
 	
 	public Iterable<Room> getRoomsContaining(Class<? extends Sprite> type);
 	

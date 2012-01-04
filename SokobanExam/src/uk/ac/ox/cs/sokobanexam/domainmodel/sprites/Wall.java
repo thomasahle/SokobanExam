@@ -6,12 +6,12 @@ import uk.ac.ox.cs.sokobanexam.util.Point;
 
 public class Wall extends AbstractRoom {
 	private String mWriting;
-	public Wall(Point point, Sprite inner, String writing) {
-		super(point, inner);
+	public Wall(Sprite inner, String writing) {
+		super(inner);
 		mWriting = writing;
 	}
-	public Wall(Point point, Sprite inner) {
-		this(point, inner, "");
+	public Wall(Sprite inner) {
+		this(inner, "");
 	}
 	@Override
 	public void accept(SpriteVisitor visitor) {
@@ -21,10 +21,10 @@ public class Wall extends AbstractRoom {
 		return mWriting;
 	}
 	public Sprite setWriting(String writing) {
-		return new Wall(point(), inner(), writing);
+		return new Wall(inner(), writing);
 	}
 	@Override
-	public Room setInner(Sprite inner) {
-		return new Wall(point(), inner, getWriting());
+	public Room withInner(Sprite inner) {
+		return new Wall(inner(), getWriting());
 	}
 }

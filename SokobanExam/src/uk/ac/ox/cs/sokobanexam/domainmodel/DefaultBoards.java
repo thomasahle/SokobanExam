@@ -18,43 +18,42 @@ import uk.ac.ox.cs.sokobanexam.util.Point;
 public class DefaultBoards {
 	private static Board fromStrings(String... rows) {
 		Board board = new DefaultBoard(rows[0].length(), rows.length);
-		for (int y = 0; y < rows.length; y++)
-			for (int x = 0; x < rows[0].length(); x++) {
-				Room room;
-				switch (rows[y].charAt(x)) {
-				case '#':
-				case 'W':
-					room = new Wall(Point.at(x,y), new Nothing(Point.at(x,y)));
-					break;
-				case '.':
-				case 'x':
-					room = new Target(Point.at(x,y), new Nothing(Point.at(x,y)));
-					break;
-				case 'o':
-				case 'C':
-					room = new Floor(Point.at(x,y), new Crate(Point.at(x,y), Color.BLUE));
-					break;
-				case '↑':
-					room = new Arrow(Point.at(x,y), new Nothing(Point.at(x,y)), Dir.NORTH);
-					break;
-				case '→':
-					room = new Arrow(Point.at(x,y), new Nothing(Point.at(x,y)), Dir.EAST);
-					break;
-				case '↓':
-					room = new Arrow(Point.at(x,y), new Nothing(Point.at(x,y)), Dir.SOUTH);
-					break;
-				case '←':
-					room = new Arrow(Point.at(x,y), new Nothing(Point.at(x,y)), Dir.WEST);
-					break;
-				case '@':
-				case 'H':
-					room = new Floor(Point.at(x,y), new Human(Point.at(x,y), Dir.WEST));
-					break;
-				default:
-					room = new Floor(Point.at(x,y), new Nothing(Point.at(x,y)));
-				}
-				board.setRoom(Point.at(x,y), room);
+		for (Point point : board.getPoints()) {
+			Room room;
+			switch (rows[point.y].charAt(point.x)) {
+			case '#':
+			case 'W':
+				room = new Wall(new Nothing(point));
+				break;
+			case '.':
+			case 'x':
+				room = new Target(new Nothing(point));
+				break;
+			case 'o':
+			case 'C':
+				room = new Floor(new Crate(point, Color.BLUE));
+				break;
+			case '↑':
+				room = new Arrow(new Nothing(point), Dir.NORTH);
+				break;
+			case '→':
+				room = new Arrow(new Nothing(point), Dir.EAST);
+				break;
+			case '↓':
+				room = new Arrow(new Nothing(point), Dir.SOUTH);
+				break;
+			case '←':
+				room = new Arrow(new Nothing(point), Dir.WEST);
+				break;
+			case '@':
+			case 'H':
+				room = new Floor(new Human(point, Dir.WEST));
+				break;
+			default:
+				room = new Floor(new Nothing(point));
 			}
+			board.putRoom(room);
+		}
 		return board;
 	}
 	

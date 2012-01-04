@@ -83,12 +83,12 @@ public class DefaultRules implements Rules {
 		if (board.getRoom(to) instanceof Crate) {
 			Point next = from.follow(to);
 			// Move crate
-			board.setRoom(next, board.getRoom(next).setInner(board.getRoom(to).inner()));
+			board.putRoom(board.getRoom(next).withInner(board.getRoom(to).inner()));
 		}
 		// Move Person
-		board.setRoom(to, board.getRoom(to).setInner(board.getRoom(from).inner()));
+		board.putRoom(board.getRoom(to).withInner(board.getRoom(from).inner()));
 		// Clear space behind person
-		board.setRoom(from, board.getRoom(from).setInner(new Nothing(from)));
+		board.putRoom(board.getRoom(from).withInner(new Nothing(from)));
 	}
 	
 	@Override

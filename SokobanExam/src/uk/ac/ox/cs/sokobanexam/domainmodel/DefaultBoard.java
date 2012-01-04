@@ -31,7 +31,7 @@ public class DefaultBoard implements Board {
 		// Initialize class invariant:
 		mMap = new Room[height][width];
 		for (Point point : getPoints())
-			setRoom(point, new Floor(point,new Nothing(point)));
+			putRoom(new Floor(new Nothing(point)));
 	}
 	
 	@Override
@@ -64,7 +64,8 @@ public class DefaultBoard implements Board {
 	}
 
 	@Override
-	public void setRoom(Point point, Room room) {
+	public void putRoom(Room room) {
+		Point point = room.point();
 		mMap[point.y][point.x] = room;
 	}
 
@@ -84,5 +85,13 @@ public class DefaultBoard implements Board {
 				return type.isInstance(room); 
 			}
 		});
+	}
+	
+	@Override
+	public DefaultBoard clone() {
+		DefaultBoard clone = new DefaultBoard(getWidth(), getHeight());
+		for (Room room : getRooms())
+			clone.putRoom(room);
+		return clone;
 	}
 }
