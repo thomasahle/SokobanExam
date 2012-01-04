@@ -27,4 +27,6 @@ public interface Board {
 	
 	
 	public Set<Point> getPoints();
+
+	public Board clone();
 }

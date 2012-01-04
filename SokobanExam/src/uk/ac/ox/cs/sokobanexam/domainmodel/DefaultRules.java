@@ -41,8 +41,9 @@ public class DefaultRules implements Rules {
 	}
 	
 	@Override
-	public boolean validateMove(Board board, Point from, Point to) {
+	public boolean validateMove(Board board, Point from, Dir dir) {
 		assert validateBoard(board);
+		Point to = from.plus(dir);
 		
 		// Check if we are within board boundaries
 		// Check if a human is at from
@@ -50,7 +51,7 @@ public class DefaultRules implements Rules {
 		if (   !board.getPoints().contains(from)
 			|| !board.getPoints().contains(to)
 			|| !(board.getRoom(from).inner() instanceof Human)
-			|| board.getRoom(to).inner() instanceof Wall)
+			|| board.getRoom(to) instanceof Wall)
 			return false;
 		
 		// Check if an arrow objects (currently on arrow)
@@ -67,9 +68,10 @@ public class DefaultRules implements Rules {
 		}
 		
 		// Check if a crate is in the way, and it can't be moved
-		Point next = from.follow(to);
+		Point next = to.plus(dir);
 		if (board.getRoom(to).inner() instanceof Crate
-				&& (board.getRoom(next) instanceof Wall
+				&& (!board.getPoints().contains(next)
+					|| board.getRoom(next) instanceof Wall
 					|| board.getRoom(next) instanceof Arrow
 					|| !(board.getRoom(next).inner() instanceof Nothing)))
 			return false;
@@ -78,16 +80,25 @@ public class DefaultRules implements Rules {
 	}
 	
 	@Override
-	public void applyMove(Board board, Point from, Point to) {
-		assert validateMove(board, from, to);
-		if (board.getRoom(to) instanceof Crate) {
-			Point next = from.follow(to);
-			// Move crate
-			board.putRoom(board.getRoom(next).withInner(board.getRoom(to).inner()));
+	public void applyMove(Board board, Point from, Dir dir) {
+		assert validateMove(board, from, dir);
+		Point to = from.plus(dir);
+		
+		// Move crate
+		if (board.getRoom(to).inner() instanceof Crate) {
+			Point next = to.plus(dir);
+			System.out.println("Moving crate to "+next);
+			Sprite newCrate = board.getRoom(to).inner().move(next);
+			Room newRoom = board.getRoom(next).withInner(newCrate);
+			board.putRoom(newRoom);
 		}
+		
 		// Move Person
-		board.putRoom(board.getRoom(to).withInner(board.getRoom(from).inner()));
+		System.out.println("Moving to "+to);
+		board.putRoom(board.getRoom(to).withInner(new Human(to, dir)));
+		
 		// Clear space behind person
+		System.out.println("Moving from "+from);
 		board.putRoom(board.getRoom(from).withInner(new Nothing(from)));
 	}
 	

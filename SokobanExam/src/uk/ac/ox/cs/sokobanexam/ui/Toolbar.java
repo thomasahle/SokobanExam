@@ -12,10 +12,12 @@ import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
+import uk.ac.ox.cs.sokobanexam.domainmodel.Board;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Arrow;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Crate;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Human;
@@ -24,12 +26,17 @@ import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Room;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Target;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Wall;
+import uk.ac.ox.cs.sokobanexam.ui.ASModel.State;
+
+// TODO: We might have to listen to model.onStateChanged
 
 public class Toolbar extends JToolBar implements SelectionChangeListener {
 	private static final long serialVersionUID = -3632217082483213540L;
 	
 	private ASModel mModel;
+	private MazeView mView;
 	private JComponent mConfigurationPanel;
+	private ButtonGroup mButtonGroup;
 	
 	@SuppressWarnings("serial")
 	private static final Map<Class<? extends Sprite>, String> creatables
@@ -41,27 +48,46 @@ public class Toolbar extends JToolBar implements SelectionChangeListener {
 		put(Human.class, "Player");
 	}};
 	
-	public Toolbar(ASModel model) {
+	public Toolbar(ASModel model, MazeView view) {
 		setModel(model);
+		setMazeView(view);
 		
 		setMargin(new Insets(10,10,10,10));
-		ButtonGroup group = new ButtonGroup();
+		
+		// Insert buttons into toolbar
+		mButtonGroup = new ButtonGroup();
 		JToggleButton editButton = new JToggleButton("Edit");
-		group.add(editButton);
-		for (Map.Entry<Class<? extends Sprite>, String> entry : creatables.entrySet()) {
+		editButton.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				onEditClicked();
+			}
+		});
+		mButtonGroup.add(editButton);
+		for (final Map.Entry<Class<? extends Sprite>, String> entry : creatables.entrySet()) {
 			JToggleButton createButton = new JToggleButton("Create " + entry.getValue());
-			group.add(createButton);
+			createButton.addActionListener(new ActionListener() {
+				@Override public void actionPerformed(ActionEvent e) {
+					onCreateClicked(entry.getKey());
+				}
+			});
+			mButtonGroup.add(createButton);
 		}
 		JToggleButton playButton = new JToggleButton("Play");
-		group.add(playButton);
-		
-		for (Enumeration<AbstractButton> e = group.getElements(); e.hasMoreElements(); )
+		playButton.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				onPlayClicked();
+			}
+		});
+		mButtonGroup.add(playButton);
+		for (Enumeration<AbstractButton> e = mButtonGroup.getElements(); e.hasMoreElements(); )
 			add(e.nextElement());
 		
+		// Set edit button as default
 		editButton.doClick();
 		
 		addSeparator();
 		
+		// Create the configuration panel and add delete button
 		mConfigurationPanel = new JPanel();
 		mConfigurationPanel.setLayout(new FlowLayout());
 		JButton deleteButton = new JButton("Delete");
@@ -73,6 +99,40 @@ public class Toolbar extends JToolBar implements SelectionChangeListener {
 		});
 	}
 	
+	private Board savedBoard = null;
+	
+	void onEditClicked() {
+		if (!mModel.setState(State.EDITING)) {
+			JOptionPane.showMessageDialog(this, "Can't do editing in the current state.");
+		}
+		else {
+			if (savedBoard != null) {
+				mModel.setBoard(savedBoard);
+				savedBoard = null;
+			}
+		}
+	}
+	void onCreateClicked(Class<? extends Sprite> type) {
+		if (!mModel.setState(State.INSERTING)) {
+			JOptionPane.showMessageDialog(this, "Can't do inserting in the current state.");
+		}
+		else {
+			if (savedBoard != null) {
+				mModel.setBoard(savedBoard);
+				savedBoard = null;
+			}
+			mModel.setTypeForInsertion(type);
+		}
+	}
+	void onPlayClicked() {
+		if (!mModel.setState(State.PLAYING)) {
+			JOptionPane.showMessageDialog(this, "Can't start the game in the current state.");
+		}
+		else {
+			savedBoard = mModel.getBoard().clone();
+		}
+	}
+	
 	
 	public ASModel getModel() {
 		return mModel;
@@ -80,6 +140,12 @@ public class Toolbar extends JToolBar implements SelectionChangeListener {
 	public void setModel(ASModel model) {
 		this.mModel = model;
 		model.setSelectionChangeListener(this);
+	}
+	public void setMazeView(MazeView view) {
+		mView = view;
+	}
+	public MazeView getMazeView() {
+		return mView;
 	}
 
 

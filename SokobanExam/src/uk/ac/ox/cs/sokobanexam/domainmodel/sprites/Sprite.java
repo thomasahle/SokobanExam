@@ -32,6 +32,6 @@ import uk.ac.ox.cs.sokobanexam.util.Point;
 
 public interface Sprite {
 	public Point point();
-	
+	public Sprite move(Point point);
 	public void accept(SpriteVisitor visitor);
 }

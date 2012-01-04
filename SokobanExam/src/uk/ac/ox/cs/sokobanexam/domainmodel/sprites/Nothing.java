@@ -10,4 +10,8 @@ public class Nothing extends AbstractSprite {
 	public void accept(SpriteVisitor visitor) {
 		visitor.visit(this);
 	}
+	@Override
+	public Sprite move(Point point) {
+		return new Nothing(point);
+	}
 }

@@ -5,14 +5,15 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import uk.ac.ox.cs.sokobanexam.ui.ASModel.State;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
-public class MazeController implements KeyListener, MouseListener {
+public class MazeController implements KeyListener, MouseListener, StateChangeListener {
 	private MazeView mView;
 	private ASModel mModel;
 	public MazeController(ASModel model, MazeView view) {
-		mModel = model;
+		setModel(model);
 		setMazeView(view);
 	}
 	public MazeView getMazeView() {
@@ -28,10 +29,23 @@ public class MazeController implements KeyListener, MouseListener {
 	}
 	public void setModel(ASModel model) {
 		this.mModel = model;
+		model.setStateChangeListener(this);
 	}
 	
 	@Override
-	public void keyTyped(KeyEvent e) {
+	public void onStateChanged(ASModel model) {
+		if (model.getState() == State.PLAYING)
+			mView.requestFocusInWindow();
+	}
+	
+	@Override
+	public void keyTyped(KeyEvent e) {}
+	@Override
+	public void keyPressed(KeyEvent e) {}
+	@Override
+	public void keyReleased(KeyEvent e) {
+		if (mModel.getState() != State.PLAYING)
+			return;
 		switch(e.getKeyCode()) {
 		case KeyEvent.VK_UP:
 			mModel.move(Dir.NORTH);
@@ -49,10 +63,6 @@ public class MazeController implements KeyListener, MouseListener {
 			return;
 		}
 	}
-	@Override
-	public void keyPressed(KeyEvent e) {}
-	@Override
-	public void keyReleased(KeyEvent e) {}
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {

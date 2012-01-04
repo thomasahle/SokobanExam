@@ -9,6 +9,7 @@ import uk.ac.ox.cs.sokobanexam.domainmodel.DefaultBoards;
 import uk.ac.ox.cs.sokobanexam.domainmodel.DefaultRules;
 import uk.ac.ox.cs.sokobanexam.domainmodel.Rules;
 import uk.ac.ox.cs.sokobanexam.ui.ASModel;
+import uk.ac.ox.cs.sokobanexam.ui.ASModel.State;
 import uk.ac.ox.cs.sokobanexam.ui.MazeController;
 import uk.ac.ox.cs.sokobanexam.ui.MazeView;
 import uk.ac.ox.cs.sokobanexam.ui.Toolbar;
@@ -20,9 +21,9 @@ public class SokobanExamFrame extends JFrame {
 		super("Sokoban Exam Game");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		ASModel asmodel = new ASModel(board, rules);
+		ASModel asmodel = new ASModel(board, rules, State.EDITING);
 		MazeView view = new MazeView(asmodel);
-		Toolbar toolbar = new Toolbar(asmodel);
+		Toolbar toolbar = new Toolbar(asmodel, view);
 		new MazeController(asmodel, view);
 		
 		setLayout(new BorderLayout());

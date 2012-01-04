@@ -27,4 +27,8 @@ public class Wall extends AbstractRoom {
 	public Room withInner(Sprite inner) {
 		return new Wall(inner(), getWriting());
 	}
+	@Override
+	public Sprite move(Point point) {
+		return new Wall(inner().move(point), getWriting());
+	}
 }

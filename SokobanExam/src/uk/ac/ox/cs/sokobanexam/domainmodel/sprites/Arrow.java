@@ -1,6 +1,7 @@
 package uk.ac.ox.cs.sokobanexam.domainmodel.sprites;
 
 import uk.ac.ox.cs.sokobanexam.util.Dir;
+import uk.ac.ox.cs.sokobanexam.util.Point;
 
 public class Arrow extends AbstractRoom {
 	private Dir mDirection;
@@ -22,5 +23,9 @@ public class Arrow extends AbstractRoom {
 	@Override
 	public Room withInner(Sprite inner) {
 		return new Arrow(inner, getDirection());
+	}
+	@Override
+	public Sprite move(Point point) {
+		return new Arrow(inner().move(point), getDirection());
 	}
 }

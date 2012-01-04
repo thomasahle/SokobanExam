@@ -15,4 +15,8 @@ public class Target extends AbstractRoom {
 	public Room withInner(Sprite inner) {
 		return new Target(inner);
 	}
+	@Override
+	public Sprite move(Point point) {
+		return new Target(inner().move(point));
+	}
 }

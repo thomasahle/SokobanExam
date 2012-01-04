@@ -12,14 +12,20 @@ import uk.ac.ox.cs.sokobanexam.util.Point;
 // If we change Board->Maze we can change ASModel->Model
 
 public class ASModel {
+	
+	public enum State { EDITING, INSERTING, PLAYING; }
+	
 	private Board mBoard;
 	private Rules mRules;
+	
+	private State mState;
 	private Point mSelected;
 	private Class<? extends Sprite> mTypeForInsertion;
 	
-	public ASModel(Board board, Rules rules) {
-		mBoard = board;
-		mRules = rules;
+	public ASModel(Board board, Rules rules, State state) {
+		setBoard(board);
+		setRules(rules);
+		setState(state);
 	}
 	
 	private MazeChangeListener mMazeChangeListener;
@@ -32,32 +38,57 @@ public class ASModel {
 		mSelectionChangeListener = listener;
 	}
 	
+	private StateChangeListener mStateChangeListener;
+	public void setStateChangeListener(StateChangeListener listener) {
+		mStateChangeListener = listener;
+	}
+	
 	public boolean move(Dir direction) {
 		assert mRules.validateBoard(mBoard);
 		Point from = mBoard.getRoomsContaining(Human.class).iterator().next().point();
-		Point to = from.plus(direction);
-		if (!mRules.validateMove(mBoard,from,to))
+		if (!mRules.validateMove(mBoard,from,direction))
 			return false;
-		mRules.applyMove(mBoard,from,to);
-		mMazeChangeListener.onChange(this);
+		mRules.applyMove(mBoard,from,direction);
+		if (mMazeChangeListener != null)
+			mMazeChangeListener.onChange(this);
 		return true;
 	}
 	
 	public void setRules(Rules rules) {
 		mRules = rules;
 	}
-	public void setBoard(Board board) {
-		mBoard = board;
-	}
 	public Rules getRules() {
 		return mRules;
+	}
+	public void setBoard(Board board) {
+		mBoard = board;
 	}
 	public Board getBoard() {
 		return mBoard;
 	}
+	/**
+	 * @param state the new state for the model
+	 * @return false if the new state could not be accepted, true otherwise
+	 */
+	public boolean setState(State state) {
+		if (state == State.PLAYING && !mRules.isPlayable(mBoard))
+			return false;
+		if (state != mState) {
+			mState = state;
+			if (mStateChangeListener != null)
+				mStateChangeListener.onStateChanged(this);
+		}
+		return true;
+	}
+	public State getState() {
+		return mState;
+	}
 	
 	public void setTypeForInsertion(Class<? extends Sprite> typeForInsertion) {
-		this.mTypeForInsertion = typeForInsertion;
+		mTypeForInsertion = typeForInsertion;
+		mSelected = null;
+		if (mSelectionChangeListener != null)
+			mSelectionChangeListener.onSelectionChange(this);
 	}
 	public Class<? extends Sprite> getTypeForInsertion() {
 		return mTypeForInsertion;
@@ -65,7 +96,8 @@ public class ASModel {
 
 	public void setSelected(Point selected) {
 		this.mSelected = selected;
-		mSelectionChangeListener.onSelectionChange(this);
+		if (mSelectionChangeListener != null)
+			mSelectionChangeListener.onSelectionChange(this);
 	}
 	public Point getSelected() {
 		return mSelected;
@@ -76,3 +108,22 @@ public class ASModel {
 		
 	}
 }
+
+/*interface State {
+	public void setSelected(Point point);
+	public void setTypeForInsertion(Class<? extends Sprite> type);
+	public boolean move(Dir direction);
+}
+
+class EditingState implements State {
+	
+}
+
+class InsertingState implements State {
+	
+}
+
+class PlayingState implements State {
+	
+}
+*/

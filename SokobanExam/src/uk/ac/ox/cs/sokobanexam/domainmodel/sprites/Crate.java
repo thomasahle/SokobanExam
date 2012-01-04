@@ -19,4 +19,8 @@ public class Crate extends AbstractSprite {
 	public void accept(SpriteVisitor visitor) {
 		visitor.visit(this);
 	}
+	@Override
+	public Sprite move(Point point) {
+		return new Crate(point, getColor());
+	}
 }

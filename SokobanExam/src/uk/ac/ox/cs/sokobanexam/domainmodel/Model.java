@@ -1,5 +1,6 @@
 package uk.ac.ox.cs.sokobanexam.domainmodel;
 
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Human;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
@@ -30,11 +31,10 @@ public class Model {
 	
 	public boolean move(Dir direction) {
 		assert mRules.validateBoard(mBoard);
-		Point from = null;//mBoard.getOccupiedPoints(SemanticType.HUMAN).iterator().next();
-		Point to = from.plus(direction);
-		if (!mRules.validateMove(mBoard,from,to))
+		Point from = mBoard.getRoomsContaining(Human.class).iterator().next().point();
+		if (!mRules.validateMove(mBoard,from,direction))
 			return false;
-		mRules.applyMove(mBoard,from,to);
+		mRules.applyMove(mBoard,from,direction);
 		return true;
 	}
 	public boolean isGameWon() {

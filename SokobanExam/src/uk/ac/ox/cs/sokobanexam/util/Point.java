@@ -13,8 +13,7 @@ public class Point {
 				cache[y][x] = new Point(x, y);
 	}
 	public static Point at(int x, int y) {
-		assert 0 < x && 0 < y;
-		if (x >= MAX_X || y >= MAX_Y)
+		if (x < 0 || x >= MAX_X || y < 0 || y >= MAX_Y)
 			return new Point(x, y);
 		return cache[y][x];
 	}
@@ -33,26 +32,6 @@ public class Point {
 		}
 		return null;
 	}
-	/**
-	 * Interpolates
-	 * @param next
-	 * @return
-	 */
-	public Point follow(Point next) {
-		return Point.at(next.x+(next.x-x), next.y+(next.y-y));
-	}
-	@Override
-	public int hashCode() {
-		return x+y*MAX_X;
-	}
-	@Override
-	public boolean equals(Object obj) {
-        if (obj instanceof Point) {
-            Point point = (Point)obj;
-            return (x == point.x) && (y == point.y);
-        }
-        return super.equals(obj);
-    }
 	@Override
     public String toString() {
         return getClass().getName() + "[x=" + x + ",y=" + y + "]";

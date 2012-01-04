@@ -16,4 +16,8 @@ public class Floor extends AbstractRoom {
 	public Room withInner(Sprite inner) {
 		return new Floor(inner);
 	}
+	@Override
+	public Sprite move(Point point) {
+		return new Floor(inner().move(point));
+	}
 }
