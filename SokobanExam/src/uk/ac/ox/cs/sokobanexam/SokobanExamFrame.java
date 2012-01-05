@@ -38,9 +38,7 @@ public class SokobanExamFrame extends JFrame {
 	public static void main(String[] args) {
 		Board board = DefaultBoards.board2();
 		//Model model = new Model(board, new DefaultRules());
-		
-		SimpleBoardPrinter.printBoard(board);
-		
+				
 		JFrame frame = new SokobanExamFrame(board, new DefaultRules());
 		frame.setVisible(true);
 	}
