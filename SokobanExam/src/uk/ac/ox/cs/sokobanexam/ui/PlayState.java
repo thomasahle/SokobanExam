@@ -3,7 +3,10 @@ package uk.ac.ox.cs.sokobanexam.ui;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.JOptionPane;
+
 import uk.ac.ox.cs.sokobanexam.domainmodel.Board;
+import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Human;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 
 public class PlayState implements ControllerState, KeyListener {
@@ -19,6 +22,12 @@ public class PlayState implements ControllerState, KeyListener {
 		mBoardBackup = mModel.getBoard().clone();
 		view.addKeyListener(this);
 		view.requestFocusInWindow();
+		
+		if (!model.isPlayable()) {
+			JOptionPane.showMessageDialog(view, "The game is not yet playable. You probably need a player to move things around.");
+			controller.setCurrentState(new CreateState(Human.class));
+			// TODO: Update toolbar to represent new state
+		}
 	}
 	
 	@Override

@@ -4,6 +4,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.AbstractButton;
@@ -13,14 +14,19 @@ import javax.swing.JToolBar;
 
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite;
 
-// TODO: We might have to listen to model.onStateChanged
-
-public class Toolbar extends JToolBar {
+public class Toolbar extends JToolBar implements StateChangeListener {
 	private static final long serialVersionUID = -3632217082483213540L;
 	
 	private ButtonGroup mButtonGroup;
+
+	private JToggleButton mEditButton;
+	private JToggleButton mPlayButton;
+	private Map<Class<? extends Sprite>, JToggleButton> mCreateButtons
+			= new HashMap<Class<? extends Sprite>, JToggleButton>();
 	
 	public Toolbar(final MazeController controller) {
+		
+		controller.addStateChangeListener(this);
 		
 		setMargin(new Insets(10,10,10,10));
 		
@@ -28,15 +34,16 @@ public class Toolbar extends JToolBar {
 		
 		// Insert buttons into toolbar
 		mButtonGroup = new ButtonGroup();
-		JToggleButton editButton = new JToggleButton("Edit");
-		editButton.addActionListener(new ActionListener() {
+		mEditButton = new JToggleButton("Edit");
+		mEditButton.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
 				controller.setCurrentState(editState);
 			}
 		});
-		mButtonGroup.add(editButton);
+		mButtonGroup.add(mEditButton);
 		for (final Map.Entry<Class<? extends Sprite>, String> entry : MazeModel.PHYSICAL_SPRITES.entrySet()) {
 			JToggleButton createButton = new JToggleButton("Create " + entry.getValue());
+			mCreateButtons.put(entry.getKey(), createButton);
 			createButton.addActionListener(new ActionListener() {
 				@Override public void actionPerformed(ActionEvent e) {
 					CreateState createState = new CreateState(entry.getKey());
@@ -45,19 +52,41 @@ public class Toolbar extends JToolBar {
 			});
 			mButtonGroup.add(createButton);
 		}
-		JToggleButton playButton = new JToggleButton("Play");
-		playButton.addActionListener(new ActionListener() {
+		mPlayButton = new JToggleButton("Play");
+		mPlayButton.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
+				
+				/*if (!model.isPlayable()) {
+					JOptionPane.showMessageDialog(view, "The game is not yet playable. You probably need a player to move things around.");
+					controller.setCurrentState(new CreateState(Human.class));
+					// TODO: Update toolbar to represent new state
+				}*/
+				
 				controller.setCurrentState(new PlayState());
 			}
 		});
-		mButtonGroup.add(playButton);
+		mButtonGroup.add(mPlayButton);
 		for (Enumeration<AbstractButton> e = mButtonGroup.getElements(); e.hasMoreElements(); )
 			add(e.nextElement());
 		
 		// Set edit button as default
-		editButton.doClick();
+		mEditButton.doClick();
 		
 		addSeparator();
+	}
+
+	@Override
+	public void onStateChanged(MazeController source) {
+		if (source.getCurrentState() instanceof EditState)
+			if (!mEditButton.isSelected())
+				mEditButton.doClick();
+		if (source.getCurrentState() instanceof CreateState) {
+			JToggleButton createButton = mCreateButtons.get(((CreateState)source.getCurrentState()).getCreatedType());
+			if (!createButton.isSelected())
+				createButton.doClick();
+		}
+		if (source.getCurrentState() instanceof PlayState)
+			if (!mPlayButton.isSelected())
+				mPlayButton.doClick();
 	}
 }

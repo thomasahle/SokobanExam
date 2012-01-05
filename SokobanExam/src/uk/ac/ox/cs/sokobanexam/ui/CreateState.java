@@ -22,7 +22,11 @@ public class CreateState implements ControllerState, MouseListener,
 	public CreateState(Class<? extends Sprite> type) {
 		mType = type;
 	}
-
+	
+	public Class<? extends Sprite> getCreatedType() {
+		return mType;
+	}
+	
 	@Override
 	public void attach(MazeController controller, MazeModel model, MazeView view) {
 		mView = view;
@@ -91,6 +95,8 @@ public class CreateState implements ControllerState, MouseListener,
 			mModel.getBoard().putRoom(room);
 			JOptionPane.showMessageDialog(mView, "Inserting here is against the rules.");
 		}
+		else
+			mModel.setHighlighted(point);
 	}
 	
 	/*
@@ -106,7 +112,6 @@ public class CreateState implements ControllerState, MouseListener,
 	private Sprite createSprite(Point point) {
 		String error = "Sorry, the app seams broken. Anyway the insertaion failed.";
 		try {
-			System.out.println(mType);
 			Sprite sprite = mType.getDeclaredConstructor(Point.class).newInstance(point);
 			return sprite;
 		} catch (InstantiationException e1) {

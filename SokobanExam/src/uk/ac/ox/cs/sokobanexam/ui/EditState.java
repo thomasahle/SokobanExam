@@ -138,8 +138,11 @@ public class EditState implements ControllerState, MouseListener,
 		}
 		Room room = mModel.getBoard().getRoom(point);
 		if (MazeModel.isEditableType(room.inner())
-				|| MazeModel.isEditableType(room))
+				|| MazeModel.isEditableType(room)) {
 			mModel.setSelected(point);
+			// We request focus, so the delete keyboard shortcut works.
+			mView.requestFocusInWindow();
+		}
 		else
 			mModel.setSelected(null);
 	}

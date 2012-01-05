@@ -53,6 +53,22 @@ public class MazeModel {
 		setRules(rules);
 	}
 	
+	public void setRules(Rules rules) {
+		mRules = rules;
+	}
+	public Rules getRules() {
+		return mRules;
+	}
+	public void setBoard(Board board) {
+		mBoard = board;
+		fireMazeChangeEvent();
+	}
+	public Board getBoard() {
+		return mBoard;
+	}
+	
+	// --------------- Listeners
+	
 	private List<MazeChangeListener> mMazeChangeListeners
 			= new ArrayList<MazeChangeListener>();
 	public void addMazeChangeListener(MazeChangeListener listener) {
@@ -80,6 +96,8 @@ public class MazeModel {
 			listener.onHighlightChanged(this, from, to);
 	}
 	
+	// --------------- Domain shortcuts
+	
 	public boolean move(Dir direction) {
 		assert mRules.validateBoard(mBoard);
 		if (!mRules.validateMove(mBoard,direction))
@@ -91,20 +109,11 @@ public class MazeModel {
 	public boolean isWon() {
 		return mRules.isGameWon(mBoard);
 	}
+	public boolean isPlayable() {
+		return mRules.isPlayable(mBoard);
+	}
 	
-	public void setRules(Rules rules) {
-		mRules = rules;
-	}
-	public Rules getRules() {
-		return mRules;
-	}
-	public void setBoard(Board board) {
-		mBoard = board;
-		fireMazeChangeEvent();
-	}
-	public Board getBoard() {
-		return mBoard;
-	}
+	// --------------- Non domain specific state
 	
 	public void setTypeForInsertion(Class<? extends Sprite> typeForInsertion) {
 		mTypeForInsertion = typeForInsertion;

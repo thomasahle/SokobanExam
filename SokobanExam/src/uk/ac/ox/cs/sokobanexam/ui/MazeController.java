@@ -1,5 +1,7 @@
 package uk.ac.ox.cs.sokobanexam.ui;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class MazeController {
 	private MazeView mView;
@@ -20,9 +22,19 @@ public class MazeController {
 			currentState.detach();
 		currentState = state;
 		state.attach(this, mModel, mView);
+		fireStateChangedEvent();
 	}
 	public ControllerState getCurrentState() {
 		return currentState;
 	}
+	
+	private List<StateChangeListener> mStateChangeListeners
+			= new ArrayList<StateChangeListener>();
+	public void addStateChangeListener(StateChangeListener listener) {
+		mStateChangeListeners.add(listener);
+	}
+	public void fireStateChangedEvent() {
+		for (StateChangeListener listener : mStateChangeListeners)
+			listener.onStateChanged(this);
+	}
 }
-
