@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
@@ -62,10 +63,10 @@ public class Toolbar extends JToolBar implements StateChangeListener {
 		for (Enumeration<AbstractButton> e = mButtonGroup.getElements(); e.hasMoreElements(); )
 			add(e.nextElement());
 		
+		addSeparator();
+		
 		// Set edit button as default
 		mEditButton.doClick();
-		
-		addSeparator();
 	}
 
 	@Override

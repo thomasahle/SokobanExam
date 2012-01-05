@@ -2,7 +2,6 @@ package uk.ac.ox.cs.sokobanexam.domainmodel;
 
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Arrow;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Crate;
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Floor;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Human;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Nothing;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Room;

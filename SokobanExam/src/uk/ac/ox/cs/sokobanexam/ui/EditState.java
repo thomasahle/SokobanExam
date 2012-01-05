@@ -1,6 +1,5 @@
 package uk.ac.ox.cs.sokobanexam.ui;
 
-import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,7 +11,6 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -35,14 +33,8 @@ public class EditState implements ControllerState, MouseListener,
 	private JButton mDeleteButton;
 	
 	public EditState(Toolbar toolbar) {
-		mToolbar = toolbar;
-		
-		// Create the configuration panel with the delete button
-		// TODO: We need to use JToolbarButtons
-		mConfigurationPanel = new JPanel();
-		mConfigurationPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		mToolbar = toolbar;		
 		mDeleteButton = new JButton("Delete");
-		mConfigurationPanel.add(mDeleteButton);
 		mDeleteButton.addActionListener(this);
 	}
 	
@@ -56,7 +48,7 @@ public class EditState implements ControllerState, MouseListener,
 		mView.requestFocusInWindow();
 		mModel.addSelectionChangeListener(this);
 		mModel.setSelectionVisible(true);
-		mToolbar.add(mConfigurationPanel);
+		mToolbar.add(mDeleteButton);
 		onSelectionChanged(mModel, null, null);
 	}
 	
@@ -66,19 +58,22 @@ public class EditState implements ControllerState, MouseListener,
 		mView.removeMouseMotionListener(this);
 		mView.removeKeyListener(this);
 		mModel.removeSelectionChangeListener(this);
-		mToolbar.remove(mConfigurationPanel);
 		mModel.setSelectionVisible(false);
+		if (mConfigurationPanel != null)
+			mToolbar.remove(mConfigurationPanel);
+		mToolbar.remove(mDeleteButton);
 		forceDoLayout();
 	}
 	
 	@Override
 	public void onSelectionChanged(MazeModel model, Point from, Point to) {
 		// Clear any old, custom configuration
-		while (mConfigurationPanel.getComponentCount() > 1)
-			mConfigurationPanel.remove(1);
-		// If nothing is selected, we simply hide the component
+		if (mConfigurationPanel != null)
+			mToolbar.remove(mConfigurationPanel);
+		// If nothing is selected, we must disable the delete button
 		if (model.getSelected() == null) {
 			mDeleteButton.setEnabled(false);
+			mConfigurationPanel = null;
 		}
 		// Otherwise we generate a new component with the selected sprite
 		else {
@@ -87,7 +82,8 @@ public class EditState implements ControllerState, MouseListener,
 			Sprite sprite = MazeModel.isEditableType(room.inner()) ? room.inner() : room;
 			SpriteConfigurationCreator confCreator = new SpriteConfigurationCreator(this);
 			sprite.accept(confCreator);
-			mConfigurationPanel.add(confCreator.getResult());
+			mConfigurationPanel = confCreator.getResult();
+			mToolbar.add(mConfigurationPanel);
 		}
 		
 		forceDoLayout();

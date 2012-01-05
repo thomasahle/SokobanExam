@@ -6,8 +6,6 @@ import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Room;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
-//TODO: Change name to Maze?
-
 public interface Board {
 	
 	public int getHeight();
