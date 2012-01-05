@@ -24,12 +24,14 @@ public class Toolbar extends JToolBar {
 		
 		setMargin(new Insets(10,10,10,10));
 		
+		final EditState editState = new EditState(Toolbar.this);
+		
 		// Insert buttons into toolbar
 		mButtonGroup = new ButtonGroup();
 		JToggleButton editButton = new JToggleButton("Edit");
 		editButton.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				controller.setCurrentState(new EditState(Toolbar.this));
+				controller.setCurrentState(editState);
 			}
 		});
 		mButtonGroup.add(editButton);
@@ -37,7 +39,8 @@ public class Toolbar extends JToolBar {
 			JToggleButton createButton = new JToggleButton("Create " + entry.getValue());
 			createButton.addActionListener(new ActionListener() {
 				@Override public void actionPerformed(ActionEvent e) {
-					controller.setCurrentState(new CreateState(entry.getKey()));
+					CreateState createState = new CreateState(entry.getKey());
+					controller.setCurrentState(createState);
 				}
 			});
 			mButtonGroup.add(createButton);

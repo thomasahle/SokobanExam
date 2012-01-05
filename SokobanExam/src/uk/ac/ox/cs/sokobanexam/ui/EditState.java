@@ -31,6 +31,7 @@ public class EditState implements ControllerState, MouseListener,
 	
 	private Toolbar mToolbar;
 	private JComponent mConfigurationPanel;
+	private JButton mDeleteButton;
 	
 	public EditState(Toolbar toolbar) {
 		mToolbar = toolbar;
@@ -39,9 +40,9 @@ public class EditState implements ControllerState, MouseListener,
 		// TODO: We need to use JToolbarButtons
 		mConfigurationPanel = new JPanel();
 		mConfigurationPanel.setLayout(new FlowLayout());
-		JButton deleteButton = new JButton("Delete");
-		mConfigurationPanel.add(deleteButton);
-		deleteButton.addActionListener(this);
+		mDeleteButton = new JButton("Delete");
+		mConfigurationPanel.add(mDeleteButton);
+		mDeleteButton.addActionListener(this);
 	}
 	
 	@Override
@@ -53,39 +54,45 @@ public class EditState implements ControllerState, MouseListener,
 		mView.addKeyListener(this);
 		mView.requestFocusInWindow();
 		mModel.addSelectionChangeListener(this);
+		mModel.setHighlightedVisible(true);
 		mToolbar.add(mConfigurationPanel);
-		onSelectionChanged(mModel);
+		onSelectionChanged(mModel, null, null);
 	}
 	
 	@Override
 	public void detach() {
-		mModel.setSelected(null);
 		mView.removeMouseListener(this);
 		mView.removeMouseMotionListener(this);
 		mView.removeKeyListener(this);
 		mModel.removeSelectionChangeListener(this);
 		mToolbar.remove(mConfigurationPanel);
+		mModel.setHighlightedVisible(false);
+		forceDoLayout();
 	}
 	
 	@Override
-	public void onSelectionChanged(MazeModel model) {
+	public void onSelectionChanged(MazeModel model, Point from, Point to) {
 		// Clear any old, custom configuration
 		while (mConfigurationPanel.getComponentCount() > 1)
 			mConfigurationPanel.remove(1);
 		// If nothing is selected, we simply hide the component
 		if (model.getSelected() == null) {
-			mConfigurationPanel.setVisible(false);
+			mDeleteButton.setEnabled(false);
 		}
 		// Otherwise we generate a new component with the selected sprite
 		else {
+			mDeleteButton.setEnabled(true);
 			Room room = model.getBoard().getRoom(model.getSelected());
 			Sprite sprite = MazeModel.isEditableType(room.inner()) ? room.inner() : room;
 			SpriteConfigurationCreator confCreator = new SpriteConfigurationCreator(this);
 			sprite.accept(confCreator);
 			mConfigurationPanel.add(confCreator.getResult());
-			mConfigurationPanel.setVisible(true);
 		}
 		
+		forceDoLayout();
+	}
+
+	private void forceDoLayout() {
 		// Hack to get relayouting to work.
 		// mToolbar.doLayout() didn't work for me.
 		if (mToolbar.getParent() != null) {
@@ -116,7 +123,12 @@ public class EditState implements ControllerState, MouseListener,
 		mouseMoved(e);
 	}
 	
-	@Override public void mouseClicked(MouseEvent e) {
+	@Override
+	public void mouseExited(MouseEvent e) {
+		mModel.setHighlighted(null);
+	}
+	
+	@Override public void mousePressed(MouseEvent e) {
 		Point point = mView.pos2Point(e.getX(), e.getY());
 		if (point == null) {
 			mModel.setSelected(null);
@@ -156,10 +168,10 @@ public class EditState implements ControllerState, MouseListener,
 		mModel.setSelected(null);
 	}
 	
-	@Override public void mousePressed(MouseEvent e) {}
+	@Override public void mouseClicked(MouseEvent e) {}
 	@Override public void mouseReleased(MouseEvent e) {}
 	@Override public void mouseEntered(MouseEvent e) {}
-	@Override public void mouseExited(MouseEvent e) {}
 	@Override public void keyTyped(KeyEvent e) {}
 	@Override public void keyReleased(KeyEvent e) {}
+	@Override public void onHighlightChanged(MazeModel mazeModel, Point from, Point to) {}
 }

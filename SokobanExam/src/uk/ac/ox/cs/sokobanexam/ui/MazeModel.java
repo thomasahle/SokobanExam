@@ -44,6 +44,7 @@ public class MazeModel {
 	private Rules mRules;
 	
 	private Point mSelected;
+	private boolean mHighlightedVisible = false;
 	private Point mHighlighted;
 	private Class<? extends Sprite> mTypeForInsertion;
 	
@@ -70,9 +71,13 @@ public class MazeModel {
 	public void removeSelectionChangeListener(SelectionChangeListener listener) {
 		mSelectionChangeListeners.remove(listener);
 	}
-	private void fireSelectionChangeEvent() {
+	private void fireSelectionChangeEvent(Point from, Point to) {
 		for (SelectionChangeListener listener : mSelectionChangeListeners)
-			listener.onSelectionChanged(this);
+			listener.onSelectionChanged(this, from, to);
+	}
+	private void fireHighlightChangeEvent(Point from, Point to) {
+		for (SelectionChangeListener listener : mSelectionChangeListeners)
+			listener.onHighlightChanged(this, from, to);
 	}
 	
 	public boolean move(Dir direction) {
@@ -103,25 +108,35 @@ public class MazeModel {
 	
 	public void setTypeForInsertion(Class<? extends Sprite> typeForInsertion) {
 		mTypeForInsertion = typeForInsertion;
+		Point old = mSelected;
 		mSelected = null;
-		fireSelectionChangeEvent();
+		fireSelectionChangeEvent(old, null);
 	}
 	public Class<? extends Sprite> getTypeForInsertion() {
 		return mTypeForInsertion;
 	}
 
-	public void setSelected(Point selected) {
-		mSelected = selected;
-		fireSelectionChangeEvent();
+	public void setSelected(Point point) {
+		Point old = mSelected;
+		mSelected = point;
+		fireSelectionChangeEvent(old, point);
 	}
 	public Point getSelected() {
 		return mSelected;
 	}
 
 	public void setHighlighted(Point point) {
+		Point old = mHighlighted;
 		mHighlighted = point;
+		fireHighlightChangeEvent(old, point);
 	}
 	public Point getHighlighted() {
 		return mHighlighted;
+	}
+	public void setHighlightedVisible(boolean highlightedVisible) {
+		this.mHighlightedVisible = highlightedVisible;
+	}
+	public boolean isSelectionVisible() {
+		return mHighlightedVisible;
 	}
 }
