@@ -33,7 +33,7 @@ public class SokobanExamFrame extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-		Board board = DefaultBoards.board2();
+		Board board = DefaultBoards.oxfordRocksBoard();
 		Rules rules = new DefaultRules();
 		
 		JFrame frame = new SokobanExamFrame(board, rules);

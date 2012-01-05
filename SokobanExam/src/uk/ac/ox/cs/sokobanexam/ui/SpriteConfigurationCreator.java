@@ -32,7 +32,7 @@ public class SpriteConfigurationCreator implements SpriteVisitor {
 	@Override
 	public void visit(final Arrow sprite) {
 		// Possibility: Create a hole hiearcy of configurators,
-		// 	            "EnumConfigurator" could then be a superclass
+		//              "EnumConfigurator" could then be an abstract superclass
 		
 		final Dir[] directions = {Dir.NORTH, Dir.EAST, Dir.SOUTH, Dir.WEST};
 		String[] labels = {"↑ Up", "→ Right", "↓ Down", "← Left"};

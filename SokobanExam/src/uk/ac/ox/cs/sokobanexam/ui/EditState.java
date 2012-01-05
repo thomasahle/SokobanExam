@@ -40,7 +40,7 @@ public class EditState implements ControllerState, MouseListener,
 		// Create the configuration panel with the delete button
 		// TODO: We need to use JToolbarButtons
 		mConfigurationPanel = new JPanel();
-		mConfigurationPanel.setLayout(new FlowLayout());
+		mConfigurationPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		mDeleteButton = new JButton("Delete");
 		mConfigurationPanel.add(mDeleteButton);
 		mDeleteButton.addActionListener(this);
@@ -95,13 +95,15 @@ public class EditState implements ControllerState, MouseListener,
 
 	private void forceDoLayout() {
 		// Hack to get relayouting to work.
-		// mToolbar.doLayout() didn't work for me.
-		if (mToolbar.getParent() != null) {
+		mToolbar.doLayout();
+		mToolbar.revalidate();
+		mToolbar.repaint();
+		/*if (mToolbar.getParent() != null) {
 			Container parent = mToolbar.getParent();
 			while (!(parent instanceof JFrame))
 				parent = parent.getParent();
 			((JFrame)parent).pack();
-		}
+		}*/
 	}
 	
 	@Override

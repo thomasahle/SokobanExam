@@ -2,11 +2,14 @@ package uk.ac.ox.cs.sokobanexam.ui;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.RoundRectangle2D;
 
+import uk.ac.ox.cs.sokobanexam.domainmodel.Board;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Arrow;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Crate;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Floor;
@@ -27,6 +30,7 @@ public class SpritePainter implements SpriteVisitor {
 	private final static double CRATE_PADDING = 0.15;
 	private final static double CRATE_ROUNDING = 0.25;
 	private final static double TARGET_PADDING = 0.35;
+	private final static double WALL_TEXT_SIZE = 0.6;
 	
 	public SpritePainter(Graphics2D g, int gridSize) {
 		this.g = g;
@@ -102,6 +106,15 @@ public class SpritePainter implements SpriteVisitor {
 	public void visit(Wall sprite) {
 		g.setColor(Color.BLACK);
 		g.fillRect(size*sprite.point().x, size*sprite.point().y, size, size);
+		
+		g.setColor(Color.WHITE);
+		Font font = new Font("Sans", Font.BOLD, (int)(size*WALL_TEXT_SIZE));
+		FontMetrics metrics = g.getFontMetrics(font);
+		g.setFont(font);
+		g.drawString(sprite.getWriting(),
+				size*sprite.point().x + (size-metrics.stringWidth(sprite.getWriting()))/2,
+				size*sprite.point().y + (size+metrics.getHeight())/2-metrics.getMaxDescent());
+		
 		sprite.inner().accept(this);
 	}
 

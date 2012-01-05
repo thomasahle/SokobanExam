@@ -8,7 +8,7 @@ import uk.ac.ox.cs.sokobanexam.util.Point;
 public class Human extends AbstractSprite {
 	private Dir mDirection;
 	public Human(Point point) {
-		this(point, Dir.NORTH);
+		this(point, Dir.WEST);
 	}
 	public Human(Point point, Dir direction) {
 		super(point);

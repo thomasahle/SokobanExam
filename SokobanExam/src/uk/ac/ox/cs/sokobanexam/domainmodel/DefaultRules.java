@@ -103,9 +103,11 @@ public class DefaultRules implements Rules {
 	
 	@Override
 	public boolean isGameWon(Board board) {
-		for (Room room : board.getRoomsContaining(Crate.class))
-			if (!(room instanceof Target))
+		for (Room room : board.getRoomsContaining(Crate.class)) {
+			if (!(room instanceof Target)) {
 				return false;
+			}
+		}
 		return true;
 	}
 

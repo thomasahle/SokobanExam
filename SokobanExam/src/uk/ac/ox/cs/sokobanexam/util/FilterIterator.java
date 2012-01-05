@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 
 public abstract class FilterIterator<T> implements Iterator<T> {
     private Iterator<T> mIterator;
+    private T prevObject;
     private T nextObject;
     
     public FilterIterator(Iterator<T> iterator) {
@@ -20,12 +21,15 @@ public abstract class FilterIterator<T> implements Iterator<T> {
     public T next() {
         if (nextObject == null && !findNextElem())
             throw new NoSuchElementException();
-        return nextObject;
+        prevObject = nextObject;
+        nextObject = null;
+        return prevObject;
     }
     
     public void remove() {
-        if (nextObject == null)
+        if (prevObject == null)
             throw new IllegalStateException();
+        prevObject = null;
         mIterator.remove();
     }
     
