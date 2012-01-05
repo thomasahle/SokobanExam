@@ -16,10 +16,6 @@ import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Wall;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
-// Do we need some State machine pattern here?
-
-// If we change Board->Maze we can change ASModel->Model
-
 public class MazeModel {
 	
 	/**
@@ -46,6 +42,7 @@ public class MazeModel {
 	private Point mSelected;
 	private boolean mSelectionVisible = false;
 	private Point mHighlighted;
+	private String mHoverMessage;
 	private Class<? extends Sprite> mTypeForInsertion;
 	
 	public MazeModel(Board board, Rules rules) {
@@ -147,5 +144,11 @@ public class MazeModel {
 	}
 	public boolean isSelectionVisible() {
 		return mSelectionVisible;
+	}
+	public void setHoverMessage(String hoverMessage) {
+		this.mHoverMessage = hoverMessage;
+	}
+	public String getHoverMessage() {
+		return mHoverMessage;
 	}
 }

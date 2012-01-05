@@ -26,13 +26,16 @@ public class PlayState implements ControllerState, KeyListener {
 		if (!model.isPlayable()) {
 			JOptionPane.showMessageDialog(view, "The game is not yet playable. You probably need a player to move things around.");
 			controller.setCurrentState(new CreateState(Human.class));
-			// TODO: Update toolbar to represent new state
+		}
+		if (mModel.isWon()) {
+			mModel.setHoverMessage("Game won!");
 		}
 	}
 	
 	@Override
 	public void detach() {
 		mView.removeKeyListener(this);
+		mModel.setHoverMessage(null);
 		mModel.setBoard(mBoardBackup);
 	}
 	
@@ -54,8 +57,11 @@ public class PlayState implements ControllerState, KeyListener {
 		default:
 			break;
 		}
+		if (mModel.isWon()) {
+			mModel.setHoverMessage("Game won!");
+		}
 	}
+	
 	@Override public void keyTyped(KeyEvent e) {}
 	@Override public void keyReleased(KeyEvent e) {}
-
 }

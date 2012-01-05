@@ -55,13 +55,6 @@ public class Toolbar extends JToolBar implements StateChangeListener {
 		mPlayButton = new JToggleButton("Play");
 		mPlayButton.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				
-				/*if (!model.isPlayable()) {
-					JOptionPane.showMessageDialog(view, "The game is not yet playable. You probably need a player to move things around.");
-					controller.setCurrentState(new CreateState(Human.class));
-					// TODO: Update toolbar to represent new state
-				}*/
-				
 				controller.setCurrentState(new PlayState());
 			}
 		});

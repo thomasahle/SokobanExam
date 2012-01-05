@@ -3,10 +3,13 @@ package uk.ac.ox.cs.sokobanexam.ui;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
 
@@ -17,6 +20,10 @@ public class MazeView extends JComponent implements MazeChangeListener, Selectio
 	private static final long serialVersionUID = 7808955267765088933L;
 	
 	private static final int GRID_SIZE = 50;
+	private static final double HOVER_PADDING = 0.1;
+	private static final double HOVER_INNER_PADDING = 0.05;
+	private static final double HOVER_ARC = 0.15;
+	private static final double HOVER_TEXT_SIZE = 0.15;
 	
 	private MazeModel mModel;
 	
@@ -58,9 +65,33 @@ public class MazeView extends JComponent implements MazeChangeListener, Selectio
 			g2.fillRect(r.x, r.y, r.width, r.height);
 		}
 		
-		// TODO: Show hover message
-		
+		if (mModel.getHoverMessage() != null) {
+			// The black background
+			double pad = HOVER_PADDING*Math.min(getHeight(), getWidth());
+			double arc = HOVER_ARC*Math.min(getHeight(), getWidth());
+			g2.setColor(new Color(0x66000000, true));
+			g2.fill(new RoundRectangle2D.Double(pad, pad, getWidth()-2*pad, getHeight()-2*pad, arc, arc));
+			
+			// The white line
+			g2.setColor(Color.WHITE);
+			g2.setStroke(new BasicStroke(3f));
+			double inpad = HOVER_INNER_PADDING*Math.min(getHeight(), getWidth());
+			pad += inpad;
+			arc -= inpad;
+			g2.draw(new RoundRectangle2D.Double(pad, pad, getWidth()-2*pad, getHeight()-2*pad, arc, arc));
+			
+			// The text
+			String message = mModel.getHoverMessage();
+			int size = (int)(HOVER_TEXT_SIZE*Math.min(getHeight(), getWidth()));
+			Font font = new Font("Sans", Font.BOLD, size);
+			FontMetrics metrics = g2.getFontMetrics(font);
+			g2.setFont(font);
+			g2.drawString(mModel.getHoverMessage(),
+					(getWidth()-metrics.stringWidth(message))/2,
+					(getHeight()+metrics.getHeight())/2-metrics.getMaxDescent());
+		}
     }
+	
 	public Point pos2Point(int x, int y) {
 		Point point = Point.at(x/GRID_SIZE, y/GRID_SIZE);
 		if (mModel.getBoard().getPoints().contains(point))
@@ -72,6 +103,7 @@ public class MazeView extends JComponent implements MazeChangeListener, Selectio
 			return new Rectangle(point.x*GRID_SIZE, point.y*GRID_SIZE, GRID_SIZE, GRID_SIZE);
 		return new Rectangle();
 	}
+	
 	@Override
 	public void onChange(MazeModel board) {
 		repaint();
