@@ -44,7 +44,7 @@ public class SpriteConfigurationCreator implements SpriteVisitor {
 				if (newDirection != sprite.getDirection())
 					mSpriteChangeListener.onSpriteChanged(
 							sprite,
-							sprite.setDirection(newDirection));
+							new Arrow(sprite.inner(), newDirection));
 			}
 		});
 		mResult = combobox;
@@ -62,7 +62,7 @@ public class SpriteConfigurationCreator implements SpriteVisitor {
 				if (newColor != sprite.getColor())
 					mSpriteChangeListener.onSpriteChanged(
 							sprite,
-							sprite.setColor(newColor));
+							new Crate(sprite.point(), newColor));
 			}
 		});
 		mResult = combobox;
@@ -93,7 +93,7 @@ public class SpriteConfigurationCreator implements SpriteVisitor {
 				if (!newText.equals(sprite.getWriting()))
 					mSpriteChangeListener.onSpriteChanged(
 							sprite,
-							sprite.setWriting(newText));
+							new Wall(sprite.inner(), newText));
 			}
 		});
 		mResult = textField;

@@ -21,9 +21,6 @@ public class Wall extends AbstractRoom {
 	public String getWriting() {
 		return mWriting;
 	}
-	public Sprite setWriting(String writing) {
-		return new Wall(inner(), writing);
-	}
 	@Override
 	public Room withInner(Sprite inner) {
 		return new Wall(inner, getWriting());

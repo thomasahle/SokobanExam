@@ -12,9 +12,6 @@ public class Crate extends AbstractSprite {
 		super(point);
 		mColor = color;
 	}
-	public Crate setColor(Color color) {
-		return new Crate(point(), color);
-	}
 	public Color getColor() {
 		return mColor;
 	}

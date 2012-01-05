@@ -12,9 +12,6 @@ public class Arrow extends AbstractRoom {
 		super(inner);
 		mDirection = direction;
 	}
-	public Arrow setDirection(Dir direction) {
-		return new Arrow(inner(), direction);
-	}
 	/** The direction in which the arrow is pointing */
 	public Dir getDirection() {
 		return mDirection;
