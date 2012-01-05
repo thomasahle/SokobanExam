@@ -1,7 +1,5 @@
 package uk.ac.ox.cs.sokobanexam.domainmodel;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Floor;
@@ -14,9 +12,6 @@ import uk.ac.ox.cs.sokobanexam.util.MapIterator;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 import uk.ac.ox.cs.sokobanexam.util.PointRangeSet;
 
-// Alternative representation:
-//     A set of sprites all containing their own coordinates (passer bedre med beskrivelsen), z-index?
-
 public class DefaultBoard implements Board {
 	
 	// Class Invariant:
@@ -28,7 +23,6 @@ public class DefaultBoard implements Board {
 		if (width <= 0 || height <= 0)
 			throw new IllegalArgumentException("Board size: "+width+"x"+height);
 		
-		// Initialize class invariant:
 		mMap = new Room[height][width];
 		for (Point point : getPoints())
 			putRoom(new Floor(new Nothing(point)));

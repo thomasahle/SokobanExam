@@ -10,27 +10,26 @@ import javax.swing.JComponent;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Room;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
-public class MazeView extends JComponent implements MazeChangeListener, StateChangeListener {
+public class MazeView extends JComponent implements MazeChangeListener {
 	private static final long serialVersionUID = 7808955267765088933L;
 	
 	private static final int GRID_SIZE = 50;
 	
-	private ASModel mModel;
+	private MazeModel mModel;
 	
-	public MazeView(ASModel model) {
+	public MazeView(MazeModel model) {
 		setModel(model);
 		setFocusable(true);
 	}
-	public ASModel getModel() {
+	public MazeModel getModel() {
 		return mModel;
 	}
-	public void setModel(ASModel model) {
+	public void setModel(MazeModel model) {
 		this.mModel = model;
 		setPreferredSize(new Dimension(
 				model.getBoard().getWidth()*GRID_SIZE,
 				model.getBoard().getHeight()*GRID_SIZE));
-		model.setMazeChangeListener(this);
-		model.addStateChangeListener(this);
+		model.addMazeChangeListener(this);
 	}
 	
 	@Override
@@ -50,11 +49,8 @@ public class MazeView extends JComponent implements MazeChangeListener, StateCha
 		return null;
 	}
 	@Override
-	public void onChange(ASModel board) {
-		repaint();
-	}
-	@Override
-	public void onStateChanged(ASModel model) {
+	public void onChange(MazeModel board) {
+		// TODO: Show hover message
 		repaint();
 	}
 }

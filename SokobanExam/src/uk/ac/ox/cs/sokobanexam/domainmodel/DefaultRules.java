@@ -41,8 +41,9 @@ public class DefaultRules implements Rules {
 	}
 	
 	@Override
-	public boolean validateMove(Board board, Point from, Dir dir) {
+	public boolean validateMove(Board board, Dir dir) {
 		assert validateBoard(board);
+		Point from = board.getRoomsContaining(Human.class).iterator().next().point();
 		Point to = from.plus(dir);
 		
 		// Check if we are within board boundaries
@@ -80,8 +81,9 @@ public class DefaultRules implements Rules {
 	}
 	
 	@Override
-	public void applyMove(Board board, Point from, Dir dir) {
-		assert validateMove(board, from, dir);
+	public void applyMove(Board board, Dir dir) {
+		assert validateMove(board, dir);
+		Point from = board.getRoomsContaining(Human.class).iterator().next().point();
 		Point to = from.plus(dir);
 		
 		// Move crate

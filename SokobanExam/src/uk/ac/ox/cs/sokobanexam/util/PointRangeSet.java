@@ -1,11 +1,10 @@
 package uk.ac.ox.cs.sokobanexam.util;
 
-import java.util.Collection;
+import java.util.AbstractSet;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.NoSuchElementException;
 
-public class PointRangeSet implements Set<Point> {
+public class PointRangeSet extends AbstractSet<Point> {
 	private int mWidth;
 	private int mHeight;
 	public PointRangeSet(int width, int height) {
@@ -19,10 +18,6 @@ public class PointRangeSet implements Set<Point> {
 		return mWidth*mHeight;
 	}
 	@Override
-	public boolean isEmpty() {
-		return mWidth == 0 || mHeight == 0;
-	}
-	@Override
 	public boolean contains(Object o) {
 		if (!(o instanceof Point))
 			return false;
@@ -34,45 +29,6 @@ public class PointRangeSet implements Set<Point> {
 	public Iterator<Point> iterator() {
 		return new PointIterator();
 	}
-	@Override
-	public Object[] toArray() {
-		throw new UnsupportedOperationException();
-	}
-	@Override
-	public <T> T[] toArray(T[] a) {
-		throw new UnsupportedOperationException();
-	}
-	@Override
-	public boolean add(Point e) {
-		throw new UnsupportedOperationException();
-	}
-	@Override
-	public boolean remove(Object o) {
-		throw new UnsupportedOperationException();
-	}
-	@Override
-	public boolean containsAll(Collection<?> c) {
-		for (Object o : c)
-			if (!contains(o))
-				return false;
-		return true;
-	}
-	@Override
-	public boolean addAll(Collection<? extends Point> c) {
-		throw new UnsupportedOperationException();
-	}
-	@Override
-	public boolean retainAll(Collection<?> c) {
-		throw new UnsupportedOperationException();
-	}
-	@Override
-	public boolean removeAll(Collection<?> c) {
-		throw new UnsupportedOperationException();
-	}
-	@Override
-	public void clear() {
-		throw new UnsupportedOperationException();
-	}
 	
 	class PointIterator implements Iterator<Point> {
 		int curX = 0;
@@ -80,7 +36,7 @@ public class PointRangeSet implements Set<Point> {
 		
 		@Override
 		public boolean hasNext() {
-			return curY < mHeight;
+			return curY != mHeight;
 		}
 
 		@Override
@@ -98,7 +54,7 @@ public class PointRangeSet implements Set<Point> {
 
 		@Override
 		public void remove() {
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("The set is unmidifiable");
 		}
 	}
 }
