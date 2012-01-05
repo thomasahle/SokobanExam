@@ -37,7 +37,7 @@ public class SpritePainter implements SpriteVisitor {
 	public void visit(Human sprite) {
 		Graphics2D g2 = (Graphics2D)g.create();
 		g2.translate(size*sprite.point().x, size*sprite.point().y);
-		g2.setColor(Color.GREEN);
+		g2.setColor(new Color(0x00cc00));
 		g2.setStroke(new BasicStroke(2f));
 		double pad = HUMAN_PADDING*size;
 		double cen = size/2.;

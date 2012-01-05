@@ -74,14 +74,12 @@ public class EditState implements ControllerState, MouseListener,
 			mConfigurationPanel.remove(1);
 		// If nothing is selected, we simply hide the component
 		if (model.getSelected() == null) {
-			System.out.println("Selecting nothing");
 			mConfigurationPanel.setVisible(false);
 		}
 		// Otherwise we generate a new component with the selected sprite
 		else {
 			Room room = model.getBoard().getRoom(model.getSelected());
 			Sprite sprite = MazeModel.isEditableType(room.inner()) ? room.inner() : room;
-			System.out.println("Selecting "+sprite);
 			SpriteConfigurationCreator confCreator = new SpriteConfigurationCreator(this);
 			sprite.accept(confCreator);
 			mConfigurationPanel.add(confCreator.getResult());
@@ -100,8 +98,12 @@ public class EditState implements ControllerState, MouseListener,
 	
 	@Override
 	public void onSpriteChanged(Sprite oldSprite, Sprite newSprite) {
-		// TODO Auto-generated method stub
-		
+		Board board = mModel.getBoard();
+		if (newSprite instanceof Room)
+			board.putRoom((Room)newSprite);
+		else board.putRoom(board.getRoom(oldSprite.point()).withInner(newSprite));
+		mModel.setBoard(board);
+		mModel.setSelected(mModel.getSelected());
 	}
 	
 	@Override
@@ -150,6 +152,8 @@ public class EditState implements ControllerState, MouseListener,
 		if (MazeModel.isEditableType(room.inner()))
 			board.putRoom(room.withInner(new Nothing(room.point())));
 		else board.putRoom(new Floor(room.inner()));
+		mModel.setBoard(board);
+		mModel.setSelected(null);
 	}
 	
 	@Override public void mousePressed(MouseEvent e) {}

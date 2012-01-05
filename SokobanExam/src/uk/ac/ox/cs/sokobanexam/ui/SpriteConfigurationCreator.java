@@ -53,7 +53,7 @@ public class SpriteConfigurationCreator implements SpriteVisitor {
 	@Override
 	public void visit(final Crate sprite) {
 		final Color[] colors = {Color.RED, Color.GREEN, Color.BLUE};
-		String[] labels = {"Red", "Blue", "Green"};
+		String[] labels = {"Red", "Green", "Blue"};
 		final JComboBox combobox = new JComboBox(labels);
 		combobox.setSelectedIndex(Arrays.binarySearch(colors, sprite.getColor()));
 		combobox.addActionListener(new ActionListener() {
