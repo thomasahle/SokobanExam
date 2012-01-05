@@ -1,10 +1,14 @@
 package uk.ac.ox.cs.sokobanexam.domainmodel.sprites;
 
 import uk.ac.ox.cs.sokobanexam.util.Color;
+import uk.ac.ox.cs.sokobanexam.util.Dir;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
 public class Crate extends AbstractSprite {
 	private Color mColor;
+	public Crate(Point point) {
+		this(point, Color.RED);
+	}
 	public Crate(Point point, Color color) {
 		super(point);
 		mColor = color;

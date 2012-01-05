@@ -13,6 +13,7 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import uk.ac.ox.cs.sokobanexam.domainmodel.Board;
@@ -54,7 +55,7 @@ public class EditState implements ControllerState, MouseListener,
 		mView.addKeyListener(this);
 		mView.requestFocusInWindow();
 		mModel.addSelectionChangeListener(this);
-		mModel.setHighlightedVisible(true);
+		mModel.setSelectionVisible(true);
 		mToolbar.add(mConfigurationPanel);
 		onSelectionChanged(mModel, null, null);
 	}
@@ -66,7 +67,7 @@ public class EditState implements ControllerState, MouseListener,
 		mView.removeKeyListener(this);
 		mModel.removeSelectionChangeListener(this);
 		mToolbar.remove(mConfigurationPanel);
-		mModel.setHighlightedVisible(false);
+		mModel.setSelectionVisible(false);
 		forceDoLayout();
 	}
 	
@@ -128,7 +129,8 @@ public class EditState implements ControllerState, MouseListener,
 		mModel.setHighlighted(null);
 	}
 	
-	@Override public void mousePressed(MouseEvent e) {
+	@Override
+	public void mousePressed(MouseEvent e) {
 		Point point = mView.pos2Point(e.getX(), e.getY());
 		if (point == null) {
 			mModel.setSelected(null);
@@ -140,6 +142,59 @@ public class EditState implements ControllerState, MouseListener,
 			mModel.setSelected(point);
 		else
 			mModel.setSelected(null);
+	}
+	
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		Point point = mView.pos2Point(e.getX(), e.getY());
+		if (mModel.getSelected() == null || point == null)
+			return;
+		
+		Room from = mModel.getBoard().getRoom(mModel.getSelected());
+		Room to = mModel.getBoard().getRoom(point);
+		if (from.point().equals(to.point()))
+			return;
+		
+		// See if we are moving an inner
+		if (MazeModel.isEditableType(from.inner())) {
+			// We can't move it to somewhere with an inner
+			if (MazeModel.isEditableType(to.inner())) {
+				JOptionPane.showMessageDialog(mView, "You can't drag on top of other things.");
+				return;
+			}
+			// We can move it somewhere else
+			else {
+				// Create new
+				mModel.getBoard().putRoom(to.withInner(from.inner().move(to.point())));
+				// Remove old
+				mModel.getBoard().putRoom(from.withInner(new Nothing(from.point())));
+			}
+		}
+		// If we are moving a room
+		else {
+			assert MazeModel.isEditableType(from);
+			// If there is already a room
+			if (MazeModel.isEditableType(to)) {
+				JOptionPane.showMessageDialog(mView, "You can't drag on top of other things.");
+				return;
+			}
+			// Move the room
+			else {
+				// Create new
+				mModel.getBoard().putRoom(from.withInner(to.inner()));
+				// Remove old
+				mModel.getBoard().putRoom(new Floor(from.point()));
+			}
+		}
+		
+		// Check validation
+		if (!mModel.getRules().validateBoard(mModel.getBoard())) {
+			// Restore board
+			mModel.getBoard().putRoom(to);
+			mModel.getBoard().putRoom(from);
+			JOptionPane.showMessageDialog(mView, "Dragging here is against the rules.");
+		}
+		else mModel.setSelected(to.point());
 	}
 	
 	@Override
@@ -169,7 +224,6 @@ public class EditState implements ControllerState, MouseListener,
 	}
 	
 	@Override public void mouseClicked(MouseEvent e) {}
-	@Override public void mouseReleased(MouseEvent e) {}
 	@Override public void mouseEntered(MouseEvent e) {}
 	@Override public void keyTyped(KeyEvent e) {}
 	@Override public void keyReleased(KeyEvent e) {}

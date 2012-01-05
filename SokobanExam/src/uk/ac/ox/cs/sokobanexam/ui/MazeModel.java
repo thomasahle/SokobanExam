@@ -25,7 +25,7 @@ public class MazeModel {
 	/**
 	 * Because java has no way of discovering all subclasses of a certain class,
 	 * we keep this map of sprites that we are interested in editing.
-	 * These are the physical sprites, those that are not meta or null.
+	 * These are the physical sprites, those that cannot be overwritten by insertion.
 	 */
 	@SuppressWarnings("serial")
 	protected static final Map<Class<? extends Sprite>, String> PHYSICAL_SPRITES
@@ -44,7 +44,7 @@ public class MazeModel {
 	private Rules mRules;
 	
 	private Point mSelected;
-	private boolean mHighlightedVisible = false;
+	private boolean mSelectionVisible = false;
 	private Point mHighlighted;
 	private Class<? extends Sprite> mTypeForInsertion;
 	
@@ -133,10 +133,10 @@ public class MazeModel {
 	public Point getHighlighted() {
 		return mHighlighted;
 	}
-	public void setHighlightedVisible(boolean highlightedVisible) {
-		this.mHighlightedVisible = highlightedVisible;
+	public void setSelectionVisible(boolean selectionVisible) {
+		this.mSelectionVisible = selectionVisible;
 	}
 	public boolean isSelectionVisible() {
-		return mHighlightedVisible;
+		return mSelectionVisible;
 	}
 }

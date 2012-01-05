@@ -4,6 +4,9 @@ import uk.ac.ox.cs.sokobanexam.util.Point;
 
 
 public class Target extends AbstractRoom {
+	public Target(Point point) {
+		this(new Nothing(point));
+	}
 	public Target(Sprite inner) {
 		super(inner);
 	}

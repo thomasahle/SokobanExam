@@ -5,6 +5,9 @@ import uk.ac.ox.cs.sokobanexam.util.Point;
 
 public class Arrow extends AbstractRoom {
 	private Dir mDirection;
+	public Arrow(Point point) {
+		this(new Nothing(point), Dir.NORTH);
+	}
 	public Arrow(Sprite inner, Dir direction) {
 		super(inner);
 		mDirection = direction;

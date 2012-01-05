@@ -2,10 +2,11 @@ package uk.ac.ox.cs.sokobanexam.domainmodel.sprites;
 
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
-
-
 public class Wall extends AbstractRoom {
 	private String mWriting;
+	public Wall(Point point) {
+		this(new Nothing(point), "");
+	}
 	public Wall(Sprite inner, String writing) {
 		super(inner);
 		mWriting = writing;
@@ -25,7 +26,7 @@ public class Wall extends AbstractRoom {
 	}
 	@Override
 	public Room withInner(Sprite inner) {
-		return new Wall(inner(), getWriting());
+		return new Wall(inner, getWriting());
 	}
 	@Override
 	public Sprite move(Point point) {

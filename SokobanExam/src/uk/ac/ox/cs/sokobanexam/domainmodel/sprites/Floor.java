@@ -5,6 +5,9 @@ import uk.ac.ox.cs.sokobanexam.util.Point;
 // Null object
 
 public class Floor extends AbstractRoom {
+	public Floor(Point point) {
+		super(new Nothing(point));
+	}
 	public Floor(Sprite inner) {
 		super(inner);
 	}

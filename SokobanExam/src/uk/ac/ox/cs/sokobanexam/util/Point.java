@@ -36,4 +36,10 @@ public class Point {
     public String toString() {
         return getClass().getName() + "[x=" + x + ",y=" + y + "]";
     }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Point)) return false;
+		return ((Point)o).x == x && ((Point)o).y == y;
+	}
 }
