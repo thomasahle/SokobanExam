@@ -36,14 +36,15 @@ public class MazeModel {
 		put(Target.class, "Target");
 		put(Human.class, "Player");
 	}};
-	protected static boolean isEditable(Class<? extends Sprite> type) {
-		return PHYSICAL_SPRITES.containsKey(type);
+	protected static boolean isEditableType(Sprite sprite) {
+		return PHYSICAL_SPRITES.containsKey(sprite.getClass());
 	}
 	
 	private Board mBoard;
 	private Rules mRules;
 	
 	private Point mSelected;
+	private Point mHighlighted;
 	private Class<? extends Sprite> mTypeForInsertion;
 	
 	public MazeModel(Board board, Rules rules) {
@@ -110,15 +111,17 @@ public class MazeModel {
 	}
 
 	public void setSelected(Point selected) {
-		this.mSelected = selected;
+		mSelected = selected;
 		fireSelectionChangeEvent();
 	}
 	public Point getSelected() {
 		return mSelected;
 	}
 
-	public void setHighlighted(Point pos2Point) {
-		// TODO Auto-generated method stub
-		
+	public void setHighlighted(Point point) {
+		mHighlighted = point;
+	}
+	public Point getHighlighted() {
+		return mHighlighted;
 	}
 }

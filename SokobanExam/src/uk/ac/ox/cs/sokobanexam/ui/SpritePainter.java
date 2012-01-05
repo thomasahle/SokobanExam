@@ -75,7 +75,7 @@ public class SpritePainter implements SpriteVisitor {
 	
 	@Override
 	public void visit(Crate sprite) {
-		g.setColor(new Color(0xff0000));
+		g.setColor(sprite.getColor().getColor());
 		double pad = CRATE_PADDING*size;
 		double arc = CRATE_ROUNDING*size;
 		g.fill(new RoundRectangle2D.Double(

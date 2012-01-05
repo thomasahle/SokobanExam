@@ -25,7 +25,7 @@ public class SpriteConfigurationCreator implements SpriteVisitor {
 	private JComponent mResult;
 	
 	private SpriteChangeListener mSpriteChangeListener;
-	public void setSpriteChangeListener(SpriteChangeListener listener) {
+	public SpriteConfigurationCreator(SpriteChangeListener listener) {
 		mSpriteChangeListener = listener;
 	}
 	
@@ -34,13 +34,13 @@ public class SpriteConfigurationCreator implements SpriteVisitor {
 		// Possibility: Create a hole hiearcy of configurators,
 		// 	            "EnumConfigurator" could then be a superclass
 		
-		// TODO: This will break if more enum types are added
-		String[] labels = {"↑Up", "→Right", "↓Down", "←Left"};
+		final Dir[] directions = {Dir.NORTH, Dir.EAST, Dir.SOUTH, Dir.WEST};
+		String[] labels = {"↑ Up", "→ Right", "↓ Down", "← Left"};
 		final JComboBox combobox = new JComboBox(labels);
-		combobox.setSelectedIndex(Arrays.binarySearch(Dir.values(), sprite.getDirection()));
+		combobox.setSelectedIndex(Arrays.binarySearch(directions, sprite.getDirection()));
 		combobox.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				Dir newDirection = Dir.values()[combobox.getSelectedIndex()];
+				Dir newDirection = directions[combobox.getSelectedIndex()];
 				if (newDirection != sprite.getDirection())
 					mSpriteChangeListener.onSpriteChanged(
 							sprite,
@@ -52,13 +52,13 @@ public class SpriteConfigurationCreator implements SpriteVisitor {
 
 	@Override
 	public void visit(final Crate sprite) {
-		// TODO: This will break if more enum types are added
+		final Color[] colors = {Color.RED, Color.GREEN, Color.BLUE};
 		String[] labels = {"Red", "Blue", "Green"};
 		final JComboBox combobox = new JComboBox(labels);
-		combobox.setSelectedIndex(Arrays.binarySearch(Color.values(), sprite.getColor()));
+		combobox.setSelectedIndex(Arrays.binarySearch(colors, sprite.getColor()));
 		combobox.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				Color newColor = Color.values()[combobox.getSelectedIndex()];
+				Color newColor = colors[combobox.getSelectedIndex()];
 				if (newColor != sprite.getColor())
 					mSpriteChangeListener.onSpriteChanged(
 							sprite,

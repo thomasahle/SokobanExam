@@ -31,7 +31,7 @@ public class DefaultBoards {
 				break;
 			case 'o':
 			case 'C':
-				room = new Floor(new Crate(point, Color.BLUE));
+				room = new Floor(new Crate(point, Color.RED));
 				break;
 			case '↑':
 				room = new Arrow(new Nothing(point), Dir.NORTH);

@@ -1,5 +1,6 @@
 package uk.ac.ox.cs.sokobanexam.ui;
 
+import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,7 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import uk.ac.ox.cs.sokobanexam.domainmodel.Board;
@@ -22,11 +24,10 @@ import uk.ac.ox.cs.sokobanexam.util.Point;
 
 public class EditState implements ControllerState, MouseListener,
 		MouseMotionListener, KeyListener, ActionListener,
-		SelectionChangeListener {
+		SelectionChangeListener, SpriteChangeListener {
 	
 	private MazeView mView;
 	private MazeModel mModel;
-	private Board mBoardBackup;
 	
 	private Toolbar mToolbar;
 	private JComponent mConfigurationPanel;
@@ -47,23 +48,22 @@ public class EditState implements ControllerState, MouseListener,
 	public void attach(MazeController controller, MazeModel model, MazeView view) {
 		mView = view;
 		mModel = model;
-		mBoardBackup = mModel.getBoard().clone();
 		mView.addMouseListener(this);
 		mView.addMouseMotionListener(this);
 		mView.addKeyListener(this);
 		mView.requestFocusInWindow();
 		mModel.addSelectionChangeListener(this);
-		//mToolbar.add(mConfigurationPanel);
+		mToolbar.add(mConfigurationPanel);
+		onSelectionChanged(mModel);
 	}
 	
 	@Override
 	public void detach() {
+		mModel.setSelected(null);
 		mView.removeMouseListener(this);
 		mView.removeMouseMotionListener(this);
 		mView.removeKeyListener(this);
 		mModel.removeSelectionChangeListener(this);
-		mModel.setBoard(mBoardBackup);
-		// TODO: Only if added
 		mToolbar.remove(mConfigurationPanel);
 	}
 	
@@ -74,17 +74,34 @@ public class EditState implements ControllerState, MouseListener,
 			mConfigurationPanel.remove(1);
 		// If nothing is selected, we simply hide the component
 		if (model.getSelected() == null) {
+			System.out.println("Selecting nothing");
 			mConfigurationPanel.setVisible(false);
 		}
 		// Otherwise we generate a new component with the selected sprite
 		else {
 			Room room = model.getBoard().getRoom(model.getSelected());
-			Sprite sprite = room.inner() instanceof Nothing ? room : room.inner();
-			SpriteConfigurationCreator confCreator = new SpriteConfigurationCreator();
+			Sprite sprite = MazeModel.isEditableType(room.inner()) ? room.inner() : room;
+			System.out.println("Selecting "+sprite);
+			SpriteConfigurationCreator confCreator = new SpriteConfigurationCreator(this);
 			sprite.accept(confCreator);
 			mConfigurationPanel.add(confCreator.getResult());
 			mConfigurationPanel.setVisible(true);
 		}
+		
+		// Hack to get relayouting to work.
+		// mToolbar.doLayout() didn't work for me.
+		if (mToolbar.getParent() != null) {
+			Container parent = mToolbar.getParent();
+			while (!(parent instanceof JFrame))
+				parent = parent.getParent();
+			((JFrame)parent).pack();
+		}
+	}
+	
+	@Override
+	public void onSpriteChanged(Sprite oldSprite, Sprite newSprite) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	@Override
@@ -99,9 +116,13 @@ public class EditState implements ControllerState, MouseListener,
 	
 	@Override public void mouseClicked(MouseEvent e) {
 		Point point = mView.pos2Point(e.getX(), e.getY());
+		if (point == null) {
+			mModel.setSelected(null);
+			return;
+		}
 		Room room = mModel.getBoard().getRoom(point);
-		if (MazeModel.isEditable(room.inner().getClass())
-				|| MazeModel.isEditable(room.getClass()))
+		if (MazeModel.isEditableType(room.inner())
+				|| MazeModel.isEditableType(room))
 			mModel.setSelected(point);
 		else
 			mModel.setSelected(null);
@@ -126,7 +147,7 @@ public class EditState implements ControllerState, MouseListener,
 			return;
 		Board board = mModel.getBoard();
 		Room room = board.getRoom(point);
-		if (MazeModel.isEditable(room.inner().getClass()))
+		if (MazeModel.isEditableType(room.inner()))
 			board.putRoom(room.withInner(new Nothing(room.point())));
 		else board.putRoom(new Floor(room.inner()));
 	}
@@ -137,5 +158,4 @@ public class EditState implements ControllerState, MouseListener,
 	@Override public void mouseExited(MouseEvent e) {}
 	@Override public void keyTyped(KeyEvent e) {}
 	@Override public void keyReleased(KeyEvent e) {}
-
 }
