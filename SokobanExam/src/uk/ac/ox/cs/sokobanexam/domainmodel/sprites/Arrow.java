@@ -13,7 +13,7 @@ public class Arrow extends AbstractRoom {
 		mDirection = direction;
 	}
 	/** The direction in which the arrow is pointing */
-	public Dir getDirection() {
+	public Dir direction() {
 		return mDirection;
 	}
 	@Override
@@ -22,10 +22,10 @@ public class Arrow extends AbstractRoom {
 	}
 	@Override
 	public Room withInner(Sprite inner) {
-		return new Arrow(inner, getDirection());
+		return new Arrow(inner, direction());
 	}
 	@Override
 	public Sprite move(Point point) {
-		return new Arrow(inner().move(point), getDirection());
+		return new Arrow(inner().move(point), direction());
 	}
 }

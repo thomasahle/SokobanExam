@@ -18,15 +18,15 @@ public class Wall extends AbstractRoom {
 	public void accept(SpriteVisitor visitor) {
 		visitor.visit(this);
 	}
-	public String getWriting() {
+	public String writing() {
 		return mWriting;
 	}
 	@Override
 	public Room withInner(Sprite inner) {
-		return new Wall(inner, getWriting());
+		return new Wall(inner, writing());
 	}
 	@Override
 	public Sprite move(Point point) {
-		return new Wall(inner().move(point), getWriting());
+		return new Wall(inner().move(point), writing());
 	}
 }

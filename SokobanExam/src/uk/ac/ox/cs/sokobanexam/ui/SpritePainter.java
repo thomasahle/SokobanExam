@@ -44,7 +44,7 @@ public class SpritePainter implements SpriteVisitor {
 		g2.setStroke(new BasicStroke(2f));
 		double pad = HUMAN_PADDING*size;
 		double cen = size/2.;
-		g2.rotate(-sprite.getDirection().angle, cen, cen);
+		g2.rotate(-sprite.direction().angle, cen, cen);
 		g2.draw(new Ellipse2D.Double(pad, pad, size - 2*pad, size - 2*pad));
 		g2.draw(new Line2D.Double(cen, cen, size - pad, cen));
 		g2.dispose();
@@ -61,7 +61,7 @@ public class SpritePainter implements SpriteVisitor {
 		double pad = ARROW_PADDING*size;
 		double cen = size/2.;
 		double side = ARROW_SIDE*size;
-		g2.rotate(-sprite.getDirection().angle, cen, cen);
+		g2.rotate(-sprite.direction().angle, cen, cen);
 		g2.draw(new Line2D.Double(pad, cen, size-pad, cen));
 		g2.draw(new Line2D.Double(size-pad-side, cen-side, size-pad, cen));
 		g2.draw(new Line2D.Double(size-pad-side, cen+side, size-pad, cen));
@@ -78,7 +78,7 @@ public class SpritePainter implements SpriteVisitor {
 	
 	@Override
 	public void visit(Crate sprite) {
-		g.setColor(sprite.getColor().getColor());
+		g.setColor(sprite.color().getColor());
 		double pad = CRATE_PADDING*size;
 		double arc = CRATE_ROUNDING*size;
 		g.fill(new RoundRectangle2D.Double(
@@ -110,8 +110,8 @@ public class SpritePainter implements SpriteVisitor {
 		Font font = new Font("Sans", Font.BOLD, (int)(size*WALL_TEXT_SIZE));
 		FontMetrics metrics = g.getFontMetrics(font);
 		g.setFont(font);
-		g.drawString(sprite.getWriting(),
-				size*sprite.point().x + (size-metrics.stringWidth(sprite.getWriting()))/2,
+		g.drawString(sprite.writing(),
+				size*sprite.point().x + (size-metrics.stringWidth(sprite.writing()))/2,
 				size*sprite.point().y + (size+metrics.getHeight())/2-metrics.getMaxDescent());
 		
 		sprite.inner().accept(this);

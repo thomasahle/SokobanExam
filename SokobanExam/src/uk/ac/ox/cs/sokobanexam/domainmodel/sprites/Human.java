@@ -15,7 +15,7 @@ public class Human extends AbstractSprite {
 		mDirection = direction;
 	}
 	/** The direction in which the human as just walked, and is now looking. */
-	public Dir getDirection() {
+	public Dir direction() {
 		return mDirection;
 	}
 	@Override
@@ -24,6 +24,6 @@ public class Human extends AbstractSprite {
 	}
 	@Override
 	public Sprite move(Point point) {
-		return new Human(point, getDirection());
+		return new Human(point, direction());
 	}
 }

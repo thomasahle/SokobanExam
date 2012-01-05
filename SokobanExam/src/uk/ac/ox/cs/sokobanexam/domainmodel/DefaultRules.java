@@ -57,13 +57,13 @@ public class DefaultRules implements Rules {
 		// Check if an arrow objects (currently on arrow)
 		if (board.getRoom(from) instanceof Arrow) {
 			Arrow arrow = (Arrow)board.getRoom(from);
-			if (from.plus(arrow.getDirection()) != to)
+			if (from.plus(arrow.direction()) != to)
 				return false;
 		}
 		// Check if an arrow objects (currently next to arrow)
 		if (board.getRoom(to) instanceof Arrow) {
 			Arrow arrow = (Arrow)board.getRoom(to);
-			if (to.plus(arrow.getDirection()) == from)
+			if (to.plus(arrow.direction()) == from)
 				return false;
 		}
 		

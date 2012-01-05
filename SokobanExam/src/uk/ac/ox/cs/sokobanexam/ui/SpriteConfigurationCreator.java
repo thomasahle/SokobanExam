@@ -37,11 +37,11 @@ public class SpriteConfigurationCreator implements SpriteVisitor {
 		final Dir[] directions = {Dir.NORTH, Dir.EAST, Dir.SOUTH, Dir.WEST};
 		String[] labels = {"↑ Up", "→ Right", "↓ Down", "← Left"};
 		final JComboBox combobox = new JComboBox(labels);
-		combobox.setSelectedIndex(Arrays.binarySearch(directions, sprite.getDirection()));
+		combobox.setSelectedIndex(Arrays.binarySearch(directions, sprite.direction()));
 		combobox.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
 				Dir newDirection = directions[combobox.getSelectedIndex()];
-				if (newDirection != sprite.getDirection())
+				if (newDirection != sprite.direction())
 					mSpriteChangeListener.onSpriteChanged(
 							sprite,
 							new Arrow(sprite.inner(), newDirection));
@@ -55,11 +55,11 @@ public class SpriteConfigurationCreator implements SpriteVisitor {
 		final Color[] colors = {Color.RED, Color.GREEN, Color.BLUE};
 		String[] labels = {"Red", "Green", "Blue"};
 		final JComboBox combobox = new JComboBox(labels);
-		combobox.setSelectedIndex(Arrays.binarySearch(colors, sprite.getColor()));
+		combobox.setSelectedIndex(Arrays.binarySearch(colors, sprite.color()));
 		combobox.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
 				Color newColor = colors[combobox.getSelectedIndex()];
-				if (newColor != sprite.getColor())
+				if (newColor != sprite.color())
 					mSpriteChangeListener.onSpriteChanged(
 							sprite,
 							new Crate(sprite.point(), newColor));
@@ -86,11 +86,11 @@ public class SpriteConfigurationCreator implements SpriteVisitor {
 	@Override
 	public void visit(final Wall sprite) {
 		final JTextField textField = new JTextField(1);
-		textField.setText(sprite.getWriting());
+		textField.setText(sprite.writing());
 		textField.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
 				String newText = textField.getText();
-				if (!newText.equals(sprite.getWriting()))
+				if (!newText.equals(sprite.writing()))
 					mSpriteChangeListener.onSpriteChanged(
 							sprite,
 							new Wall(sprite.inner(), newText));

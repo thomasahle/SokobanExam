@@ -12,7 +12,7 @@ public class Crate extends AbstractSprite {
 		super(point);
 		mColor = color;
 	}
-	public Color getColor() {
+	public Color color() {
 		return mColor;
 	}
 	@Override
@@ -21,6 +21,6 @@ public class Crate extends AbstractSprite {
 	}
 	@Override
 	public Sprite move(Point point) {
-		return new Crate(point, getColor());
+		return new Crate(point, color());
 	}
 }
