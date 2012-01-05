@@ -1,6 +1,5 @@
 package uk.ac.ox.cs.sokobanexam.ui;
 
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -12,7 +11,6 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import uk.ac.ox.cs.sokobanexam.domainmodel.Board;
 import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Floor;
