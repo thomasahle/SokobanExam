@@ -65,6 +65,7 @@ public class DefaultBoards {
 				"  Wx←xW",
 				"   CWCW",
 				"   C  x",
+				"WW    W",
 				"WW    W"
 			);
 	}
