@@ -13,7 +13,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
 
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Room;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Room;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
 public class MazeView extends JComponent implements MazeChangeListener, SelectionChangeListener {
@@ -37,8 +37,8 @@ public class MazeView extends JComponent implements MazeChangeListener, Selectio
 	public void setModel(MazeModel model) {
 		this.mModel = model;
 		setPreferredSize(new Dimension(
-				model.getBoard().getWidth()*GRID_SIZE,
-				model.getBoard().getHeight()*GRID_SIZE));
+				model.getMaze().getWidth()*GRID_SIZE,
+				model.getMaze().getHeight()*GRID_SIZE));
 		model.addMazeChangeListener(this);
 		model.addSelectionChangeListener(this);
 	}
@@ -49,7 +49,7 @@ public class MazeView extends JComponent implements MazeChangeListener, Selectio
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 		        RenderingHints.VALUE_ANTIALIAS_ON);
 		SpritePainter painter = new SpritePainter(g2, GRID_SIZE);
-		for (Room room : mModel.getBoard().getRooms())
+		for (Room room : mModel.getMaze().getRooms())
 			room.accept(painter);
 		
 		if (mModel.isSelectionVisible() && mModel.getSelected() != null) {
@@ -94,7 +94,7 @@ public class MazeView extends JComponent implements MazeChangeListener, Selectio
 	
 	public Point pos2Point(int x, int y) {
 		Point point = Point.at(x/GRID_SIZE, y/GRID_SIZE);
-		if (mModel.getBoard().getPoints().contains(point))
+		if (mModel.getMaze().getPoints().contains(point))
 			return point;
 		return null;
 	}
@@ -105,7 +105,7 @@ public class MazeView extends JComponent implements MazeChangeListener, Selectio
 	}
 	
 	@Override
-	public void onChange(MazeModel board) {
+	public void onChange(MazeModel model) {
 		repaint();
 	}
 	@Override

@@ -5,21 +5,21 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JOptionPane;
 
-import uk.ac.ox.cs.sokobanexam.domainmodel.Board;
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Human;
+import uk.ac.ox.cs.sokobanexam.model.Maze;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Human;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 
 public class PlayState implements ControllerState, KeyListener {
 	
 	private MazeView mView;
 	private MazeModel mModel;
-	private Board mBoardBackup;
+	private Maze mMazeBackup;
 	
 	@Override
 	public void attach(MazeController controller, MazeModel model, MazeView view) {
 		mView = view;
 		mModel = model;
-		mBoardBackup = mModel.getBoard().clone();
+		mMazeBackup = mModel.getMaze().clone();
 		view.addKeyListener(this);
 		view.requestFocusInWindow();
 		
@@ -36,7 +36,7 @@ public class PlayState implements ControllerState, KeyListener {
 	public void detach() {
 		mView.removeKeyListener(this);
 		mModel.setHoverMessage(null);
-		mModel.setBoard(mBoardBackup);
+		mModel.setMaze(mMazeBackup);
 	}
 	
 	@Override

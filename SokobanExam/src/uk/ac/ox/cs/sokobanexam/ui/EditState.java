@@ -12,11 +12,11 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
-import uk.ac.ox.cs.sokobanexam.domainmodel.Board;
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Floor;
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Nothing;
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Room;
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite;
+import uk.ac.ox.cs.sokobanexam.model.Maze;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Floor;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Nothing;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Room;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
 public class EditState implements ControllerState, MouseListener,
@@ -76,7 +76,7 @@ public class EditState implements ControllerState, MouseListener,
 		// Otherwise we generate a new component with the selected sprite
 		else {
 			mDeleteButton.setEnabled(true);
-			Room room = model.getBoard().getRoom(model.getSelected());
+			Room room = model.getMaze().getRoom(model.getSelected());
 			Sprite sprite = MazeModel.isEditableType(room.inner()) ? room.inner() : room;
 			SpriteConfigurationCreator confCreator = new SpriteConfigurationCreator(this);
 			sprite.accept(confCreator);
@@ -102,11 +102,11 @@ public class EditState implements ControllerState, MouseListener,
 	
 	@Override
 	public void onSpriteChanged(Sprite oldSprite, Sprite newSprite) {
-		Board board = mModel.getBoard();
+		Maze maze = mModel.getMaze();
 		if (newSprite instanceof Room)
-			board.putRoom((Room)newSprite);
-		else board.putRoom(board.getRoom(oldSprite.point()).withInner(newSprite));
-		mModel.setBoard(board);
+			maze.putRoom((Room)newSprite);
+		else maze.putRoom(maze.getRoom(oldSprite.point()).withInner(newSprite));
+		mModel.setMaze(maze);
 		mModel.setSelected(mModel.getSelected());
 	}
 	
@@ -132,7 +132,7 @@ public class EditState implements ControllerState, MouseListener,
 			mModel.setSelected(null);
 			return;
 		}
-		Room room = mModel.getBoard().getRoom(point);
+		Room room = mModel.getMaze().getRoom(point);
 		if (MazeModel.isEditableType(room.inner())
 				|| MazeModel.isEditableType(room)) {
 			mModel.setSelected(point);
@@ -149,8 +149,8 @@ public class EditState implements ControllerState, MouseListener,
 		if (mModel.getSelected() == null || point == null)
 			return;
 		
-		Room from = mModel.getBoard().getRoom(mModel.getSelected());
-		Room to = mModel.getBoard().getRoom(point);
+		Room from = mModel.getMaze().getRoom(mModel.getSelected());
+		Room to = mModel.getMaze().getRoom(point);
 		if (from.point().equals(to.point()))
 			return;
 		
@@ -164,9 +164,9 @@ public class EditState implements ControllerState, MouseListener,
 			// We can move it somewhere else
 			else {
 				// Create new
-				mModel.getBoard().putRoom(to.withInner(from.inner().move(to.point())));
+				mModel.getMaze().putRoom(to.withInner(from.inner().move(to.point())));
 				// Remove old
-				mModel.getBoard().putRoom(from.withInner(new Nothing(from.point())));
+				mModel.getMaze().putRoom(from.withInner(new Nothing(from.point())));
 			}
 		}
 		// If we are moving a room
@@ -180,17 +180,17 @@ public class EditState implements ControllerState, MouseListener,
 			// Move the room
 			else {
 				// Create new
-				mModel.getBoard().putRoom(from.withInner(to.inner()));
+				mModel.getMaze().putRoom(from.withInner(to.inner()));
 				// Remove old
-				mModel.getBoard().putRoom(new Floor(from.point()));
+				mModel.getMaze().putRoom(new Floor(from.point()));
 			}
 		}
 		
 		// Check validation
-		if (!mModel.getRules().validateBoard(mModel.getBoard())) {
-			// Restore board
-			mModel.getBoard().putRoom(to);
-			mModel.getBoard().putRoom(from);
+		if (!mModel.getRules().isMazeLegal(mModel.getMaze())) {
+			// Restore maze
+			mModel.getMaze().putRoom(to);
+			mModel.getMaze().putRoom(from);
 			JOptionPane.showMessageDialog(mView, "Dragging here is against the rules.");
 		}
 		else mModel.setSelected(to.point());
@@ -213,12 +213,12 @@ public class EditState implements ControllerState, MouseListener,
 		if (point == null)
 			// Nothing selected
 			return;
-		Board board = mModel.getBoard();
-		Room room = board.getRoom(point);
+		Maze maze = mModel.getMaze();
+		Room room = maze.getRoom(point);
 		if (MazeModel.isEditableType(room.inner()))
-			board.putRoom(room.withInner(new Nothing(room.point())));
-		else board.putRoom(new Floor(room.inner()));
-		mModel.setBoard(board);
+			maze.putRoom(room.withInner(new Nothing(room.point())));
+		else maze.putRoom(new Floor(room.inner()));
+		mModel.setMaze(maze);
 		mModel.setSelected(null);
 	}
 	

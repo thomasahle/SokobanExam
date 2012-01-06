@@ -1,31 +1,34 @@
-package uk.ac.ox.cs.sokobanexam.domainmodel;
+package uk.ac.ox.cs.sokobanexam.model;
 
 import java.util.Set;
 
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Floor;
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Nothing;
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Room;
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Floor;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Nothing;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Room;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite;
 import uk.ac.ox.cs.sokobanexam.util.FilterIterator;
 import uk.ac.ox.cs.sokobanexam.util.IterableAdapter;
 import uk.ac.ox.cs.sokobanexam.util.MapIterator;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 import uk.ac.ox.cs.sokobanexam.util.PointRangeSet;
 
-public class DefaultBoard implements Board {
+/**
+ * The standard Sokoban implementation of the {@link Rules}.
+ */
+public class DefaultMaze implements Maze {
 	
 	// Class Invariant:
 	//		mMap.length >= 1
 	//		mMap[y].length >= 1
 	private Room[][] mMap;
 	
-	public DefaultBoard(int width, int height) {
+	public DefaultMaze(int width, int height) {
 		if (width <= 0 || height <= 0)
-			throw new IllegalArgumentException("Board size: "+width+"x"+height);
+			throw new IllegalArgumentException("Maze size: "+width+"x"+height);
 		
+		// We don't actually add the "new Floor(new Nothing(point))" nothing rooms
+		// here, as a small optimization, mostly in the case of cloning.
 		mMap = new Room[height][width];
-		for (Point point : getPoints())
-			putRoom(new Floor(new Nothing(point)));
 	}
 	
 	@Override
@@ -54,6 +57,9 @@ public class DefaultBoard implements Board {
 
 	@Override
 	public Room getRoom(Point point) {
+		if (mMap[point.y][point.x] == null) {
+			mMap[point.y][point.x] = new Floor(new Nothing(point));
+		}
 		return mMap[point.y][point.x];
 	}
 
@@ -82,10 +88,11 @@ public class DefaultBoard implements Board {
 	}
 	
 	@Override
-	public DefaultBoard clone() {
-		DefaultBoard clone = new DefaultBoard(getWidth(), getHeight());
-		for (Room room : getRooms())
-			clone.putRoom(room);
+	public DefaultMaze clone() {
+		DefaultMaze clone = new DefaultMaze(getWidth(), getHeight());
+		// We can use arraycopy because the content of mMap is all immutable.
+		for (int y = 0; y < getHeight(); y++)
+			System.arraycopy(mMap, 0, clone.mMap, 0, getWidth());
 		return clone;
 	}
 }

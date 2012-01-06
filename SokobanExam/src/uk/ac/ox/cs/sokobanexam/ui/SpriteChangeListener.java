@@ -1,6 +1,6 @@
 package uk.ac.ox.cs.sokobanexam.ui;
 
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite;
 
 public interface SpriteChangeListener {
 

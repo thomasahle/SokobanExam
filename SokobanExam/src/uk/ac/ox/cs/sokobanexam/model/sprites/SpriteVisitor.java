@@ -1,4 +1,4 @@
-package uk.ac.ox.cs.sokobanexam.domainmodel.sprites;
+package uk.ac.ox.cs.sokobanexam.model.sprites;
 
 /**
  * Represents a visitor for the {@link Sprite} class.

@@ -1,4 +1,4 @@
-package uk.ac.ox.cs.sokobanexam.domainmodel.sprites;
+package uk.ac.ox.cs.sokobanexam.model.sprites;
 
 import uk.ac.ox.cs.sokobanexam.util.Point;
 

@@ -4,10 +4,10 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
-import uk.ac.ox.cs.sokobanexam.domainmodel.Board;
-import uk.ac.ox.cs.sokobanexam.domainmodel.DefaultBoards;
-import uk.ac.ox.cs.sokobanexam.domainmodel.DefaultRules;
-import uk.ac.ox.cs.sokobanexam.domainmodel.Rules;
+import uk.ac.ox.cs.sokobanexam.model.DefaultRules;
+import uk.ac.ox.cs.sokobanexam.model.Maze;
+import uk.ac.ox.cs.sokobanexam.model.MazeLibrary;
+import uk.ac.ox.cs.sokobanexam.model.Rules;
 import uk.ac.ox.cs.sokobanexam.ui.MazeController;
 import uk.ac.ox.cs.sokobanexam.ui.MazeModel;
 import uk.ac.ox.cs.sokobanexam.ui.MazeView;
@@ -16,11 +16,11 @@ import uk.ac.ox.cs.sokobanexam.ui.Toolbar;
 public class SokobanExamFrame extends JFrame {
 	private static final long serialVersionUID = -6029887436154664351L;
 	
-	public SokobanExamFrame(Board board, Rules rules) {
+	public SokobanExamFrame(Maze maze, Rules rules) {
 		super("Sokoban Exam Game");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		MazeModel model = new MazeModel(board, rules);
+		MazeModel model = new MazeModel(maze, rules);
 		MazeView view = new MazeView(model);
 		MazeController controller = new MazeController(model, view);
 		Toolbar toolbar = new Toolbar(controller);
@@ -33,10 +33,10 @@ public class SokobanExamFrame extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-		Board board = DefaultBoards.oxfordRocksBoard();
+		Maze maze = MazeLibrary.oxfordRocks();
 		Rules rules = new DefaultRules();
 		
-		JFrame frame = new SokobanExamFrame(board, rules);
+		JFrame frame = new SokobanExamFrame(maze, rules);
 		frame.setVisible(true);
 		
 		System.out.println("Have fun!");

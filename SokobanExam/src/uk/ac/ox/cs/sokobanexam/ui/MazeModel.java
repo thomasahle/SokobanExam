@@ -5,14 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import uk.ac.ox.cs.sokobanexam.domainmodel.Board;
-import uk.ac.ox.cs.sokobanexam.domainmodel.Rules;
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Arrow;
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Crate;
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Human;
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite;
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Target;
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Wall;
+import uk.ac.ox.cs.sokobanexam.model.Maze;
+import uk.ac.ox.cs.sokobanexam.model.Rules;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Arrow;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Crate;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Human;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Target;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Wall;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
@@ -36,7 +36,7 @@ public class MazeModel {
 		return PHYSICAL_SPRITES.containsKey(sprite.getClass());
 	}
 	
-	private Board mBoard;
+	private Maze mMaze;
 	private Rules mRules;
 	
 	private Point mSelected;
@@ -45,8 +45,8 @@ public class MazeModel {
 	private String mHoverMessage;
 	private Class<? extends Sprite> mTypeForInsertion;
 	
-	public MazeModel(Board board, Rules rules) {
-		setBoard(board);
+	public MazeModel(Maze maze, Rules rules) {
+		setMaze(maze);
 		setRules(rules);
 	}
 	
@@ -56,12 +56,12 @@ public class MazeModel {
 	public Rules getRules() {
 		return mRules;
 	}
-	public void setBoard(Board board) {
-		mBoard = board;
+	public void setMaze(Maze maze) {
+		mMaze = maze;
 		fireMazeChangeEvent();
 	}
-	public Board getBoard() {
-		return mBoard;
+	public Maze getMaze() {
+		return mMaze;
 	}
 	
 	// --------------- Listeners
@@ -96,18 +96,18 @@ public class MazeModel {
 	// --------------- Domain shortcuts
 	
 	public boolean move(Dir direction) {
-		assert mRules.validateBoard(mBoard);
-		if (!mRules.validateMove(mBoard,direction))
+		assert mRules.isMazeLegal(mMaze);
+		if (!mRules.isMoveLegal(mMaze,direction))
 			return false;
-		mRules.applyMove(mBoard,direction);
+		mRules.applyMove(mMaze,direction);
 		fireMazeChangeEvent();
 		return true;
 	}
 	public boolean isWon() {
-		return mRules.isGameWon(mBoard);
+		return mRules.isMazeWon(mMaze);
 	}
 	public boolean isPlayable() {
-		return mRules.isPlayable(mBoard);
+		return mRules.isMazePlayable(mMaze);
 	}
 	
 	// --------------- Non domain specific state

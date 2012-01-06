@@ -1,11 +1,11 @@
-package uk.ac.ox.cs.sokobanexam.domainmodel.sprites;
+package uk.ac.ox.cs.sokobanexam.model.sprites;
 
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
 /**
  * Sprites are physical elements in the maze.
  * Their types fundamentally decide how they interact with each other
- * through the {@link uk.ac.ox.cs.sokobanexam.domainmodel.Rules} system.
+ * through the {@link uk.ac.ox.cs.sokobanexam.model.Rules} system.
  * In addition to their type, sprites can also contain extra information
  * to decide how they behave and may be displayed.
  * All sprites must have a constructor taking only a {@link uk.ac.ox.cs.sokobanexam.util.Point}.

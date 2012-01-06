@@ -7,8 +7,8 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JOptionPane;
 
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Room;
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Room;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
 public class CreateState implements ControllerState, MouseListener,
@@ -66,7 +66,7 @@ public class CreateState implements ControllerState, MouseListener,
 		// Test if we were allowed to create the sprite. Hopefully we always are. 
 		if (sprite == null)
 			return;
-		Room room = mModel.getBoard().getRoom(point);
+		Room room = mModel.getMaze().getRoom(point);
 		
 		// If inserting a non-room type
 		if (!(sprite instanceof Room)) {
@@ -75,7 +75,7 @@ public class CreateState implements ControllerState, MouseListener,
 				return;
 			}
 			else {
-				mModel.getBoard().putRoom(room.withInner(sprite));
+				mModel.getMaze().putRoom(room.withInner(sprite));
 			}
 		}
 		// If inserting a room type
@@ -85,14 +85,14 @@ public class CreateState implements ControllerState, MouseListener,
 				return;
 			}
 			else {
-				mModel.getBoard().putRoom(((Room)sprite).withInner(room.inner()));
+				mModel.getMaze().putRoom(((Room)sprite).withInner(room.inner()));
 			}
 		}
 		
 		// Check validation
-		if (!mModel.getRules().validateBoard(mModel.getBoard())) {
-			// Restore board
-			mModel.getBoard().putRoom(room);
+		if (!mModel.getRules().isMazeLegal(mModel.getMaze())) {
+			// Restore maze
+			mModel.getMaze().putRoom(room);
 			JOptionPane.showMessageDialog(mView, "Inserting here is against the rules.");
 		}
 		else

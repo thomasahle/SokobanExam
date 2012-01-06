@@ -1,4 +1,4 @@
-package uk.ac.ox.cs.sokobanexam.domainmodel.sprites;
+package uk.ac.ox.cs.sokobanexam.model.sprites;
 
 /**
  * Rooms are {@link Sprite}s that contain another sprite.

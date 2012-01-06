@@ -12,7 +12,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
-import uk.ac.ox.cs.sokobanexam.domainmodel.sprites.Sprite;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite;
 
 public class Toolbar extends JToolBar implements StateChangeListener {
 	private static final long serialVersionUID = -3632217082483213540L;
