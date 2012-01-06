@@ -75,6 +75,10 @@ public class MazeModel {
 		for (SelectionChangeListener listener : mSelectionChangeListeners)
 			listener.onSelectionChanged(this, from, to);
 	}
+	private void fireSelectionVisibilityChangeEvent() {
+		for (SelectionChangeListener listener : mSelectionChangeListeners)
+			listener.onSelectionVisibilityChanged(this);
+	}
 	private void fireHighlightChangeEvent(Point from, Point to) {
 		for (SelectionChangeListener listener : mSelectionChangeListeners)
 			listener.onHighlightChanged(this, from, to);
@@ -130,9 +134,7 @@ public class MazeModel {
 	}
 	public void setSelectionVisible(boolean selectionVisible) {
 		mSelectionVisible = selectionVisible;
-		if (selectionVisible)
-			fireSelectionChangeEvent(null, mSelected);
-		else fireSelectionChangeEvent(mSelected, null);
+		fireSelectionVisibilityChangeEvent();
 	}
 	public boolean isSelectionVisible() {
 		return mSelectionVisible;

@@ -153,4 +153,8 @@ public class MazeView extends JComponent implements MazeChangeListener, Selectio
 		bonds.add(point2Rect(to));
 		repaint(bonds);
 	}
+	@Override
+	public void onSelectionVisibilityChanged(MazeModel model) {
+		repaint(point2Rect(model.getSelected()));
+	}
 }

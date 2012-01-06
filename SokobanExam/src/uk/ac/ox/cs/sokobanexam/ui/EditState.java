@@ -233,4 +233,5 @@ public class EditState implements ControllerState, MouseListener,
 	@Override public void keyTyped(KeyEvent e) {}
 	@Override public void keyReleased(KeyEvent e) {}
 	@Override public void onHighlightChanged(MazeModel mazeModel, Point from, Point to) {}
+	@Override public void onSelectionVisibilityChanged(MazeModel mazeModel) {}
 }
