@@ -73,7 +73,7 @@ public class CreateState implements ControllerState, MouseListener,
 		
 		// If inserting a non-room type
 		if (!(sprite instanceof Room)) {
-			if (MazeModel.isEditableType(room.inner())) {
+			if (MazeController.isEditableType(room.inner())) {
 				JOptionPane.showMessageDialog(mView, "You can't insert on top of other things.");
 				return;
 			}
@@ -83,7 +83,7 @@ public class CreateState implements ControllerState, MouseListener,
 		}
 		// If inserting a room type
 		else {
-			if (MazeModel.isEditableType(room)) {
+			if (MazeController.isEditableType(room)) {
 				JOptionPane.showMessageDialog(mView, "You can't insert on top of other things.");
 				return;
 			}

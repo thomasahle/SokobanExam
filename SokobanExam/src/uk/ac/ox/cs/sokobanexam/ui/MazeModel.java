@@ -23,24 +23,6 @@ import uk.ac.ox.cs.sokobanexam.util.Point;
  */
 public class MazeModel {
 	
-	/*
-	 * Because java has no way of discovering all subclasses of a certain class,
-	 * we keep this map of sprites that we are interested in editing.
-	 * These are the physical sprites, those that cannot be overwritten by insertion.
-	 */
-	@SuppressWarnings("serial")
-	protected static final Map<Class<? extends Sprite>, String> PHYSICAL_SPRITES
-			= new HashMap<Class<? extends Sprite>, String>() {{
-		put(Wall.class, "Wall");
-		put(Crate.class, "Crate");
-		put(Arrow.class, "Arrow");
-		put(Target.class, "Target");
-		put(Human.class, "Player");
-	}};
-	protected static boolean isEditableType(Sprite sprite) {
-		return PHYSICAL_SPRITES.containsKey(sprite.getClass());
-	}
-	
 	private Maze mMaze;
 	private Rules mRules;
 	

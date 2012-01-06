@@ -41,7 +41,7 @@ public class Toolbar extends JToolBar implements StateChangeListener {
 		
 		// The create buttons
 		mButtonGroup.add(mEditButton);
-		for (final Map.Entry<Class<? extends Sprite>, String> entry : MazeModel.PHYSICAL_SPRITES.entrySet()) {
+		for (final Map.Entry<Class<? extends Sprite>, String> entry : MazeController.PHYSICAL_SPRITES.entrySet()) {
 			JToggleButton createButton = new JToggleButton("Create " + entry.getValue());
 			mCreateButtons.put(entry.getKey(), createButton);
 			createButton.addActionListener(new ActionListener() {

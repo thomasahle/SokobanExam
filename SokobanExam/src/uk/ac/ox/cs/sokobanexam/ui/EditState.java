@@ -82,7 +82,7 @@ public class EditState implements ControllerState, MouseListener,
 		else {
 			mDeleteButton.setEnabled(true);
 			Room room = model.getMaze().getRoom(model.getSelected());
-			Sprite sprite = MazeModel.isEditableType(room.inner()) ? room.inner() : room;
+			Sprite sprite = MazeController.isEditableType(room.inner()) ? room.inner() : room;
 			SpriteConfigurationCreator confCreator = new SpriteConfigurationCreator(this);
 			sprite.accept(confCreator);
 			mConfigurationPanel = confCreator.getResult();
@@ -139,8 +139,8 @@ public class EditState implements ControllerState, MouseListener,
 			return;
 		}
 		Room room = mModel.getMaze().getRoom(point);
-		if (MazeModel.isEditableType(room.inner())
-				|| MazeModel.isEditableType(room)) {
+		if (MazeController.isEditableType(room.inner())
+				|| MazeController.isEditableType(room)) {
 			mModel.setSelected(point);
 			// We request focus, so the delete keyboard shortcut works.
 			mView.requestFocusInWindow();
@@ -161,9 +161,9 @@ public class EditState implements ControllerState, MouseListener,
 			return;
 		
 		// See if we are moving an inner
-		if (MazeModel.isEditableType(from.inner())) {
+		if (MazeController.isEditableType(from.inner())) {
 			// We can't move it to somewhere with an inner
-			if (MazeModel.isEditableType(to.inner())) {
+			if (MazeController.isEditableType(to.inner())) {
 				JOptionPane.showMessageDialog(mView, "You can't drag on top of other things.");
 				return;
 			}
@@ -177,9 +177,9 @@ public class EditState implements ControllerState, MouseListener,
 		}
 		// If we are moving a room
 		else {
-			assert MazeModel.isEditableType(from);
+			assert MazeController.isEditableType(from);
 			// If there is already a room
-			if (MazeModel.isEditableType(to)) {
+			if (MazeController.isEditableType(to)) {
 				JOptionPane.showMessageDialog(mView, "You can't drag on top of other things.");
 				return;
 			}
@@ -221,7 +221,7 @@ public class EditState implements ControllerState, MouseListener,
 			return;
 		Maze maze = mModel.getMaze();
 		Room room = maze.getRoom(point);
-		if (MazeModel.isEditableType(room.inner()))
+		if (MazeController.isEditableType(room.inner()))
 			maze.putRoom(room.withInner(new Nothing(room.point())));
 		else maze.putRoom(new Floor(room.inner()));
 		mModel.setMaze(maze);
