@@ -1,5 +1,7 @@
-package uk.ac.ox.cs.sokobanexam.model;
+package uk.ac.ox.cs.sokobanexam;
 
+import uk.ac.ox.cs.sokobanexam.model.DefaultMaze;
+import uk.ac.ox.cs.sokobanexam.model.Maze;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Arrow;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Crate;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Floor;

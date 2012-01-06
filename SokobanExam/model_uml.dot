@@ -21,10 +21,6 @@ digraph G {
                 label = "{\<\<interface\>\>\nRules|\l|\l}"
         ]
         
-        MazeLibrary [
-                label = "{MazeLibrary|\l|\l}"
-        ]
-        
         DefaultMaze [
                 label = "{DefaultMaze|\l|\l}"
         ]
@@ -35,6 +31,10 @@ digraph G {
         
         Sprite [
                 label = "{\<\<interface\>\>\nSprite|\l|\l}"
+        ]
+        
+        ValidationResult [
+                label = "{ValidationResult|\l|\l}"
         ]
         
         
@@ -50,6 +50,6 @@ digraph G {
         ]
         
         Maze -> Sprite
-        MazeLibrary -> Maze
+        Rules -> ValidationResult
 }
 

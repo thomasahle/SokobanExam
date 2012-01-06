@@ -6,7 +6,6 @@ import javax.swing.JFrame;
 
 import uk.ac.ox.cs.sokobanexam.model.DefaultRules;
 import uk.ac.ox.cs.sokobanexam.model.Maze;
-import uk.ac.ox.cs.sokobanexam.model.MazeLibrary;
 import uk.ac.ox.cs.sokobanexam.model.Rules;
 import uk.ac.ox.cs.sokobanexam.ui.EditState;
 import uk.ac.ox.cs.sokobanexam.ui.MazeController;
