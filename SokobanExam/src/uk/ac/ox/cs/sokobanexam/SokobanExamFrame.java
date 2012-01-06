@@ -13,6 +13,9 @@ import uk.ac.ox.cs.sokobanexam.ui.MazeModel;
 import uk.ac.ox.cs.sokobanexam.ui.MazeView;
 import uk.ac.ox.cs.sokobanexam.ui.Toolbar;
 
+/**
+ * This is where the fun starts.
+ */
 public class SokobanExamFrame extends JFrame {
 	private static final long serialVersionUID = -6029887436154664351L;
 	
