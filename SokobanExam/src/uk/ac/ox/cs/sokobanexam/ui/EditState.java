@@ -1,5 +1,6 @@
 package uk.ac.ox.cs.sokobanexam.ui;
 
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -10,6 +11,7 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import uk.ac.ox.cs.sokobanexam.model.Maze;
@@ -95,12 +97,13 @@ public class EditState implements ControllerState, MouseListener,
 		mToolbar.doLayout();
 		mToolbar.revalidate();
 		mToolbar.repaint();
-		/*if (mToolbar.getParent() != null) {
+		// This part is necessary for small maps
+		if (mToolbar.getParent() != null) {
 			Container parent = mToolbar.getParent();
 			while (!(parent instanceof JFrame))
 				parent = parent.getParent();
 			((JFrame)parent).pack();
-		}*/
+		}
 	}
 	
 	@Override

@@ -46,10 +46,24 @@ public class MazeLibrary {
 			);
 	}
 	/**
+	 * This map is called "The Loop".
+	 * @return		a prefilled, playable map that isn't winnable.
+	 */
+	public static Maze maze2() {
+		return fromStrings(
+				"I'm#sorry",
+				"#→→→→→→→#",
+				"#@ →↓ 0 #",
+				"#  ↑← . #",
+				"#→→→→→→→#",
+				"about#it,"
+			);
+	}
+	/**
 	 * A challenging map straight from the original Sokoban game.
 	 * @return		a prefilled, playable, hard map to finish off.
 	 */
-	public static Maze maze2() {
+	public static Maze maze3() {
 		return fromStrings(
 				"      ############ ",
 				"     ##..    #   # ",
