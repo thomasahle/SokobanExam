@@ -129,13 +129,16 @@ public class MazeModel {
 		return mHighlighted;
 	}
 	public void setSelectionVisible(boolean selectionVisible) {
-		this.mSelectionVisible = selectionVisible;
+		mSelectionVisible = selectionVisible;
+		if (selectionVisible)
+			fireSelectionChangeEvent(null, mSelected);
+		else fireSelectionChangeEvent(mSelected, null);
 	}
 	public boolean isSelectionVisible() {
 		return mSelectionVisible;
 	}
 	public void setHoverMessage(String hoverMessage) {
-		this.mHoverMessage = hoverMessage;
+		mHoverMessage = hoverMessage;
 	}
 	public String getHoverMessage() {
 		return mHoverMessage;
