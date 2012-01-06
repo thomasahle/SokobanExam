@@ -1,0 +1,55 @@
+digraph G {
+        fontname = "Bitstream Vera Sans"
+        fontsize = 8
+
+        node [
+                fontname = "Bitstream Vera Sans"
+                fontsize = 8
+                shape = "record"
+        ]
+
+        edge [
+                fontname = "Bitstream Vera Sans"
+                fontsize = 8
+        ]
+
+        Maze [
+                label = "{\<\<interface\>\>\nMaze|\l|\l}"
+        ]
+        
+        Rules [
+                label = "{\<\<interface\>\>\nRules|\l|\l}"
+        ]
+        
+        MazeLibrary [
+                label = "{MazeLibrary|\l|\l}"
+        ]
+        
+        DefaultMaze [
+                label = "{DefaultMaze|\l|\l}"
+        ]
+        
+        DefaultRules [
+                label = "{DefaultRules|\l|\l}"
+        ]
+        
+        Sprite [
+                label = "{\<\<interface\>\>\nSprite|\l|\l}"
+        ]
+        
+        
+        edge [
+                arrowhead = "empty"
+        ]
+        
+        DefaultRules -> Rules
+        DefaultMaze -> Maze
+        
+        edge [
+                arrowhead = "vee"
+        ]
+        
+        Maze -> Sprite
+        MazeLibrary -> Maze
+}
+

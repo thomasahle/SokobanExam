@@ -1,0 +1,122 @@
+digraph G {
+        fontname = "Bitstream Vera Sans"
+        fontsize = 8
+
+        node [
+                fontname = "Bitstream Vera Sans"
+                fontsize = 8
+                shape = "record"
+        ]
+
+        edge [
+                fontname = "Bitstream Vera Sans"
+                fontsize = 8
+        ]
+
+        SokobanExamFrame [
+                label = "{SokobanExamFrame|\l|\l}"
+        ]
+        
+        MazeModel [
+                label = "{MazeModel|\l|\l}"
+        ]
+        
+        MazeView [
+                label = "{MazeView|\l|\l}"
+        ]
+        
+        SpritePainter [
+                label = "{SpritePainter|\l|\l}"
+        ]
+        
+        MazeController [
+                label = "{MazeController|\l|\l}"
+        ]
+        
+        ControllerState [
+                label = "{\<\<interface\>\>\nControllerState|\l|\l}"
+        ]
+        
+        EditState [
+                label = "{EditState|\l|\l}"
+        ]
+        
+        SpriteConfigurationCreator [
+                label = "{SpriteConfigurationCreator|\l|\l}"
+        ]
+        
+        CreateState [
+                label = "{CreateState|\l|\l}"
+        ]
+        
+        PlayState [
+                label = "{PlayState|\l|\l}"
+        ]
+        
+        Toolbar [
+                label = "{Toolbar|\l|\l}"
+        ]
+        
+        MazeChangeListener [
+                label = "{\<\<interface\>\>\nMazeChangeListener|\l|\l}"
+        ]
+        
+        SelectionChangeListener [
+                label = "{\<\<interface\>\>\nSelectionChangeListener|\l|\l}"
+        ]
+        
+        StateChangeListener [
+                label = "{\<\<interface\>\>\nStateChangeListener|\l|\l}"
+        ]
+        
+        SpriteChangeListener [
+                label = "{\<\<interface\>\>\nSpriteChangeListener|\l|\l}"
+        ]
+        
+        edge [
+                arrowhead = "empty"
+        ]
+        
+        MazeView -> MazeChangeListener
+        MazeView -> SelectionChangeListener
+        EditState -> SelectionChangeListener
+        EditState -> SpriteChangeListener
+        Toolbar -> StateChangeListener
+        EditState -> ControllerState
+        CreateState -> ControllerState
+        PlayState -> ControllerState
+        
+        edge [
+                arrowhead = "vee"
+        ]
+        
+        SokobanExamFrame -> Toolbar
+        SokobanExamFrame -> MazeView
+        EditState -> SpriteConfigurationCreator
+        EditState -> Toolbar
+        MazeView -> MazeModel
+        MazeView -> SpritePainter
+        ControllerState -> MazeModel
+        ControllerState -> MazeController
+        ControllerState -> MazeView
+        MazeController -> ControllerState
+        
+        edge [
+                arrowhead = "vee"
+                style = "dotted"
+        ]
+        
+        Toolbar -> EditState
+        Toolbar -> CreateState
+        Toolbar -> PlayState
+        
+        edge [
+                arrowhead = "ediamond"
+        ]
+        
+        MazeChangeListener -> MazeModel
+        SelectionChangeListener -> MazeModel
+        SpriteChangeListener -> SpriteConfigurationCreator
+        StateChangeListener -> MazeController
+}
+

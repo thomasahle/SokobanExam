@@ -1,0 +1,85 @@
+digraph G {
+        fontname = "Bitstream Vera Sans"
+        fontsize = 8
+
+        node [
+                fontname = "Bitstream Vera Sans"
+                fontsize = 8
+                shape = "record"
+        ]
+
+        edge [
+                fontname = "Bitstream Vera Sans"
+                fontsize = 8
+        ]
+
+        Sprite [
+                label = "{\<\<interface\>\>\nSprite|\l|point() : Point\lmove(Point) : Sprite\laccept(SpriteVisitor) : void\l}"
+        ]
+        
+        Room [
+                label = "{\<\<interface\>\>\nRoom|\l|inner() : Sprite\lwithInner(Sprite) : Room\l}"
+        ]
+        
+        AbstractSprite [
+                label = "{AbstractSprite|\l|\l}"
+        ]
+        
+        AbstractRoom [
+                label = "{AbstractRoom|\l|AbstractRoom(Sprite)\l}"
+        ]
+        
+        Nothing [
+                label = "{Nothing|\l|\l}"
+        ]
+        
+        Human [
+                label = "{Human|\l|Human(Point,Dir)\ldirection() : Dir\l}"
+        ]
+        
+        Crate [
+                label = "{Crate|\l|Crate(Point,Color)\lcolor() : Color\l}"
+        ]
+        
+        Floor [
+                label = "{Floor|\l|\l}"
+        ]
+        
+        Target [
+                label = "{Target|\l|\l}"
+        ]
+        
+        Arrow [
+                label = "{Arrow|\l|Arrow(Sprite,Dir)\ldirection() : Dir\l}"
+        ]
+        
+        Wall [
+                label = "{Wall|\l|Wall(Sprite,String)\lwriting() : String\l}"
+        ]
+        
+        
+        
+        
+        
+        edge [
+                arrowhead = "empty"
+        ]
+        
+        Room -> Sprite
+        AbstractSprite -> Sprite
+        AbstractRoom -> Room
+        Nothing -> AbstractSprite
+        Human -> AbstractSprite
+        Crate -> AbstractSprite
+        Arrow -> AbstractRoom
+        Target -> AbstractRoom
+        Floor -> AbstractRoom
+        Wall -> AbstractRoom
+        
+        edge [
+                arrowhead = "vee"
+        ]
+        
+        Room -> Sprite
+}
+
