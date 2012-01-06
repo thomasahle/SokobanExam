@@ -3,6 +3,10 @@ package uk.ac.ox.cs.sokobanexam.util;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * A simple filter iterator allowing you to filter away objects
+ * using a template method.
+ */
 public abstract class FilterIterator<T> implements Iterator<T> {
     private Iterator<T> mIterator;
     private T prevObject;

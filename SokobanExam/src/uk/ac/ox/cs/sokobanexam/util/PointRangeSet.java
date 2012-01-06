@@ -4,6 +4,10 @@ import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * An unmodifiable set representing points in a rectangular area.
+ * The set does 'contains' queries in constant time.
+ */
 public class PointRangeSet extends AbstractSet<Point> {
 	private int mWidth;
 	private int mHeight;

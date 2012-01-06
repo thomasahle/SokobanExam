@@ -2,6 +2,10 @@ package uk.ac.ox.cs.sokobanexam.util;
 
 import java.util.Iterator;
 
+/**
+ * A simple map iterator allowing you to map objects
+ * using a template method.
+ */
 public abstract class MapIterator<A,B> implements Iterator<B> {
     private Iterator<A> mIterator;
     
