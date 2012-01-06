@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import uk.ac.ox.cs.sokobanexam.model.Maze;
+import uk.ac.ox.cs.sokobanexam.model.ValidationResult;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Floor;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Nothing;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Room;
@@ -193,11 +194,12 @@ public class EditState implements ControllerState, MouseListener,
 		}
 		
 		// Check validation
-		if (!mModel.isMazeLegal()) {
+		ValidationResult result = mModel.validateMaze();
+		if (!result.isLegal()) {
 			// Restore maze
 			mModel.getMaze().putRoom(to);
 			mModel.getMaze().putRoom(from);
-			JOptionPane.showMessageDialog(mView, "Dragging here is against the rules.");
+			JOptionPane.showMessageDialog(mView, result.getMessage() + ".");
 		}
 		else mModel.setSelected(to.point());
 	}

@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JOptionPane;
 
 import uk.ac.ox.cs.sokobanexam.model.Maze;
+import uk.ac.ox.cs.sokobanexam.model.ValidationResult;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Human;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 
@@ -28,8 +29,9 @@ public class PlayState implements ControllerState, KeyListener {
 		view.addKeyListener(this);
 		view.requestFocusInWindow();
 		
-		if (!model.isPlayable()) {
-			JOptionPane.showMessageDialog(view, "The game is not yet playable. You probably need a player to move things around.");
+		ValidationResult result = model.validateMazePlayable();
+		if (!result.isLegal()) {
+			JOptionPane.showMessageDialog(view, "The game is not yet playable. " + result.getMessage() + ".");
 			controller.setCurrentState(new CreateState(Human.class));
 		}
 		if (mModel.isWon()) {

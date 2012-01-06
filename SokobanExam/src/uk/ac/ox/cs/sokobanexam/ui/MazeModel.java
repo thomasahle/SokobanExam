@@ -7,6 +7,7 @@ import java.util.Map;
 
 import uk.ac.ox.cs.sokobanexam.model.Maze;
 import uk.ac.ox.cs.sokobanexam.model.Rules;
+import uk.ac.ox.cs.sokobanexam.model.ValidationResult;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Arrow;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Crate;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Human;
@@ -88,8 +89,8 @@ public class MazeModel {
 	// To help us follow the Law of Demeter by avoiding getter chains
 	
 	public boolean move(Dir direction) {
-		assert mRules.isMazeLegal(mMaze);
-		if (!mRules.isMoveLegal(mMaze,direction))
+		assert mRules.validateMaze(mMaze).isLegal();
+		if (!mRules.validateMove(mMaze,direction).isLegal())
 			return false;
 		mRules.applyMove(mMaze,direction);
 		fireMazeChangeEvent();
@@ -98,11 +99,11 @@ public class MazeModel {
 	public boolean isWon() {
 		return mRules.isMazeWon(mMaze);
 	}
-	public boolean isPlayable() {
-		return mRules.isMazePlayable(mMaze);
+	public ValidationResult validateMazePlayable() {
+		return mRules.validateMazePlayable(mMaze);
 	}
-	public boolean isMazeLegal() {
-		return mRules.isMazeLegal(mMaze);
+	public ValidationResult validateMaze() {
+		return mRules.validateMaze(mMaze);
 	}
 	
 	// --------------- Non domain specific state

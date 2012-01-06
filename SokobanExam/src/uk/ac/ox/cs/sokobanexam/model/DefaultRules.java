@@ -14,57 +14,62 @@ import uk.ac.ox.cs.sokobanexam.util.Point;
 public class DefaultRules implements Rules {
 	
 	@Override
-	public boolean isMazeLegal(Maze maze) {
+	public ValidationResult validateMaze(Maze maze) {
 		int humen = 0;
 		for (Room room : maze.getRooms()) {
 			if (room.inner() instanceof Human)
 				humen++;
 			// Arrows can't contain crates
 			if (room instanceof Arrow && room.inner() instanceof Crate)
-				return false;
+				return new ValidationResult("There can't be crates on arrows, or arrows under crates");
 			// Walls can't contain anything
 			if (room instanceof Wall && !(room.inner() instanceof Nothing))
-				return false;
+				return new ValidationResult("There can't be anything on walls, or walls under anything");
 		}
 		// We can't have more than two humen
 		if (humen > 1)
-			return false;
+			return new ValidationResult("There can't be more than one player in the maze");
 		// Otherwise everything is good!
-		return true;
+		return new ValidationResult();
 	}
 	
 	@Override
-	public boolean isMazePlayable(Maze maze) {
-		return isMazeLegal(maze)
-				&& maze.getRoomsContaining(Human.class).iterator().hasNext();
+	public ValidationResult validateMazePlayable(Maze maze) {
+		ValidationResult result = validateMaze(maze);
+		if (result.isLegal() && !maze.getRoomsContaining(Human.class).iterator().hasNext())
+			return new ValidationResult("The maze must contain a player to be playable");
+		return result;
 	}
 	
 	@Override
-	public boolean isMoveLegal(Maze maze, Dir dir) {
-		assert isMazeLegal(maze);
+	public ValidationResult validateMove(Maze maze, Dir dir) {
+		assert validateMaze(maze).isLegal();
 		Point from = maze.getRoomsContaining(Human.class).iterator().next().point();
 		Point to = from.plus(dir);
 		
 		// Check if we are within maze boundaries
 		// Check if a human is at from
 		// Check if a wall objects
-		if (   !maze.getPoints().contains(from)
-			|| !maze.getPoints().contains(to)
-			|| !(maze.getRoom(from).inner() instanceof Human)
-			|| maze.getRoom(to) instanceof Wall)
-			return false;
+		if (!maze.getPoints().contains(from))
+			return new ValidationResult("You can't move from outside the maze");
+		if (!maze.getPoints().contains(to))
+			return new ValidationResult("You can't move out of the maze");
+		if (!(maze.getRoom(from).inner() instanceof Human))
+			return new ValidationResult("You can only move the player");
+		if (maze.getRoom(to) instanceof Wall)
+			return new ValidationResult("You can't move into a wall");
 		
 		// Check if an arrow objects (currently on arrow)
 		if (maze.getRoom(from) instanceof Arrow) {
 			Arrow arrow = (Arrow)maze.getRoom(from);
 			if (from.plus(arrow.direction()) != to)
-				return false;
+				return new ValidationResult("You must move out of the arrow in the specified direction");
 		}
 		// Check if an arrow objects (currently next to arrow)
 		if (maze.getRoom(to) instanceof Arrow) {
 			Arrow arrow = (Arrow)maze.getRoom(to);
 			if (to.plus(arrow.direction()) == from)
-				return false;
+				return new ValidationResult("You can't move backwards onto an arrow");
 		}
 		
 		// Check if a crate is in the way, and it can't be moved
@@ -74,14 +79,14 @@ public class DefaultRules implements Rules {
 					|| maze.getRoom(next) instanceof Wall
 					|| maze.getRoom(next) instanceof Arrow
 					|| !(maze.getRoom(next).inner() instanceof Nothing)))
-			return false;
+			return new ValidationResult("You can't move that crate");
 		
-		return true;
+		return new ValidationResult();
 	}
 	
 	@Override
 	public void applyMove(Maze maze, Dir dir) {
-		assert isMoveLegal(maze, dir);
+		assert validateMove(maze, dir).isLegal();
 		Point from = maze.getRoomsContaining(Human.class).iterator().next().point();
 		Point to = from.plus(dir);
 		

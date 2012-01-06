@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JOptionPane;
 
+import uk.ac.ox.cs.sokobanexam.model.ValidationResult;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Room;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite;
 import uk.ac.ox.cs.sokobanexam.util.Point;
@@ -93,10 +94,11 @@ public class CreateState implements ControllerState, MouseListener,
 		}
 		
 		// Check validation
-		if (!mModel.isMazeLegal()) {
+		ValidationResult result = mModel.validateMaze();
+		if (!result.isLegal()) {
 			// Restore maze
 			mModel.getMaze().putRoom(room);
-			JOptionPane.showMessageDialog(mView, "Inserting here is against the rules.");
+			JOptionPane.showMessageDialog(mView, result.getMessage() + ".");
 		}
 		else
 			mModel.setHighlighted(point);
