@@ -14,60 +14,65 @@ import javax.swing.JToolBar;
 
 import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite;
 
+/**
+ * The Toolbar is used to change between states, and to access state created controls.
+ */
 public class Toolbar extends JToolBar implements StateChangeListener {
 	private static final long serialVersionUID = -3632217082483213540L;
 	
 	private ButtonGroup mButtonGroup;
-
+	
 	private JToggleButton mEditButton;
 	private JToggleButton mPlayButton;
 	private Map<Class<? extends Sprite>, JToggleButton> mCreateButtons
 			= new HashMap<Class<? extends Sprite>, JToggleButton>();
 	
 	public Toolbar(final MazeController controller) {
+		setMargin(new Insets(6,2,6,2));
 		
-		controller.addStateChangeListener(this);
-		
-		setMargin(new Insets(10,10,10,10));
-		
-		final EditState editState = new EditState(Toolbar.this);
-		
-		// Insert buttons into toolbar
+		// The edit button
 		mButtonGroup = new ButtonGroup();
 		mEditButton = new JToggleButton("Edit");
 		mEditButton.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				controller.setCurrentState(editState);
+				controller.setCurrentState(new EditState(Toolbar.this));
 			}
 		});
+		
+		// The create buttons
 		mButtonGroup.add(mEditButton);
 		for (final Map.Entry<Class<? extends Sprite>, String> entry : MazeModel.PHYSICAL_SPRITES.entrySet()) {
 			JToggleButton createButton = new JToggleButton("Create " + entry.getValue());
 			mCreateButtons.put(entry.getKey(), createButton);
 			createButton.addActionListener(new ActionListener() {
 				@Override public void actionPerformed(ActionEvent e) {
-					CreateState createState = new CreateState(entry.getKey());
-					controller.setCurrentState(createState);
+					controller.setCurrentState(new CreateState(entry.getKey()));
 				}
 			});
 			mButtonGroup.add(createButton);
 		}
+		
+		// The play button
 		mPlayButton = new JToggleButton("Play");
 		mPlayButton.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
 				controller.setCurrentState(new PlayState());
 			}
 		});
+		
+		// Group the buttons so only one can be toggled the time
 		mButtonGroup.add(mPlayButton);
 		for (Enumeration<AbstractButton> e = mButtonGroup.getElements(); e.hasMoreElements(); )
 			add(e.nextElement());
 		
+		
+		// The states may add more buttons later on
 		addSeparator();
 		
-		// Set edit button as default
-		mEditButton.doClick();
+		// Stay in sync
+		controller.addStateChangeListener(this);
 	}
-
+	
 	@Override
 	public void onStateChanged(MazeController source) {
 		if (source.getCurrentState() instanceof EditState)

@@ -18,6 +18,12 @@ import uk.ac.ox.cs.sokobanexam.model.sprites.SpriteVisitor;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Target;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Wall;
 
+/**
+ * This visitor paints a {@link Sprite} and its subsprites.
+ * It currently makes sense to keep all the painting together as the
+ * paint methods are short, and the locality it makes it fast and easy
+ * to tweak the overall look of the game. 
+ */
 public class SpritePainter implements SpriteVisitor {
 	
 	protected final Graphics2D g;

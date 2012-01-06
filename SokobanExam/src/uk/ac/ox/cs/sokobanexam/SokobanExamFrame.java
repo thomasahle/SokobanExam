@@ -8,6 +8,7 @@ import uk.ac.ox.cs.sokobanexam.model.DefaultRules;
 import uk.ac.ox.cs.sokobanexam.model.Maze;
 import uk.ac.ox.cs.sokobanexam.model.MazeLibrary;
 import uk.ac.ox.cs.sokobanexam.model.Rules;
+import uk.ac.ox.cs.sokobanexam.ui.EditState;
 import uk.ac.ox.cs.sokobanexam.ui.MazeController;
 import uk.ac.ox.cs.sokobanexam.ui.MazeModel;
 import uk.ac.ox.cs.sokobanexam.ui.MazeView;
@@ -28,10 +29,12 @@ public class SokobanExamFrame extends JFrame {
 		MazeController controller = new MazeController(model, view);
 		Toolbar toolbar = new Toolbar(controller);
 		
+		// Set the starting state
+		controller.setCurrentState(new EditState(toolbar));
+		
 		setLayout(new BorderLayout());
 		add(BorderLayout.NORTH, toolbar);
 		add(BorderLayout.CENTER, view);
-		
 		pack();
 	}
 	
@@ -42,6 +45,6 @@ public class SokobanExamFrame extends JFrame {
 		JFrame frame = new SokobanExamFrame(maze, rules);
 		frame.setVisible(true);
 		
-		System.out.println("Have fun!");
+		// Have fun!
 	}
 }

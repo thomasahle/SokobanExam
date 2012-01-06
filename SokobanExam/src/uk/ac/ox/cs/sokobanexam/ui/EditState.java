@@ -19,6 +19,9 @@ import uk.ac.ox.cs.sokobanexam.model.sprites.Room;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
+/**
+ * The state of the MazeController in which new objects can be edited, deleted or moved.
+ */
 public class EditState implements ControllerState, MouseListener,
 		MouseMotionListener, KeyListener, ActionListener,
 		SelectionChangeListener, SpriteChangeListener {
@@ -187,7 +190,7 @@ public class EditState implements ControllerState, MouseListener,
 		}
 		
 		// Check validation
-		if (!mModel.getRules().isMazeLegal(mModel.getMaze())) {
+		if (!mModel.isMazeLegal()) {
 			// Restore maze
 			mModel.getMaze().putRoom(to);
 			mModel.getMaze().putRoom(from);
@@ -204,7 +207,7 @@ public class EditState implements ControllerState, MouseListener,
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// This is only connected to the delete button
+		assert e.getSource() == mDeleteButton;
 		deleteSelected();
 	}
 	

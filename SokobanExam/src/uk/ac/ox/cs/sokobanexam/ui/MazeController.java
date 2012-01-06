@@ -3,6 +3,10 @@ package uk.ac.ox.cs.sokobanexam.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The controller of the MazeView.
+ * This class doesn't contain any controlling logic itself, but delegates to {@link ControllerState}s.
+ */
 public class MazeController {
 	private MazeView mView;
 	private MazeModel mModel;

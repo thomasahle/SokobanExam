@@ -20,6 +20,12 @@ import uk.ac.ox.cs.sokobanexam.model.sprites.Wall;
 import uk.ac.ox.cs.sokobanexam.util.Color;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 
+/**
+ * This visitor creates a JComponent for a specific sprite, that allows
+ * the user to change its properties.
+ * The client is informed by the users action by implementing the
+ * {@link SpriteChangeListener} interface.
+ */
 public class SpriteConfigurationCreator implements SpriteVisitor {
 	
 	private JComponent mResult;
@@ -29,11 +35,17 @@ public class SpriteConfigurationCreator implements SpriteVisitor {
 		mSpriteChangeListener = listener;
 	}
 	
+	/**
+	 * Gets the configuration component created during the visit.
+	 * @return		A configuration component linked to the visited sprite
+	 */
+	public JComponent getResult() {
+		return mResult;
+	}
+	
+	
 	@Override
 	public void visit(final Arrow sprite) {
-		// Possibility: Create a hole hiearcy of configurators,
-		//              "EnumConfigurator" could then be an abstract superclass
-		
 		final Dir[] directions = {Dir.NORTH, Dir.EAST, Dir.SOUTH, Dir.WEST};
 		String[] labels = {"↑ Up", "→ Right", "↓ Down", "← Left"};
 		final JComboBox combobox = new JComboBox(labels);
@@ -52,6 +64,9 @@ public class SpriteConfigurationCreator implements SpriteVisitor {
 
 	@Override
 	public void visit(final Crate sprite) {
+		// We could generalize an 'enum configurator', but currently it is
+		// not worth the extra interface it would require.
+		
 		final Color[] colors = {Color.RED, Color.GREEN, Color.BLUE};
 		String[] labels = {"Red", "Green", "Blue"};
 		final JComboBox combobox = new JComboBox(labels);
@@ -97,10 +112,6 @@ public class SpriteConfigurationCreator implements SpriteVisitor {
 			}
 		});
 		mResult = textField;
-	}
-
-	public JComponent getResult() {
-		return mResult;
 	}
 
 	@Override

@@ -16,9 +16,14 @@ import uk.ac.ox.cs.sokobanexam.model.sprites.Wall;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
+/**
+ * The Application State Model of the application.
+ * This class contains no state information like MazeController does,
+ * so you must take the necessary care only to use it as makes sense.
+ */
 public class MazeModel {
 	
-	/**
+	/*
 	 * Because java has no way of discovering all subclasses of a certain class,
 	 * we keep this map of sprites that we are interested in editing.
 	 * These are the physical sprites, those that cannot be overwritten by insertion.
@@ -94,6 +99,7 @@ public class MazeModel {
 	}
 	
 	// --------------- Domain shortcuts
+	// To help us follow the Law of Demeter by avoiding getter chains
 	
 	public boolean move(Dir direction) {
 		assert mRules.isMazeLegal(mMaze);
@@ -109,6 +115,9 @@ public class MazeModel {
 	public boolean isPlayable() {
 		return mRules.isMazePlayable(mMaze);
 	}
+	public boolean isMazeLegal() {
+		return mRules.isMazeLegal(mMaze);
+	}
 	
 	// --------------- Non domain specific state
 	
@@ -121,7 +130,6 @@ public class MazeModel {
 	public Class<? extends Sprite> getTypeForInsertion() {
 		return mTypeForInsertion;
 	}
-
 	public void setSelected(Point point) {
 		Point old = mSelected;
 		mSelected = point;
@@ -130,7 +138,6 @@ public class MazeModel {
 	public Point getSelected() {
 		return mSelected;
 	}
-
 	public void setHighlighted(Point point) {
 		Point old = mHighlighted;
 		mHighlighted = point;

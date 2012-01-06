@@ -9,6 +9,11 @@ import uk.ac.ox.cs.sokobanexam.model.Maze;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Human;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 
+/**
+ * The state of the MazeController in which you can actually play the game.
+ * If this state is attached to a non playable model, it automatically switches
+ * the current state to the CreateState so the problem can be fixed.
+ */
 public class PlayState implements ControllerState, KeyListener {
 	
 	private MazeView mView;

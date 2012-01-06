@@ -11,6 +11,9 @@ import uk.ac.ox.cs.sokobanexam.model.sprites.Room;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
+/**
+ * The state of the MazeController in which new objects can be inserted into the shown maze.
+ */
 public class CreateState implements ControllerState, MouseListener,
 		MouseMotionListener {
 	
@@ -90,7 +93,7 @@ public class CreateState implements ControllerState, MouseListener,
 		}
 		
 		// Check validation
-		if (!mModel.getRules().isMazeLegal(mModel.getMaze())) {
+		if (!mModel.isMazeLegal()) {
 			// Restore maze
 			mModel.getMaze().putRoom(room);
 			JOptionPane.showMessageDialog(mView, "Inserting here is against the rules.");
