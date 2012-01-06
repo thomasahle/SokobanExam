@@ -7,14 +7,26 @@ import uk.ac.ox.cs.sokobanexam.util.Point;
 
 public class Human extends AbstractSprite {
 	private Dir mDirection;
+	/**
+	 * Creates a new human with a default direction.
+	 * @param point		the position of the new sprite
+	 */
 	public Human(Point point) {
 		this(point, Dir.WEST);
 	}
+	/**
+	 * Creates a new human.
+	 * @param point		the position of the new sprite
+	 * @param color		the direction in which the human is looking
+	 */
 	public Human(Point point, Dir direction) {
 		super(point);
 		mDirection = direction;
 	}
-	/** The direction in which the human as just walked, and is now looking. */
+	/**
+	 * Gets the direction in which the human as just walked, and is now looking.
+	 * @return			the direction of the human
+	 */
 	public Dir direction() {
 		return mDirection;
 	}

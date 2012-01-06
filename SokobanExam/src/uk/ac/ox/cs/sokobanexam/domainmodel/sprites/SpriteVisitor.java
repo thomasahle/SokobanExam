@@ -1,5 +1,8 @@
 package uk.ac.ox.cs.sokobanexam.domainmodel.sprites;
 
+/**
+ * Represents a visitor for the {@link Sprite} class.
+ */
 public interface SpriteVisitor {
 	public void visit(Arrow sprite);
 	public void visit(Crate sprite);

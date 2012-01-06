@@ -3,6 +3,10 @@ package uk.ac.ox.cs.sokobanexam.domainmodel.sprites;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
 public class Nothing extends AbstractSprite {
+	/**
+	 * Creates a nothing to put inside empty rooms.
+	 * @param point		the position of the nothing
+	 */
 	public Nothing(Point point) {
 		super(point);
 	}

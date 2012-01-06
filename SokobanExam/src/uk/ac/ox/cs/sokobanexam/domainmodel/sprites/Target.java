@@ -2,11 +2,18 @@ package uk.ac.ox.cs.sokobanexam.domainmodel.sprites;
 
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
-
 public class Target extends AbstractRoom {
+	/**
+	 * Creates a new, empty target room with a default direction.
+	 * @param point		the position of the new sprite
+	 */
 	public Target(Point point) {
 		this(new Nothing(point));
 	}
+	/**
+	 * Creates a new target with something within it.
+	 * @param inner		the sprite inside the room
+	 */
 	public Target(Sprite inner) {
 		super(inner);
 	}

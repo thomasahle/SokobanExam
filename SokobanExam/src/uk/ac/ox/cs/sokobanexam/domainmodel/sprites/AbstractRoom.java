@@ -1,13 +1,18 @@
 package uk.ac.ox.cs.sokobanexam.domainmodel.sprites;
 
+import uk.ac.ox.cs.sokobanexam.util.Point;
 
-public abstract class AbstractRoom extends AbstractSprite implements Room {
+public abstract class AbstractRoom implements Room {
 	private Sprite mInner;
 	public AbstractRoom(Sprite inner) {
-		super(inner.point());
 		mInner = inner;
 	}
+	@Override
 	public Sprite inner() {
 		return mInner;
+	}
+	@Override
+	public Point point() {
+		return mInner.point();
 	}
 }
