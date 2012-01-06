@@ -45,4 +45,5 @@ public class Point {
 		if (!(o instanceof Point)) return false;
 		return ((Point)o).x == x && ((Point)o).y == y;
 	}
+	// We don't really need a hashCode implementation for our usage
 }

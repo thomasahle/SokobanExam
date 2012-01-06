@@ -89,6 +89,7 @@ public class DefaultMaze implements Maze {
 	
 	@Override
 	public DefaultMaze clone() {
+		// I don't like that super.clone() creates objects without calling my constructor.
 		DefaultMaze clone = new DefaultMaze(getWidth(), getHeight());
 		// We can use arraycopy because the content of mMap is all immutable.
 		for (int y = 0; y < getHeight(); y++)

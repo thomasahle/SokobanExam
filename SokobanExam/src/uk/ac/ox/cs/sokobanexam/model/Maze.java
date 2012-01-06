@@ -11,7 +11,7 @@ import uk.ac.ox.cs.sokobanexam.util.Point;
  * This is the only non persistent object in the domain model, but it can
  * be easily cloned.
  */
-public interface Maze {
+public interface Maze extends Cloneable {
 	/**
 	 * Gets the height of the maze.
 	 * @return		the number of rows in the maze
