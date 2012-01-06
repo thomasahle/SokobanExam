@@ -93,7 +93,7 @@ public class DefaultMaze implements Maze {
 		DefaultMaze clone = new DefaultMaze(getWidth(), getHeight());
 		// We can use arraycopy because the content of mMap is all immutable.
 		for (int y = 0; y < getHeight(); y++)
-			System.arraycopy(mMap, 0, clone.mMap, 0, getWidth());
+			System.arraycopy(mMap[y], 0, clone.mMap[y], 0, getWidth());
 		return clone;
 	}
 }
