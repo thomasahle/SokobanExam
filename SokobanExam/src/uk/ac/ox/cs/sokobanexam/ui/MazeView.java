@@ -122,7 +122,7 @@ public class MazeView extends JComponent implements MazeChangeListener, Selectio
 			g2.setStroke(new BasicStroke(3f));
 			double inpad = HOVER_INNER_PADDING*Math.min(getHeight(), getWidth());
 			pad += inpad;
-			arc -= inpad;
+			arc -= inpad; // Align the rounded corners
 			g2.draw(new RoundRectangle2D.Double(pad, pad, getWidth()-2*pad, getHeight()-2*pad, arc, arc));
 			
 			// The text

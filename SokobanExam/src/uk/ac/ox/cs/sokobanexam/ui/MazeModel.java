@@ -145,6 +145,8 @@ public class MazeModel {
 	}
 	public void setHoverMessage(String hoverMessage) {
 		mHoverMessage = hoverMessage;
+		// We might want a more specific event here.
+		fireMazeChangeEvent();
 	}
 	public String getHoverMessage() {
 		return mHoverMessage;
