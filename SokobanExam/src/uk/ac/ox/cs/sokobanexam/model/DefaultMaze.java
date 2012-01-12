@@ -17,9 +17,10 @@ import uk.ac.ox.cs.sokobanexam.util.PointRangeSet;
  */
 public class DefaultMaze implements Maze {
 	
-	// Class Invariant:
+	// Class Invariants:
 	//		mMap.length >= 1
-	//		mMap[y].length >= 1
+	//		mMap[y].length >= 1 for all 0 <= y < getHeight()
+	//      mMap[y][x].point() == Point.at(x,y) for all (0,0) <= (x,y) < (getWidth(),getHeight())
 	private Room[][] mMap;
 	
 	public DefaultMaze(int width, int height) {
@@ -38,6 +39,7 @@ public class DefaultMaze implements Maze {
 
 	@Override
 	public int getWidth() {
+		assert mMap.length > 0;
 		return mMap[0].length;
 	}
 	

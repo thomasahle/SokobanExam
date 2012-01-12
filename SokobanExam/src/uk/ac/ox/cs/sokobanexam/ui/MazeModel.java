@@ -1,19 +1,13 @@
 package uk.ac.ox.cs.sokobanexam.ui;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import uk.ac.ox.cs.sokobanexam.model.Maze;
 import uk.ac.ox.cs.sokobanexam.model.Rules;
 import uk.ac.ox.cs.sokobanexam.model.ValidationResult;
-import uk.ac.ox.cs.sokobanexam.model.sprites.Arrow;
-import uk.ac.ox.cs.sokobanexam.model.sprites.Crate;
-import uk.ac.ox.cs.sokobanexam.model.sprites.Human;
+import uk.ac.ox.cs.sokobanexam.model.sprites.Room;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Sprite;
-import uk.ac.ox.cs.sokobanexam.model.sprites.Target;
-import uk.ac.ox.cs.sokobanexam.model.sprites.Wall;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
@@ -86,7 +80,7 @@ public class MazeModel {
 	}
 	
 	// --------------- Domain shortcuts
-	// To help us follow the Law of Demeter by avoiding getter chains
+	// These helps us follow the "Law of Demeter" by avoiding getter chains.
 	
 	public boolean move(Dir direction) {
 		assert mRules.validateMaze(mMaze).isLegal();
@@ -104,6 +98,15 @@ public class MazeModel {
 	}
 	public ValidationResult validateMaze() {
 		return mRules.validateMaze(mMaze);
+	}
+	public Room getRoom(Point point) {
+		return mMaze.getRoom(point);
+	}
+	public void putRoom(Room room) {
+		mMaze.putRoom(room);
+		// An obvious optimization would be to here have a special event, that
+		// allowed repaint of only the changed point.
+		fireMazeChangeEvent();
 	}
 	
 	// --------------- Non domain specific state

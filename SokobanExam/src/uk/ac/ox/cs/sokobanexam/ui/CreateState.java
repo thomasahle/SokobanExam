@@ -70,38 +70,41 @@ public class CreateState implements ControllerState, MouseListener,
 		// Test if we were allowed to create the sprite. Hopefully we always are. 
 		if (sprite == null)
 			return;
-		Room room = mModel.getMaze().getRoom(point);
+		Room room = mModel.getRoom(point);
 		
-		// If inserting a non-room type
+		// Check if the target already has an editable type of the same level
+		// as the sprite we are inserting.
+		if (sprite instanceof Room && MazeController.isEditableType(room)
+				|| !(sprite instanceof Room) && MazeController.isEditableType(room.inner())) {
+			JOptionPane.showMessageDialog(mView, "You can't insert on top of other things.");
+			return;
+		}
+		
+		Room newRoom;
+		// If inserting an "inner" type
 		if (!(sprite instanceof Room)) {
-			if (MazeController.isEditableType(room.inner())) {
-				JOptionPane.showMessageDialog(mView, "You can't insert on top of other things.");
-				return;
-			}
-			else {
-				mModel.getMaze().putRoom(room.withInner(sprite));
-			}
+			assert !MazeController.isEditableType(room.inner());
+			newRoom = room.withInner(sprite);
 		}
 		// If inserting a room type
 		else {
-			if (MazeController.isEditableType(room)) {
-				JOptionPane.showMessageDialog(mView, "You can't insert on top of other things.");
-				return;
-			}
-			else {
-				mModel.getMaze().putRoom(((Room)sprite).withInner(room.inner()));
-			}
+			assert sprite instanceof Room;
+			assert !MazeController.isEditableType(room);
+			newRoom = ((Room)sprite).withInner(room.inner());
 		}
 		
-		// Check validation
+		// Check validation (without repainting)
+		mModel.getMaze().putRoom(newRoom);
 		ValidationResult result = mModel.validateMaze();
 		if (!result.isLegal()) {
 			// Restore maze
 			mModel.getMaze().putRoom(room);
 			JOptionPane.showMessageDialog(mView, result.getMessage() + ".");
+			return;
 		}
-		else
-			mModel.setHighlighted(point);
+		
+		// Invalidate the board for a repaint.
+		mModel.putRoom(newRoom);
 	}
 	
 	/*

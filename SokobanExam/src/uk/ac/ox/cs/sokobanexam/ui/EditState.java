@@ -82,7 +82,7 @@ public class EditState implements ControllerState, MouseListener,
 		// Otherwise we generate a new component with the selected sprite
 		else {
 			mDeleteButton.setEnabled(true);
-			Room room = model.getMaze().getRoom(model.getSelected());
+			Room room = model.getRoom(model.getSelected());
 			Sprite sprite = MazeController.isEditableType(room.inner()) ? room.inner() : room;
 			SpriteConfigurationCreator confCreator = new SpriteConfigurationCreator(this);
 			sprite.accept(confCreator);
@@ -109,12 +109,9 @@ public class EditState implements ControllerState, MouseListener,
 	
 	@Override
 	public void onSpriteChanged(Sprite oldSprite, Sprite newSprite) {
-		Maze maze = mModel.getMaze();
 		if (newSprite instanceof Room)
-			maze.putRoom((Room)newSprite);
-		else maze.putRoom(maze.getRoom(oldSprite.point()).withInner(newSprite));
-		mModel.setMaze(maze);
-		mModel.setSelected(mModel.getSelected());
+			mModel.putRoom((Room)newSprite);
+		else mModel.putRoom(mModel.getRoom(oldSprite.point()).withInner(newSprite));
 	}
 	
 	@Override
@@ -139,7 +136,7 @@ public class EditState implements ControllerState, MouseListener,
 			mModel.setSelected(null);
 			return;
 		}
-		Room room = mModel.getMaze().getRoom(point);
+		Room room = mModel.getRoom(point);
 		if (MazeController.isEditableType(room.inner())
 				|| MazeController.isEditableType(room)) {
 			mModel.setSelected(point);
@@ -156,52 +153,55 @@ public class EditState implements ControllerState, MouseListener,
 		if (mModel.getSelected() == null || point == null)
 			return;
 		
-		Room from = mModel.getMaze().getRoom(mModel.getSelected());
-		Room to = mModel.getMaze().getRoom(point);
+		Room from = mModel.getRoom(mModel.getSelected());
+		Room to = mModel.getRoom(point);
 		if (from.point().equals(to.point()))
 			return;
 		
+		// Check if the target already has an editable type of the same level
+		// as the sprite we are moving.
+		if (MazeController.isEditableType(from.inner())
+				&& MazeController.isEditableType(to.inner())
+				|| MazeController.isEditableType(from)
+				&& MazeController.isEditableType(to)) {
+			JOptionPane.showMessageDialog(mView, "You can't drag on top of other things.");
+			return;
+		}
+		
+		Room newRoomFrom;
+		Room newRoomTo;
 		// See if we are moving an inner
 		if (MazeController.isEditableType(from.inner())) {
-			// We can't move it to somewhere with an inner
-			if (MazeController.isEditableType(to.inner())) {
-				JOptionPane.showMessageDialog(mView, "You can't drag on top of other things.");
-				return;
-			}
-			// We can move it somewhere else
-			else {
-				// Create new
-				mModel.getMaze().putRoom(to.withInner(from.inner().move(to.point())));
-				// Remove old
-				mModel.getMaze().putRoom(from.withInner(new Nothing(from.point())));
-			}
+			assert !MazeController.isEditableType(to.inner());
+			newRoomTo = to.withInner(from.inner().move(to.point()));
+			newRoomFrom = from.withInner(new Nothing(from.point()));
 		}
 		// If we are moving a room
 		else {
 			assert MazeController.isEditableType(from);
-			// If there is already a room
-			if (MazeController.isEditableType(to)) {
-				JOptionPane.showMessageDialog(mView, "You can't drag on top of other things.");
-				return;
-			}
-			// Move the room
-			else {
-				// Create new
-				mModel.getMaze().putRoom(from.withInner(to.inner()));
-				// Remove old
-				mModel.getMaze().putRoom(new Floor(from.point()));
-			}
+			assert !MazeController.isEditableType(to);
+			newRoomTo = from.withInner(to.inner());
+			newRoomFrom = new Floor(from.point());
 		}
 		
-		// Check validation
+		// Check validation (without repainting)
+		mModel.getMaze().putRoom(newRoomTo);
+		mModel.getMaze().putRoom(newRoomFrom);
 		ValidationResult result = mModel.validateMaze();
 		if (!result.isLegal()) {
 			// Restore maze
 			mModel.getMaze().putRoom(to);
 			mModel.getMaze().putRoom(from);
 			JOptionPane.showMessageDialog(mView, result.getMessage() + ".");
+			return;
 		}
-		else mModel.setSelected(to.point());
+		
+		// We dragged something selected, so we might as well keep it selected.
+		mModel.setSelected(to.point());
+		// The selection also takes care of repainting the two squares involved in the
+		// transaction, so we don't need the following two lines:
+		// mModel.putRoom(newRoomTo);
+		// mModel.putRoom(newRoomFrom);
 	}
 	
 	@Override
@@ -221,12 +221,10 @@ public class EditState implements ControllerState, MouseListener,
 		if (point == null)
 			// Nothing selected
 			return;
-		Maze maze = mModel.getMaze();
-		Room room = maze.getRoom(point);
+		Room room = mModel.getRoom(point);
 		if (MazeController.isEditableType(room.inner()))
-			maze.putRoom(room.withInner(new Nothing(room.point())));
-		else maze.putRoom(new Floor(room.inner()));
-		mModel.setMaze(maze);
+			mModel.putRoom(room.withInner(new Nothing(room.point())));
+		else mModel.putRoom(new Floor(room.inner()));
 		mModel.setSelected(null);
 	}
 	

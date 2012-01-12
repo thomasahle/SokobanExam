@@ -1,5 +1,6 @@
 package uk.ac.ox.cs.sokobanexam.ui;
 
+import java.awt.MouseInfo;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -26,14 +27,18 @@ public class PlayState implements ControllerState, KeyListener {
 		mView = view;
 		mModel = model;
 		mMazeBackup = mModel.getMaze().clone();
-		view.addKeyListener(this);
-		view.requestFocusInWindow();
+		mModel.setHighlighted(null);
+		mView.addKeyListener(this);
+		mView.requestFocusInWindow();
 		
-		ValidationResult result = model.validateMazePlayable();
+		ValidationResult result = mModel.validateMazePlayable();
 		if (!result.isLegal()) {
 			JOptionPane.showMessageDialog(view, "The game is not yet playable. " + result.getMessage() + ".");
+			// We predict that if a game is not playable (but is valid) it is
+			// probably because it doesn't have a player in the maze.
 			controller.setCurrentState(new CreateState(Human.class));
 		}
+		
 		if (mModel.isWon()) {
 			mModel.setHoverMessage("Game won!");
 		}
@@ -44,6 +49,15 @@ public class PlayState implements ControllerState, KeyListener {
 		mView.removeKeyListener(this);
 		mModel.setHoverMessage(null);
 		mModel.setMaze(mMazeBackup);
+		// Recreate highlight
+		// It can be discussed whether it is fair to make PlayState responsible
+		// for shutting off highlights, since it doesn't use them anywhere
+		// itself. However my guess is that later States are likely to use
+		// highlights, and so PlayState is the exception and it will have to do
+		// the extra work.
+		java.awt.Point mousePos = MouseInfo.getPointerInfo().getLocation();
+		java.awt.Point viewPos = mView.getLocationOnScreen();
+		mModel.setHighlighted(mView.pos2Point(mousePos.x-viewPos.x, mousePos.y-viewPos.y));
 	}
 	
 	@Override

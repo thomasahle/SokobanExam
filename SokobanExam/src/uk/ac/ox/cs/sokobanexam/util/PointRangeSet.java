@@ -12,8 +12,8 @@ public class PointRangeSet extends AbstractSet<Point> {
 	private int mWidth;
 	private int mHeight;
 	public PointRangeSet(int width, int height) {
-		assert width >= 0;
-		assert height >= 0;
+		if (width < 0 || height < 0)
+			throw new IllegalArgumentException("Illegal dimension "+width+"x"+height);
 		mWidth = width;
 		mHeight = height;
 	}
