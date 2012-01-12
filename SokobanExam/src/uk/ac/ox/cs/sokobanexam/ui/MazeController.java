@@ -21,7 +21,8 @@ public class MazeController {
 	/*
 	 * Because java has no way of discovering all subclasses of a certain class,
 	 * we keep this map of sprites that we are interested in editing.
-	 * These are the physical sprites, those that cannot be overwritten by insertion.
+	 * These are the physical sprites, those that can be inserted from the toolbar
+	 * and cannot be overwritten by later insertions.
 	 */
 	@SuppressWarnings("serial")
 	protected static final Map<Class<? extends Sprite>, String> PHYSICAL_SPRITES
