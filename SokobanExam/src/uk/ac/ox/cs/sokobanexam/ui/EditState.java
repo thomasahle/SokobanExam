@@ -14,7 +14,6 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import uk.ac.ox.cs.sokobanexam.model.Maze;
 import uk.ac.ox.cs.sokobanexam.model.ValidationResult;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Floor;
 import uk.ac.ox.cs.sokobanexam.model.sprites.Nothing;
@@ -160,13 +159,18 @@ public class EditState implements ControllerState, MouseListener,
 		
 		// Check if the target already has an editable type of the same level
 		// as the sprite we are moving.
-		if (MazeController.isEditableType(from.inner())
-				&& MazeController.isEditableType(to.inner())
-				|| MazeController.isEditableType(from)
-				&& MazeController.isEditableType(to)) {
+		// The models selection invariant gives us:
+		//     e(f.i) | (!e(f.i) & e(f))
+		// The additional logical statement we want to be true is:
+		//     e(f.i) -> !e(t.i) & (!e(f.i) -> e(f) -> !e(t))
+		boolean efi = MazeController.isEditableType(from.inner());
+		boolean eti = MazeController.isEditableType(to.inner());
+		boolean efo = MazeController.isEditableType(from);
+		boolean eto = MazeController.isEditableType(to);
+		if (!((!efi || !eti) && (efi || (!efo || !eto)))) {
 			JOptionPane.showMessageDialog(mView, "You can't drag on top of other things.");
 			return;
-		}
+		}	
 		
 		Room newRoomFrom;
 		Room newRoomTo;

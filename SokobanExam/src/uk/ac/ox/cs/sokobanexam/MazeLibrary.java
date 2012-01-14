@@ -51,14 +51,14 @@ public class MazeLibrary {
 	 * This map is called "The Loop".
 	 * @return		a prefilled, playable map that isn't winnable.
 	 */
-	public static Maze maze2() {
+	public static Maze theLoop() {
 		return fromStrings(
-				"I'm#sorry",
-				"#→→→→→→→#",
-				"#@ →↓ 0 #",
-				"#  ↑← . #",
-				"#→→→→→→→#",
-				"about#it,"
+				"The#Centrifugal",
+				"####→→→→→→→####",
+				"### @ →↓ 0  ###",
+				"###   ↑← .  ###",
+				"####←←←←←←←####",
+				"Force#is#a#lie!"
 			);
 	}
 	/**

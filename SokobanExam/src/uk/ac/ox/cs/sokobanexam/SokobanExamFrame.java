@@ -38,7 +38,7 @@ public class SokobanExamFrame extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-		Maze maze = MazeLibrary.oxfordRocks();
+		Maze maze = MazeLibrary.theLoop();
 		Rules rules = new DefaultRules();
 		
 		JFrame frame = new SokobanExamFrame(maze, rules);
