@@ -11,6 +11,12 @@ import uk.ac.ox.cs.sokobanexam.model.sprites.Wall;
 import uk.ac.ox.cs.sokobanexam.util.Dir;
 import uk.ac.ox.cs.sokobanexam.util.Point;
 
+/**
+ * The default implementation of Sokoban Rules.
+ * I chose to do them slightly different from the assignment,
+ * specifically I wanted to be able to support chains and loops of arrows.
+ */
+
 public class DefaultRules implements Rules {
 	
 	@Override
