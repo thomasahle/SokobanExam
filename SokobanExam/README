@@ -1,0 +1,46 @@
+This is Sokoban code written for an OOP Exam in Hilary Term 2012.
+
+It won't be continued by me in the future, but if you are writing
+a simple board game, I believe you should be able to implement even
+chess by simply using another Rules implementation that the one given
+here.
+
+Notes:
+
+There were three main decisions in designing the Domain Model:
+1) Should game semantics be inside or outside the sprites?
+   My angle was, that rules semantics would inherently require code
+   related two or more types being in the same methods. And since all
+   sprites were equal, there was no way to decide whether testing if
+   the game was won should be the in Target or Crate.
+   Externalizing lead to another problem: Dependence on class types.
+   Usually instanceof is considered to be quite a code smell, and a
+   sign that you need more polymorphism in your program. However in
+   my case the types were absolutely essential to the functioning of
+   Rules. I tried giving every sprite a getType() that would return
+   an enum with an actual type. This would allow later classes to
+   “pretend” to be already existing classes, and let classes change
+   type. This however only lead to redundancy, and the “changing” types
+   part was irrelevant as all types were immutable.
+2) How should over/under semantics be controlled?
+   I had two ideas for this:
+   a) Using a stack type structure at every cord, so z-index would be
+      controlled by where the object was inserted.
+      This would allow great flexibility within the Rules to decide
+      how things were allowed to be ordered.
+   b) Having a z-index property in every sprite, that would be the
+      only level at which it could be inserted.
+      This would allow the UI to provide easier drag and drop and
+      insertion, in that a target could be inserted below a player
+      etc.
+   Eventually I went for the first, but with a hard coded check of
+   ‘Room’ types to allow the UI capabilities of the second. Which
+   way was essentially best could only be decided once the future
+   direction of the game’s development was known.
+
+Note on arrows: I’ve heard there was an email sent out regarding to
+these. I never saw it, so I implemented arrows in a slightly different
+way. In my way it takes two steps to go over an arrow, but on the
+contrary you can have chains and loops of arrows. In SokobanExamFrame
+you can change MazeLibrary.oxfordRocks to MazeLibrary.theLoop to see
+an example.
